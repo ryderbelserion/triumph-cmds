@@ -147,6 +147,10 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
         return newCommand;
     }
 
+    public Map<String, BukkitCommand<S>> getCommands() {
+        return Collections.unmodifiableMap(this.commands);
+    }
+
     private static void setUpDefaults(final @NotNull BukkitCommandManager<CommandSender> manager) {
         manager.registerMessage(MessageKey.UNKNOWN_COMMAND, (sender, context) -> sender.sendMessage("Unknown command: `" + context.getCommand() + "`."));
         manager.registerMessage(MessageKey.TOO_MANY_ARGUMENTS, (sender, context) -> sender.sendMessage("Invalid usage."));
