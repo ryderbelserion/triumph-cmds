@@ -26,7 +26,6 @@ package dev.triumphteam.cmd.core.flag.internal;
 import com.google.common.collect.Maps;
 import dev.triumphteam.cmd.core.flag.Flags;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -73,22 +72,26 @@ public final class FlagParser<S> {
             // If escaping the flag then just, skip
             if (token.startsWith(ESCAPE)) {
                 args.add(token);
+
                 continue;
             }
 
             // Checks if it's a flag, if not then skip
             if ((!token.startsWith(LONG) || LONG.equals(token)) && (!token.startsWith(SHORT) || SHORT.equals(token))) {
                 args.add(token);
+
                 continue;
             }
 
             final int equals = token.indexOf(EQUALS);
             // No equals char was found
             if (equals == -1) {
-                final FlagOptions<S> flag = flagGroup.getMatchingFlag(token);
+                final FlagOptions<S> flag = this.flagGroup.getMatchingFlag(token);
+
                 // No valid flag with the name, skip
                 if (flag == null) {
                     args.add(token);
+
                     continue;
                 }
 
@@ -97,16 +100,19 @@ public final class FlagParser<S> {
                     // If an argument is needed and no more tokens present, then just append empty as value
                     if (!tokens.hasNext()) {
                         flags.put(flag, "");
+
                         continue;
                     }
 
                     // Value found so append
                     flags.put(flag, tokens.next());
+
                     continue;
                 }
 
                 // No argument needed just add flag
                 flags.put(flag, null);
+
                 continue;
             }
 
@@ -114,16 +120,19 @@ public final class FlagParser<S> {
             final String flagToken = token.substring(0, equals);
             final String argToken = token.substring(equals + 1);
 
-            final FlagOptions<S> flag = flagGroup.getMatchingFlag(flagToken);
+            final FlagOptions<S> flag = this.flagGroup.getMatchingFlag(flagToken);
+
             // No valid flag with the name, skip
             if (flag == null) {
                 args.add(token);
+
                 continue;
             }
 
             // Flag with equals should always have argument, so we ignore if it doesn't
             if (!flag.hasArgument()) {
                 args.add(token);
+
                 continue;
             }
 

@@ -26,7 +26,6 @@ package dev.triumphteam.cmd.core;
 import dev.triumphteam.cmd.core.annotation.Command;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +70,7 @@ public abstract class BaseCommand {
      */
     public BaseCommand(final @Nullable String command, final @Nullable List<@NotNull String> alias) {
         this.command = command;
+
         if (alias != null) {
             this.alias.addAll(alias);
         }
@@ -93,5 +93,4 @@ public abstract class BaseCommand {
     public @NotNull List<@NotNull String> getAlias() {
         return alias;
     }
-
 }

@@ -35,11 +35,7 @@ public final class CommandRegistrationException extends RuntimeException {
         super(message);
     }
 
-    public CommandRegistrationException(
-            final @NotNull String message,
-            final @NotNull Class<? extends BaseCommand> commandClass
-    ) {
+    public CommandRegistrationException(final @NotNull String message, final @NotNull Class<? extends BaseCommand> commandClass) {
         super(message + ". In Class \"" + commandClass.getName() + "\"");
     }
-
 }

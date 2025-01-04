@@ -24,7 +24,6 @@
 package dev.triumphteam.cmd.core.flag.internal;
 
 import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 /**
@@ -47,7 +46,7 @@ public final class FlagScanner {
      * @return The current token.
      */
     public @NotNull String peek() {
-        return current;
+        return this.current;
     }
 
     /**
@@ -56,15 +55,17 @@ public final class FlagScanner {
      * @return Whether the pointer has reached the list end.
      */
     public boolean hasNext() {
-        return pointer < tokens.size() - 1;
+        return this.pointer < this.tokens.size() - 1;
     }
 
     /**
      * Points the pointer to the next token.
      */
     public @NotNull String next() {
-        if (pointer < tokens.size()) pointer++;
-        setToken(tokens.get(pointer));
+        if (this.pointer < this.tokens.size()) this.pointer++;
+
+        setToken(this.tokens.get(this.pointer));
+
         return peek();
     }
 
@@ -72,8 +73,9 @@ public final class FlagScanner {
      * Points the pointer to the previous token.
      */
     public void previous() {
-        if (pointer > 0) pointer--;
-        setToken(tokens.get(pointer));
+        if (this.pointer > 0) this.pointer--;
+
+        setToken(this.tokens.get(this.pointer));
     }
 
     /**
@@ -84,5 +86,4 @@ public final class FlagScanner {
     private void setToken(final @NotNull String token) {
         this.current = token;
     }
-
 }

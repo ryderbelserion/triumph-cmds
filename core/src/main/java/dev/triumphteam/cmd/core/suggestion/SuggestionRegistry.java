@@ -27,7 +27,6 @@ import dev.triumphteam.cmd.core.registry.Registry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +47,7 @@ public final class SuggestionRegistry<S> implements Registry {
      * @param resolver The action to get the suggestions.
      */
     public void register(final @NotNull SuggestionKey key, final @NotNull SuggestionResolver<S> resolver) {
-        suggestions.put(key, resolver);
+        this.suggestions.put(key, resolver);
     }
 
     /**
@@ -58,7 +57,7 @@ public final class SuggestionRegistry<S> implements Registry {
      * @param resolver The action to get the suggestions.
      */
     public void register(final @NotNull Class<?> type, final @NotNull SuggestionResolver<S> resolver) {
-        typeSuggestions.put(type, resolver);
+        this.typeSuggestions.put(type, resolver);
     }
 
     /**
@@ -70,7 +69,8 @@ public final class SuggestionRegistry<S> implements Registry {
     @Contract("null -> null")
     public @Nullable SuggestionResolver<S> getSuggestionResolver(final @Nullable SuggestionKey key) {
         if (key == null) return null;
-        return suggestions.get(key);
+
+        return this.suggestions.get(key);
     }
 
     /**
@@ -80,6 +80,6 @@ public final class SuggestionRegistry<S> implements Registry {
      * @return A saved {@link SuggestionResolver}.
      */
     public @Nullable SuggestionResolver<S> getSuggestionResolver(final @NotNull Class<?> type) {
-        return typeSuggestions.get(type);
+        return this.typeSuggestions.get(type);
     }
 }

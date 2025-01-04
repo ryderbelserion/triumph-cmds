@@ -24,35 +24,29 @@
 package dev.triumphteam.cmd.core.suggestion;
 
 import org.jetbrains.annotations.NotNull;
-
 import java.util.Collections;
 import java.util.List;
 
-public final class SuggestionContext {
+public record SuggestionContext(List<String> args, String command, String subCommand) {
 
-    private final List<String> args;
-    private final String command;
-    private final String subCommand;
-
-    public SuggestionContext(
-            final @NotNull List<@NotNull String> args,
-            final @NotNull String command,
-            final @NotNull String subCommand
-    ) {
+    public SuggestionContext(final @NotNull List<@NotNull String> args, final @NotNull String command, final @NotNull String subCommand) {
         this.args = args;
         this.command = command;
         this.subCommand = subCommand;
     }
 
-    public @NotNull List<@NotNull String> getArgs() {
-        return Collections.unmodifiableList(args);
+    @Override
+    public @NotNull List<@NotNull String> args() {
+        return Collections.unmodifiableList(this.args);
     }
 
-    public @NotNull String getCommand() {
-        return command;
+    @Override
+    public @NotNull String command() {
+        return this.command;
     }
 
-    public @NotNull String getSubCommand() {
-        return subCommand;
+    @Override
+    public @NotNull String subCommand() {
+        return this.subCommand;
     }
 }

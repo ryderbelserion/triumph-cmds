@@ -59,4 +59,5 @@ public interface Arguments {
      * @return true if no arguments have been passed in the command
      */
     boolean isEmpty();
+
 }

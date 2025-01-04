@@ -39,22 +39,22 @@ public class RegistryContainer<S> {
     private final SuggestionRegistry<S> suggestionRegistry = new SuggestionRegistry<>();
 
     public @NotNull ArgumentRegistry<S> getArgumentRegistry() {
-        return argumentRegistry;
+        return this.argumentRegistry;
     }
 
     public @NotNull NamedArgumentRegistry<S> getNamedArgumentRegistry() {
-        return namedArgumentRegistry;
+        return this.namedArgumentRegistry;
     }
 
     public @NotNull RequirementRegistry<S> getRequirementRegistry() {
-        return requirementRegistry;
+        return this.requirementRegistry;
     }
 
     public @NotNull MessageRegistry<S> getMessageRegistry() {
-        return messageRegistry;
+        return this.messageRegistry;
     }
 
     public @NotNull SuggestionRegistry<S> getSuggestionRegistry() {
-        return suggestionRegistry;
+        return this.suggestionRegistry;
     }
 }

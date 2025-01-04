@@ -33,4 +33,5 @@ import java.lang.annotation.Target;
 public @interface NamedArguments {
 
     String value();
+
 }

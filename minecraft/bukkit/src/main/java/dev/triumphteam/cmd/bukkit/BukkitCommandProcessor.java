@@ -34,7 +34,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.PermissionDefault;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -43,20 +42,20 @@ final class BukkitCommandProcessor<S> extends AbstractCommandProcessor<CommandSe
 
     private final CommandPermission basePermission;
 
-    public BukkitCommandProcessor(
-            final @NotNull BaseCommand baseCommand,
+    public BukkitCommandProcessor(final @NotNull BaseCommand baseCommand,
             final @NotNull RegistryContainer<S> registryContainer,
             final @NotNull SenderMapper<CommandSender, S> senderMapper,
             final @NotNull SenderValidator<S> senderValidator,
             final @NotNull ExecutionProvider syncExecutionProvider,
             final @NotNull ExecutionProvider asyncExecutionProvider,
-            final @Nullable CommandPermission globalBasePermission
-    ) {
+            final @Nullable CommandPermission globalBasePermission) {
         super(baseCommand, registryContainer, senderMapper, senderValidator, syncExecutionProvider, asyncExecutionProvider);
 
         final Permission annotation = getBaseCommand().getClass().getAnnotation(Permission.class);
+
         if (annotation == null) {
             this.basePermission = null;
+
             return;
         }
 
@@ -81,21 +80,11 @@ final class BukkitCommandProcessor<S> extends AbstractCommandProcessor<CommandSe
     }
 
     @Override
-    protected @NotNull BukkitSubCommand<S> createSubCommand(
-            final @NotNull BukkitSubCommandProcessor<S> processor,
-            final @NotNull ExecutionProvider executionProvider
-    ) {
+    protected @NotNull BukkitSubCommand<S> createSubCommand(final @NotNull BukkitSubCommandProcessor<S> processor, final @NotNull ExecutionProvider executionProvider) {
         return new BukkitSubCommand<>(processor, getName(), executionProvider);
     }
 
-    static CommandPermission createPermission(
-            final @Nullable CommandPermission parent,
-            final @NotNull List<@NotNull String> nodes,
-            final @NotNull String description,
-            final @NotNull PermissionDefault permissionDefault
-    ) {
-        return parent == null
-                ? new CommandPermission(nodes, description, permissionDefault)
-                : parent.child(nodes, description, permissionDefault);
+    static CommandPermission createPermission(final @Nullable CommandPermission parent, final @NotNull List<String> nodes, final @NotNull String description, final @NotNull PermissionDefault permissionDefault) {
+        return parent == null ? new CommandPermission(nodes, description, permissionDefault) : parent.child(nodes, description, permissionDefault);
     }
 }

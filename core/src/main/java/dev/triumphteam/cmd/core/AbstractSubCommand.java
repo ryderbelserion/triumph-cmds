@@ -38,7 +38,6 @@ import dev.triumphteam.cmd.core.requirement.Requirement;
 import dev.triumphteam.cmd.core.sender.SenderValidator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -161,11 +160,12 @@ public abstract class AbstractSubCommand<S> implements SubCommand<S> {
      */
     @Override
     public void execute(final @NotNull S sender, final @NotNull List<@NotNull String> args) {
-        if (!senderValidator.validate(messageRegistry, this, sender)) return;
+        if (!this.senderValidator.validate(this.messageRegistry, this, sender)) return;
         if (!meetRequirements(sender)) return;
 
         // Creates the invoking arguments list
         final List<Object> invokeArguments = new ArrayList<>();
+
         invokeArguments.add(sender);
 
         if (!validateAndCollectArguments(sender, invokeArguments, args)) {
@@ -173,13 +173,14 @@ public abstract class AbstractSubCommand<S> implements SubCommand<S> {
         }
 
         if ((!containsLimitless) && args.size() >= invokeArguments.size()) {
-            messageRegistry.sendMessage(MessageKey.TOO_MANY_ARGUMENTS, sender, new DefaultMessageContext(parentName, name));
+            this.messageRegistry.sendMessage(MessageKey.TOO_MANY_ARGUMENTS, sender, new DefaultMessageContext(parentName, name));
+
             return;
         }
 
-        executionProvider.execute(() -> {
+        this.executionProvider.execute(() -> {
             try {
-                method.invoke(baseCommand, invokeArguments.toArray());
+                this.method.invoke(this.baseCommand, invokeArguments.toArray());
             } catch (IllegalAccessException | InvocationTargetException exception) {
                 throw new CommandExecutionException("An error occurred while executing the command", parentName, name)
                         .initCause(exception instanceof InvocationTargetException ? exception.getCause() : exception);
@@ -197,29 +198,35 @@ public abstract class AbstractSubCommand<S> implements SubCommand<S> {
     }
 
     protected @Nullable InternalArgument<S, ?> getArgument(final @NotNull String name) {
-        final List<InternalArgument<S, ?>> foundArgs = internalArguments.stream()
+        final List<InternalArgument<S, ?>> foundArgs = this.internalArguments.stream()
                 .filter(internalArgument -> internalArgument.getName().toLowerCase().startsWith(name))
-                .collect(Collectors.toList());
+                .toList();
 
         if (foundArgs.size() != 1) return null;
-        return foundArgs.get(0);
+
+        return foundArgs.getFirst();
     }
 
     protected @Nullable InternalArgument<S, ?> getArgument(final int index) {
-        final int size = internalArguments.size();
+        final int size = this.internalArguments.size();
+
         if (size == 0) return null;
+
         if (index >= size) {
-            final InternalArgument<S, ?> last = internalArguments.get(size - 1);
+            final InternalArgument<S, ?> last = this.internalArguments.get(size - 1);
+
             if (last instanceof LimitlessInternalArgument) return last;
+
             return null;
         }
 
-        return internalArguments.get(index);
+        return this.internalArguments.get(index);
     }
 
     // TODO: 2/1/2022 Comments
     public @NotNull List<@Nullable String> mapArguments(final @NotNull Map<@NotNull String, @NotNull String> args) {
-        final List<String> arguments = getArguments().stream().map(InternalArgument::getName).collect(Collectors.toList());
+        final List<String> arguments = getArguments().stream().map(InternalArgument::getName).toList();
+
         return arguments.stream().map(it -> {
             final String value = args.get(it);
             return value == null ? "" : value;
@@ -254,6 +261,7 @@ public abstract class AbstractSubCommand<S> implements SubCommand<S> {
                 }
 
                 invokeArguments.add(result);
+
                 return true;
             }
 
@@ -267,20 +275,24 @@ public abstract class AbstractSubCommand<S> implements SubCommand<S> {
             if (arg == null || arg.isEmpty()) {
                 if (internalArgument.isOptional()) {
                     invokeArguments.add(null);
+
                     continue;
                 }
 
-                messageRegistry.sendMessage(MessageKey.NOT_ENOUGH_ARGUMENTS, sender, new DefaultMessageContext(parentName, name));
+                this.messageRegistry.sendMessage(MessageKey.NOT_ENOUGH_ARGUMENTS, sender, new DefaultMessageContext(parentName, name));
+
                 return false;
             }
 
             final Object result = stringArgument.resolve(sender, arg);
+
             if (result == null) {
-                messageRegistry.sendMessage(
+                this.messageRegistry.sendMessage(
                         MessageKey.INVALID_ARGUMENT,
                         sender,
                         new InvalidArgumentContext(parentName, name, arg, internalArgument.getName(), internalArgument.getType())
                 );
+
                 return false;
             }
 
@@ -297,9 +309,10 @@ public abstract class AbstractSubCommand<S> implements SubCommand<S> {
      * @return Whether all requirements are met.
      */
     private boolean meetRequirements(final @NotNull S sender) {
-        for (final Requirement<S, ?> requirement : requirements) {
+        for (final Requirement<S, ?> requirement : this.requirements) {
             if (!requirement.isMet(sender)) {
-                requirement.sendMessage(messageRegistry, sender, parentName, name);
+                requirement.sendMessage(this.messageRegistry, sender, this.parentName, this.name);
+
                 return false;
             }
         }
@@ -316,6 +329,7 @@ public abstract class AbstractSubCommand<S> implements SubCommand<S> {
      */
     private @Nullable String valueOrNull(final @NotNull List<@NotNull String> list, final int index) {
         if (index >= list.size()) return null;
+
         return list.get(index);
     }
 
@@ -328,21 +342,22 @@ public abstract class AbstractSubCommand<S> implements SubCommand<S> {
      */
     private @NotNull List<@NotNull String> leftOvers(final @NotNull List<@NotNull String> list, final int from) {
         if (from > list.size()) return Collections.emptyList();
+
         return list.subList(from, list.size());
     }
 
     @Override
     public @NotNull String toString() {
         return "SimpleSubCommand{" +
-                "baseCommand=" + baseCommand +
-                ", method=" + method +
-                ", name='" + name + '\'' +
-                ", alias=" + alias +
-                ", isDefault=" + isDefault +
-                ", arguments=" + internalArguments +
-                ", requirements=" + requirements +
-                ", messageRegistry=" + messageRegistry +
-                ", containsLimitlessArgument=" + containsLimitless +
+                "baseCommand=" + this.baseCommand +
+                ", method=" + this.method +
+                ", name='" + this.name + '\'' +
+                ", alias=" + this.alias +
+                ", isDefault=" + this.isDefault +
+                ", arguments=" + this.internalArguments +
+                ", requirements=" + this.requirements +
+                ", messageRegistry=" + this.messageRegistry +
+                ", containsLimitlessArgument=" + this.containsLimitless +
                 '}';
     }
 }

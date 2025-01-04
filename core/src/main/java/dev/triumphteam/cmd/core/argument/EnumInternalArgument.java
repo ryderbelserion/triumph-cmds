@@ -26,10 +26,8 @@ package dev.triumphteam.cmd.core.argument;
 import dev.triumphteam.cmd.core.suggestion.Suggestion;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.lang.ref.WeakReference;
 import java.util.Objects;
-
 import static dev.triumphteam.cmd.core.util.EnumUtils.getEnumConstants;
 import static dev.triumphteam.cmd.core.util.EnumUtils.populateCache;
 
@@ -43,15 +41,9 @@ public final class EnumInternalArgument<S> extends StringInternalArgument<S> {
 
     private final Class<? extends Enum<?>> enumType;
 
-    public EnumInternalArgument(
-            final @NotNull String name,
-            final @NotNull String description,
-            final @NotNull Class<? extends Enum<?>> type,
-            final @NotNull Suggestion<S> suggestion,
-            final int position,
-            final boolean optional
-    ) {
+    public EnumInternalArgument(final @NotNull String name, final @NotNull String description, final @NotNull Class<? extends Enum<?>> type, final @NotNull Suggestion<S> suggestion, final int position, final boolean optional) {
         super(name, description, type, suggestion, position, optional);
+
         this.enumType = type;
 
         // Populates on creation to reduce runtime of first run for certain enums, like Bukkit's Material.
@@ -59,7 +51,7 @@ public final class EnumInternalArgument<S> extends StringInternalArgument<S> {
     }
 
     public @NotNull Class<? extends Enum<?>> getEnumType() {
-        return enumType;
+        return this.enumType;
     }
 
     /**
@@ -71,29 +63,35 @@ public final class EnumInternalArgument<S> extends StringInternalArgument<S> {
      */
     @Override
     public @Nullable Object resolve(final @NotNull S sender, final @NotNull String value) {
-        final WeakReference<? extends Enum<?>> reference = getEnumConstants(enumType).get(value.toUpperCase());
+        final WeakReference<? extends Enum<?>> reference = getEnumConstants(this.enumType).get(value.toUpperCase());
+
         if (reference == null) return null;
+
         return reference.get();
     }
 
     @Override
     public boolean equals(final @Nullable Object o) {
         if (this == o) return true;
+
         if (o == null || getClass() != o.getClass()) return false;
+
         if (!super.equals(o)) return false;
+
         final EnumInternalArgument<?> that = (EnumInternalArgument<?>) o;
-        return enumType.equals(that.enumType);
+
+        return this.enumType.equals(that.enumType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), enumType);
+        return Objects.hash(super.hashCode(), this.enumType);
     }
 
     @Override
     public @NotNull String toString() {
         return "EnumArgument{" +
-                "enumType=" + enumType +
+                "enumType=" + this.enumType +
                 ", super=" + super.toString() + "}";
     }
 }

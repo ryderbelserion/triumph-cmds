@@ -33,12 +33,7 @@ import java.lang.reflect.Method;
  */
 public final class SubCommandRegistrationException extends RuntimeException {
 
-    public SubCommandRegistrationException(
-            final @NotNull String message,
-            final @NotNull Method method,
-            final @NotNull Class<? extends BaseCommand> commandClass
-    ) {
+    public SubCommandRegistrationException(final @NotNull String message, final @NotNull Method method, final @NotNull Class<? extends BaseCommand> commandClass) {
         super(message + ". In Method \"" + method.getName() + "\" in Class \"" + commandClass.getName() + "\"");
     }
-
 }

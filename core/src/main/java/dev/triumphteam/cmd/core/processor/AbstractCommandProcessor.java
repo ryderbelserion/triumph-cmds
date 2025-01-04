@@ -33,7 +33,6 @@ import dev.triumphteam.cmd.core.registry.RegistryContainer;
 import dev.triumphteam.cmd.core.sender.SenderMapper;
 import dev.triumphteam.cmd.core.sender.SenderValidator;
 import org.jetbrains.annotations.NotNull;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -114,7 +113,7 @@ public abstract class AbstractCommandProcessor<SD, S, SC extends SubCommand<S>, 
      * @return The command name.
      */
     public @NotNull String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -123,7 +122,7 @@ public abstract class AbstractCommandProcessor<SD, S, SC extends SubCommand<S>, 
      * @return The command alias.
      */
     public @NotNull List<@NotNull String> getAlias() {
-        return alias;
+        return this.alias;
     }
 
     /**
@@ -132,12 +131,12 @@ public abstract class AbstractCommandProcessor<SD, S, SC extends SubCommand<S>, 
      * @return The {@link BaseCommand}.
      */
     public @NotNull BaseCommand getBaseCommand() {
-        return baseCommand;
+        return this.baseCommand;
     }
 
     // TODO: Comments
     public @NotNull RegistryContainer<S> getRegistryContainer() {
-        return registryContainer;
+        return this.registryContainer;
     }
 
     /**
@@ -146,28 +145,28 @@ public abstract class AbstractCommandProcessor<SD, S, SC extends SubCommand<S>, 
      * @return The {@link SenderMapper}.
      */
     public @NotNull SenderMapper<SD, S> getSenderMapper() {
-        return senderMapper;
+        return this.senderMapper;
     }
 
     // TODO: 2/4/2022 comments
     public @NotNull SenderValidator<S> getSenderValidator() {
-        return senderValidator;
+        return this.senderValidator;
     }
 
     public @NotNull Map<@NotNull String, SC> getSubCommands() {
-        return subCommands;
+        return this.subCommands;
     }
 
     public @NotNull Map<@NotNull String, SC> getSubCommandsAlias() {
-        return subCommandsAlias;
+        return this.subCommandsAlias;
     }
 
     public @NotNull ExecutionProvider getSyncExecutionProvider() {
-        return syncExecutionProvider;
+        return this.syncExecutionProvider;
     }
 
     public @NotNull ExecutionProvider getAsyncExecutionProvider() {
-        return asyncExecutionProvider;
+        return this.asyncExecutionProvider;
     }
 
     /**
@@ -176,32 +175,35 @@ public abstract class AbstractCommandProcessor<SD, S, SC extends SubCommand<S>, 
      * @return either the extracted Description or the default one.
      */
     public @NotNull String getDescription() {
-        return description;
+        return this.description;
     }
 
     /**
      * Helper method for getting the command names from the command annotation.
      */
     private void extractCommandNames() {
-        final Command commandAnnotation = baseCommand.getClass().getAnnotation(Command.class);
+        final Command commandAnnotation = this.baseCommand.getClass().getAnnotation(Command.class);
 
         if (commandAnnotation == null) {
-            final String commandName = baseCommand.getCommand();
+            final String commandName = this.baseCommand.getCommand();
+
             if (commandName == null) {
-                throw new CommandRegistrationException("Command name or \"@" + Command.class.getSimpleName() + "\" annotation missing", baseCommand.getClass());
+                throw new CommandRegistrationException("Command name or \"@" + Command.class.getSimpleName() + "\" annotation missing", this.baseCommand.getClass());
             }
 
-            name = commandName;
-            alias.addAll(baseCommand.getAlias());
+            this.name = commandName;
+
+            this.alias.addAll(this.baseCommand.getAlias());
         } else {
-            name = commandAnnotation.value();
-            Collections.addAll(alias, commandAnnotation.alias());
+            this.name = commandAnnotation.value();
+
+            Collections.addAll(this.alias, commandAnnotation.alias());
         }
 
-        alias.addAll(baseCommand.getAlias());
+        this.alias.addAll(this.baseCommand.getAlias());
 
-        if (name.isEmpty()) {
-            throw new CommandRegistrationException("Command name must not be empty", baseCommand.getClass());
+        if (this.name.isEmpty()) {
+            throw new CommandRegistrationException("Command name must not be empty", this.baseCommand.getClass());
         }
     }
 
@@ -209,9 +211,10 @@ public abstract class AbstractCommandProcessor<SD, S, SC extends SubCommand<S>, 
      * Extracts the {@link Description} Annotation from the annotatedClass.
      */
     private void extractDescription() {
-        final Description description = baseCommand.getClass().getAnnotation(Description.class);
+        final Description description = this.baseCommand.getClass().getAnnotation(Description.class);
+
         if (description == null) return;
+
         this.description = description.value();
     }
-
 }

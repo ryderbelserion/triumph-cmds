@@ -61,4 +61,5 @@ public @interface Permission {
      * @see org.bukkit.permissions.Permission#getDescription()
      */
     String description() default "";
+
 }

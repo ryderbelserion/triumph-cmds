@@ -30,7 +30,6 @@ import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,10 +44,9 @@ public final class CommandPermission {
     private final String description;
 
     public CommandPermission(
-            final @NotNull List<@NotNull String> nodes,
+            final @NotNull List<String> nodes,
             final @NotNull String description,
-            final @NotNull PermissionDefault permissionDefault
-    ) {
+            final @NotNull PermissionDefault permissionDefault) {
         this.nodes = nodes;
         this.description = description;
         this.permissionDefault = permissionDefault;
@@ -67,18 +65,14 @@ public final class CommandPermission {
      * @param permission The permission.
      * @return Whether the sender has permission to run the command.
      */
-    public static boolean hasPermission(
-            final @NotNull CommandSender sender,
-            final @Nullable CommandPermission permission
-    ) {
+    public static boolean hasPermission(final @NotNull CommandSender sender, final @Nullable CommandPermission permission) {
         return permission == null || permission.hasPermission(sender);
     }
 
     public @NotNull CommandPermission child(
-            final @NotNull List<@NotNull String> nodes,
+            final @NotNull List<String> nodes,
             final @NotNull String description,
-            final @NotNull PermissionDefault permissionDefault
-    ) {
+            final @NotNull PermissionDefault permissionDefault) {
         final List<String> newNodes = this.nodes.stream()
                 .flatMap(parent -> nodes.stream().map(node -> parent + "." + node))
                 .collect(Collectors.toList());
@@ -106,7 +100,7 @@ public final class CommandPermission {
      *
      * @return The permission nodes.
      */
-    public @NotNull List<@NotNull String> getNodes() {
+    public @NotNull List<String> getNodes() {
         return nodes;
     }
 

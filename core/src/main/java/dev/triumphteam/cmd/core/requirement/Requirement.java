@@ -29,7 +29,6 @@ import dev.triumphteam.cmd.core.message.context.MessageContext;
 import dev.triumphteam.cmd.core.message.context.MessageContextFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.Objects;
 
 /**
@@ -44,12 +43,7 @@ public final class Requirement<S, C extends MessageContext> {
     private final MessageContextFactory<C> contextFactory;
     private final boolean invert;
 
-    public Requirement(
-            final @NotNull RequirementResolver<S> resolver,
-            final @Nullable ContextualKey<C> messageKey,
-            final @NotNull MessageContextFactory<C> contextFactory,
-            final boolean invert
-    ) {
+    public Requirement(final @NotNull RequirementResolver<S> resolver, final @Nullable ContextualKey<C> messageKey, final @NotNull MessageContextFactory<C> contextFactory, final boolean invert) {
         this.resolver = resolver;
         this.messageKey = messageKey;
         this.contextFactory = contextFactory;
@@ -62,7 +56,7 @@ public final class Requirement<S, C extends MessageContext> {
      * @return The message key or null if no message should be sent.
      */
     public @Nullable ContextualKey<C> getMessageKey() {
-        return messageKey;
+        return this.messageKey;
     }
 
     /**
@@ -74,14 +68,10 @@ public final class Requirement<S, C extends MessageContext> {
      * @param subCommand The sub command which is being executed.
      * @param <ST>       The sender type.
      */
-    public <ST> void sendMessage(
-            final @NotNull MessageRegistry<ST> registry,
-            final @NotNull ST sender,
-            final @NotNull String command,
-            final @NotNull String subCommand
-    ) {
-        if (messageKey == null) return;
-        registry.sendMessage(messageKey, sender, contextFactory.create(command, subCommand));
+    public <ST> void sendMessage(final @NotNull MessageRegistry<ST> registry, final @NotNull ST sender, final @NotNull String command, final @NotNull String subCommand) {
+        if (this.messageKey == null) return;
+
+        registry.sendMessage(this.messageKey, sender, this.contextFactory.create(command, subCommand));
     }
 
     /**
@@ -91,27 +81,30 @@ public final class Requirement<S, C extends MessageContext> {
      * @return Whether the requirement is met.
      */
     public boolean isMet(final @NotNull S sender) {
-        return resolver.resolve(sender) != invert;
+        return this.resolver.resolve(sender) != this.invert;
     }
 
     @Override
     public boolean equals(final @Nullable Object o) {
         if (this == o) return true;
+
         if (o == null || getClass() != o.getClass()) return false;
+
         final Requirement<?, ?> that = (Requirement<?, ?>) o;
-        return resolver.equals(that.resolver) && Objects.equals(messageKey, that.messageKey);
+
+        return this.resolver.equals(that.resolver) && Objects.equals(this.messageKey, that.messageKey);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(resolver, messageKey);
+        return Objects.hash(this.resolver, this.messageKey);
     }
 
     @Override
     public @NotNull String toString() {
         return "Requirement{" +
-                "resolver=" + resolver +
-                ", messageKey=" + messageKey +
+                "resolver=" + this.resolver +
+                ", messageKey=" + this.messageKey +
                 '}';
     }
 }

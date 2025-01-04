@@ -26,7 +26,6 @@ package dev.triumphteam.cmd.core.argument;
 import dev.triumphteam.cmd.core.suggestion.Suggestion;
 import dev.triumphteam.cmd.core.suggestion.SuggestionContext;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 /**
@@ -37,24 +36,14 @@ import java.util.List;
  */
 public abstract class LimitlessInternalArgument<S> extends AbstractInternalArgument<S, List<@NotNull String>> {
 
-    public LimitlessInternalArgument(
-            final @NotNull String name,
-            final @NotNull String description,
-            final @NotNull Class<?> type,
-            final @NotNull Suggestion<S> suggestion,
-            final int position,
-            final boolean isOptional
-    ) {
+    public LimitlessInternalArgument(final @NotNull String name, final @NotNull String description, final @NotNull Class<?> type, final @NotNull Suggestion<S> suggestion, final int position, final boolean isOptional) {
         super(name, description, type, suggestion, position, isOptional);
     }
 
     @Override
-    public @NotNull List<@NotNull String> suggestions(
-            final @NotNull S sender,
-            final @NotNull List<@NotNull String> trimmed,
-            final @NotNull SuggestionContext context
-    ) {
+    public @NotNull List<@NotNull String> suggestions(final @NotNull S sender, final @NotNull List<@NotNull String> trimmed, final @NotNull SuggestionContext context) {
         final String last = trimmed.get(trimmed.size() - 1);
+
         return getSuggestion().getSuggestions(sender, last, context);
     }
 
@@ -62,5 +51,4 @@ public abstract class LimitlessInternalArgument<S> extends AbstractInternalArgum
     public @NotNull String toString() {
         return "LimitlessArgument{super=" + super.toString() + "}";
     }
-
 }

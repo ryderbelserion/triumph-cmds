@@ -24,7 +24,6 @@
 package dev.triumphteam.cmd.core.execution;
 
 import org.jetbrains.annotations.NotNull;
-
 import java.util.concurrent.CompletableFuture;
 
 /**

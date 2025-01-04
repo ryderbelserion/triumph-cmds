@@ -81,7 +81,6 @@ import dev.triumphteam.cmd.core.suggestion.SuggestionResolver;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
@@ -97,7 +96,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
-
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
@@ -143,13 +141,7 @@ public abstract class AbstractSubCommandProcessor<S> {
 
     private static final Set<Class<?>> COLLECTIONS = new HashSet<>(Arrays.asList(List.class, Set.class));
 
-    protected AbstractSubCommandProcessor(
-            final @NotNull BaseCommand baseCommand,
-            final @NotNull String parentName,
-            final @NotNull Method method,
-            final @NotNull RegistryContainer<S> registryContainer,
-            final @NotNull SenderValidator<S> senderValidator
-    ) {
+    protected AbstractSubCommandProcessor(final @NotNull BaseCommand baseCommand, final @NotNull String parentName, final @NotNull Method method, final @NotNull RegistryContainer<S> registryContainer, final @NotNull SenderValidator<S> senderValidator) {
         this.baseCommand = baseCommand;
         this.parentName = parentName;
 
@@ -166,7 +158,8 @@ public abstract class AbstractSubCommandProcessor<S> {
         this.isAsync = method.isAnnotationPresent(Async.class);
 
         extractSubCommandNames();
-        if (name == null) return;
+
+        if (this.name == null) return;
 
         extractFlags();
         extractRequirements();
@@ -184,10 +177,13 @@ public abstract class AbstractSubCommandProcessor<S> {
      */
     protected void extractArguments(final @NotNull Method method) {
         final Parameter[] parameters = method.getParameters();
+
         for (int i = 0; i < parameters.length; i++) {
             final Parameter parameter = parameters[i];
+
             if (i == 0) {
                 validateSender(parameter.getType());
+
                 continue;
             }
 
@@ -202,7 +198,7 @@ public abstract class AbstractSubCommandProcessor<S> {
      * @return The sub command name.
      */
     public @Nullable String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -211,12 +207,13 @@ public abstract class AbstractSubCommandProcessor<S> {
      * @return either the extracted Description or the default one.
      */
     public @NotNull String getDescription() {
-        return description;
+        return this.description;
     }
 
     public @NotNull Class<? extends S> getSenderType() {
-        if (senderType == null) throw createException("Sender type could not be found.");
-        return senderType;
+        if (this.senderType == null) throw createException("Sender type could not be found.");
+
+        return this.senderType;
     }
 
     /**
@@ -225,7 +222,7 @@ public abstract class AbstractSubCommandProcessor<S> {
      * @return The sub command alias.
      */
     public @NotNull List<@NotNull String> getAlias() {
-        return alias;
+        return this.alias;
     }
 
     /**
@@ -234,7 +231,7 @@ public abstract class AbstractSubCommandProcessor<S> {
      * @return Whether the command is default.
      */
     public boolean isDefault() {
-        return isDefault;
+        return this.isDefault;
     }
 
     /**
@@ -243,7 +240,7 @@ public abstract class AbstractSubCommandProcessor<S> {
      * @return If the sub command is async.
      */
     public boolean isAsync() {
-        return isAsync;
+        return this.isAsync;
     }
 
     /**
@@ -252,7 +249,7 @@ public abstract class AbstractSubCommandProcessor<S> {
      * @return The base command instance.
      */
     public @NotNull BaseCommand getBaseCommand() {
-        return baseCommand;
+        return this.baseCommand;
     }
 
     /**
@@ -261,7 +258,7 @@ public abstract class AbstractSubCommandProcessor<S> {
      * @return The method.
      */
     public @NotNull Method getMethod() {
-        return method;
+        return this.method;
     }
 
     /**
@@ -270,7 +267,7 @@ public abstract class AbstractSubCommandProcessor<S> {
      * @return The requirements.
      */
     public @NotNull Set<@NotNull Requirement<S, ?>> getRequirements() {
-        return requirements;
+        return this.requirements;
     }
 
     /**
@@ -279,16 +276,16 @@ public abstract class AbstractSubCommandProcessor<S> {
      * @return The message registry.
      */
     public @NotNull MessageRegistry<S> getMessageRegistry() {
-        return messageRegistry;
+        return this.messageRegistry;
     }
 
     public @NotNull RegistryContainer<S> getRegistryContainer() {
-        return registryContainer;
+        return this.registryContainer;
     }
 
     // TODO: 2/4/2022 comments
     public @NotNull SenderValidator<S> getSenderValidator() {
-        return senderValidator;
+        return this.senderValidator;
     }
 
     /**
@@ -299,7 +296,7 @@ public abstract class AbstractSubCommandProcessor<S> {
      */
     @Contract("_ -> new")
     protected @NotNull SubCommandRegistrationException createException(final @NotNull String message) {
-        return new SubCommandRegistrationException(message, method, baseCommand.getClass());
+        return new SubCommandRegistrationException(message, this.method, this.baseCommand.getClass());
     }
 
     /**
@@ -308,15 +305,15 @@ public abstract class AbstractSubCommandProcessor<S> {
      * @param type The sender type.
      */
     protected void validateSender(final @NotNull Class<?> type) {
-        final Set<Class<? extends S>> allowedSenders = senderValidator.getAllowedSenders();
+        final Set<Class<? extends S>> allowedSenders = this.senderValidator.getAllowedSenders();
+
         if (allowedSenders.contains(type)) {
-            senderType = (Class<? extends S>) type;
+            this.senderType = (Class<? extends S>) type;
+
             return;
         }
 
-        throw createException(
-                "\"" + type.getSimpleName() + "\" is not a valid sender. " +
-                        "Sender must be one of the following: " +
+        throw createException("\"" + type.getSimpleName() + "\" is not a valid sender. " + "Sender must be one of the following: " +
                         allowedSenders
                                 .stream()
                                 .map(it -> "\"" + it.getSimpleName() + "\"")
@@ -346,13 +343,14 @@ public abstract class AbstractSubCommandProcessor<S> {
 
         // Handles collection internalArgument.
         // TODO: Add more collection types.
+
         if (COLLECTIONS.stream().anyMatch(it -> it.isAssignableFrom(type))) {
             final Class<?> collectionType = getGenericType(parameter);
             final InternalArgument<S, String> internalArgument = createSimpleArgument(
                     collectionType,
                     argumentName,
                     argumentDescription,
-                    suggestionList.get(position),
+                    this.suggestionList.get(position),
                     0,
                     true
             );
@@ -366,7 +364,7 @@ public abstract class AbstractSubCommandProcessor<S> {
                                 splitAnnotation.value(),
                                 internalArgument,
                                 type,
-                                suggestionList.get(position),
+                                this.suggestionList.get(position),
                                 position,
                                 optional
                         )
@@ -380,7 +378,7 @@ public abstract class AbstractSubCommandProcessor<S> {
                             argumentDescription,
                             internalArgument,
                             type,
-                            suggestionList.get(position),
+                            this.suggestionList.get(position),
                             position,
                             optional
                     )
@@ -396,7 +394,7 @@ public abstract class AbstractSubCommandProcessor<S> {
                             argumentName,
                             argumentDescription,
                             joinAnnotation.value(),
-                            suggestionList.get(position),
+                            this.suggestionList.get(position),
                             position,
                             optional
                     )
@@ -406,7 +404,7 @@ public abstract class AbstractSubCommandProcessor<S> {
 
         // Handler for flags.
         if (type == Flags.class) {
-            if (flagGroup.isEmpty()) {
+            if (this.flagGroup.isEmpty()) {
                 throw createException("Flags internalArgument detected but no flag annotation declared");
             }
 
@@ -414,7 +412,7 @@ public abstract class AbstractSubCommandProcessor<S> {
                     new FlagInternalArgument<>(
                             argumentName,
                             argumentDescription,
-                            flagGroup,
+                            this.flagGroup,
                             position,
                             optional
                     )
@@ -424,7 +422,8 @@ public abstract class AbstractSubCommandProcessor<S> {
 
         // Handler for named arguments
         if (type == Arguments.class) {
-            final NamedArguments namedArguments = method.getAnnotation(NamedArguments.class);
+            final NamedArguments namedArguments = this.method.getAnnotation(NamedArguments.class);
+
             if (namedArguments == null) {
                 throw createException("TODO");
             }
@@ -438,6 +437,7 @@ public abstract class AbstractSubCommandProcessor<S> {
                             optional
                     )
             );
+
             return;
         }
 
@@ -445,7 +445,8 @@ public abstract class AbstractSubCommandProcessor<S> {
     }
 
     private @NotNull Map<@NotNull String, @NotNull InternalArgument<S, ?>> collectNamedArgs(final @NotNull String key) {
-        final List<Argument> arguments = namedArgumentRegistry.getResolver(ArgumentKey.of(key));
+        final List<Argument> arguments = this.namedArgumentRegistry.getResolver(ArgumentKey.of(key));
+
         if (arguments == null || arguments.isEmpty()) {
             throw createException("No registered named arguments found for key \"" + key + "\"");
         }
@@ -454,9 +455,7 @@ public abstract class AbstractSubCommandProcessor<S> {
         return arguments.stream().map(argument -> {
             final Suggestion<S> suggestion = createSuggestion(argument.getSuggestion(), argument.getType());
 
-            if (argument instanceof ListArgument) {
-                final ListArgument listArgument = (ListArgument) argument;
-
+            if (argument instanceof ListArgument listArgument) {
                 final InternalArgument<S, String> internalArgument = createSimpleArgument(
                         listArgument.getType(),
                         listArgument.getName(),
@@ -519,11 +518,13 @@ public abstract class AbstractSubCommandProcessor<S> {
      */
     private @NotNull String getArgumentDescription(final @NotNull Parameter parameter, final int index) {
         final Description description = parameter.getAnnotation(Description.class);
+
         if (description != null) {
             return description.value();
         }
 
-        if (index < argDescriptions.size()) return argDescriptions.get(index);
+        if (index < this.argDescriptions.size()) return this.argDescriptions.get(index);
+
         // TODO: 11/28/2021 Add better default description
         return "No description provided.";
     }
@@ -546,7 +547,8 @@ public abstract class AbstractSubCommandProcessor<S> {
             final boolean optional
     ) {
         // All other types default to the resolver.
-        final ArgumentResolver<S> resolver = argumentRegistry.getResolver(type);
+        final ArgumentResolver<S> resolver = this.argumentRegistry.getResolver(type);
+
         if (resolver == null) {
             // Handler for using any Enum.
             if (Enum.class.isAssignableFrom(type)) {
@@ -563,6 +565,7 @@ public abstract class AbstractSubCommandProcessor<S> {
 
             throw createException("No internalArgument of type \"" + type.getName() + "\" registered");
         }
+
         return new ResolverInternalArgument<>(
                 parameterName,
                 argumentDescription,
@@ -580,7 +583,7 @@ public abstract class AbstractSubCommandProcessor<S> {
      * @param requirement The requirement to add.
      */
     protected void addRequirement(final @NotNull Requirement<S, ?> requirement) {
-        requirements.add(requirement);
+        this.requirements.add(requirement);
     }
 
     /**
@@ -589,29 +592,30 @@ public abstract class AbstractSubCommandProcessor<S> {
      * @param internalArgument The created internalArgument.
      */
     private void addArgument(final @NotNull InternalArgument<S, ?> internalArgument) {
-        internalArguments.add(internalArgument);
+        this.internalArguments.add(internalArgument);
     }
 
     /**
      * Extracts the data from the method to retrieve the sub command name or the default name.
      */
     private void extractSubCommandNames() {
-        final Default defaultAnnotation = method.getAnnotation(Default.class);
-        final dev.triumphteam.cmd.core.annotation.SubCommand subCommandAnnotation = method.getAnnotation(dev.triumphteam.cmd.core.annotation.SubCommand.class);
+        final Default defaultAnnotation = this.method.getAnnotation(Default.class);
+        final dev.triumphteam.cmd.core.annotation.SubCommand subCommandAnnotation = this.method.getAnnotation(dev.triumphteam.cmd.core.annotation.SubCommand.class);
 
         if (defaultAnnotation == null && subCommandAnnotation == null) {
             return;
         }
 
         if (defaultAnnotation != null) {
-            name = Default.DEFAULT_CMD_NAME;
-            alias.addAll(Arrays.stream(defaultAnnotation.alias()).map(String::toLowerCase).collect(Collectors.toList()));
-            isDefault = true;
+            this.name = Default.DEFAULT_CMD_NAME;
+            this.alias.addAll(Arrays.stream(defaultAnnotation.alias()).map(String::toLowerCase).toList());
+            this.isDefault = true;
+
             return;
         }
 
-        name = subCommandAnnotation.value().toLowerCase();
-        alias.addAll(Arrays.stream(subCommandAnnotation.alias()).map(String::toLowerCase).collect(Collectors.toList()));
+        this.name = subCommandAnnotation.value().toLowerCase();
+        this.alias.addAll(Arrays.stream(subCommandAnnotation.alias()).map(String::toLowerCase).toList());
 
         if (this.name.isEmpty()) {
             throw createException("@" + dev.triumphteam.cmd.core.annotation.SubCommand.class.getSimpleName() + " name must not be empty");
@@ -623,12 +627,15 @@ public abstract class AbstractSubCommandProcessor<S> {
      */
     private void extractFlags() {
         final List<Flag> flags = getFlagsFromAnnotations();
+
         if (flags.isEmpty()) return;
 
         for (final Flag flagAnnotation : flags) {
             String flag = flagAnnotation.flag();
+
             if (flag.isEmpty()) flag = null;
-            FlagValidator.validate(flag, method, baseCommand);
+
+            FlagValidator.validate(flag, this.method, this.baseCommand);
 
             String longFlag = flagAnnotation.longFlag();
             if (longFlag.contains(" ")) {
@@ -655,7 +662,8 @@ public abstract class AbstractSubCommandProcessor<S> {
                             false
                     );
                 } else {
-                    final ArgumentResolver<S> resolver = argumentRegistry.getResolver(argumentType);
+                    final ArgumentResolver<S> resolver = this.argumentRegistry.getResolver(argumentType);
+
                     if (resolver == null) {
                         throw createException("@" + Flag.class.getSimpleName() + "'s internalArgument contains unregistered type \"" + argumentType.getName() + "\"");
                     }
@@ -672,7 +680,7 @@ public abstract class AbstractSubCommandProcessor<S> {
                 }
             }
 
-            flagGroup.addFlag(
+            this.flagGroup.addFlag(
                     new FlagOptions<>(
                             flag,
                             longFlag,
@@ -688,11 +696,14 @@ public abstract class AbstractSubCommandProcessor<S> {
      * @return The list of flags.
      */
     private @NotNull List<@NotNull Flag> getFlagsFromAnnotations() {
-        final CommandFlags flags = method.getAnnotation(CommandFlags.class);
+        final CommandFlags flags = this.method.getAnnotation(CommandFlags.class);
+
         if (flags != null) return Arrays.asList(flags.value());
 
-        final Flag flag = method.getAnnotation(Flag.class);
+        final Flag flag = this.method.getAnnotation(Flag.class);
+
         if (flag == null) return Collections.emptyList();
+
         return Collections.singletonList(flag);
     }
 
@@ -705,10 +716,13 @@ public abstract class AbstractSubCommandProcessor<S> {
             final String messageKeyValue = requirementAnnotation.messageKey();
 
             final MessageKey<MessageContext> messageKey;
+
             if (messageKeyValue.isEmpty()) messageKey = null;
+
             else messageKey = MessageKey.of(messageKeyValue, MessageContext.class);
 
-            final RequirementResolver<S> resolver = requirementRegistry.getRequirement(requirementKey);
+            final RequirementResolver<S> resolver = this.requirementRegistry.getRequirement(requirementKey);
+
             if (resolver == null) {
                 throw createException("Could not find Requirement Key \"" + requirementKey.getKey() + "\"");
             }
@@ -723,11 +737,14 @@ public abstract class AbstractSubCommandProcessor<S> {
      * @return The list of requirements.
      */
     private @NotNull List<dev.triumphteam.cmd.core.annotation.@NotNull Requirement> getRequirementsFromAnnotations() {
-        final Requirements requirements = method.getAnnotation(Requirements.class);
+        final Requirements requirements = this.method.getAnnotation(Requirements.class);
+
         if (requirements != null) return Arrays.asList(requirements.value());
 
-        final dev.triumphteam.cmd.core.annotation.Requirement requirement = method.getAnnotation(dev.triumphteam.cmd.core.annotation.Requirement.class);
+        final dev.triumphteam.cmd.core.annotation.Requirement requirement = this.method.getAnnotation(dev.triumphteam.cmd.core.annotation.Requirement.class);
+
         if (requirement == null) return Collections.emptyList();
+
         return Collections.singletonList(requirement);
     }
 
@@ -748,7 +765,8 @@ public abstract class AbstractSubCommandProcessor<S> {
      */
     private void validateArguments() {
         final List<BiConsumer<Boolean, InternalArgument<S, ?>>> validations = getArgValidations();
-        final Iterator<InternalArgument<S, ?>> iterator = internalArguments.iterator();
+        final Iterator<InternalArgument<S, ?>> iterator = this.internalArguments.iterator();
+
         while (iterator.hasNext()) {
             final InternalArgument<S, ?> internalArgument = iterator.next();
             validations.forEach(consumer -> consumer.accept(iterator.hasNext(), internalArgument));
@@ -785,8 +803,10 @@ public abstract class AbstractSubCommandProcessor<S> {
      * Extracts the {@link Description} Annotation from the Method.
      */
     private void extractDescription() {
-        final Description description = method.getAnnotation(Description.class);
+        final Description description = this.method.getAnnotation(Description.class);
+
         if (description == null) return;
+
         this.description = description.value();
     }
 
@@ -794,8 +814,10 @@ public abstract class AbstractSubCommandProcessor<S> {
      * Extracts the {@link ArgDescriptions} Annotation from the Method.
      */
     private void extractArgDescriptions() {
-        final ArgDescriptions argDescriptions = method.getAnnotation(ArgDescriptions.class);
+        final ArgDescriptions argDescriptions = this.method.getAnnotation(ArgDescriptions.class);
+
         if (argDescriptions == null) return;
+
         this.argDescriptions.addAll(Arrays.asList(argDescriptions.value()));
     }
 
@@ -805,18 +827,20 @@ public abstract class AbstractSubCommandProcessor<S> {
     public void extractSuggestions() {
         for (final dev.triumphteam.cmd.core.annotation.Suggestion suggestion : getSuggestionsFromAnnotations()) {
             final String key = suggestion.value();
+
             if (key.isEmpty()) {
-                suggestionList.add(new EmptySuggestion<>());
+                this.suggestionList.add(new EmptySuggestion<>());
+
                 continue;
             }
 
-            final SuggestionResolver<S> resolver = suggestionRegistry.getSuggestionResolver(SuggestionKey.of(key));
+            final SuggestionResolver<S> resolver = this.suggestionRegistry.getSuggestionResolver(SuggestionKey.of(key));
 
             if (resolver == null) {
                 throw createException("Cannot find the suggestion key `" + key + "`");
             }
 
-            suggestionList.add(new SimpleSuggestion<>(resolver));
+            this.suggestionList.add(new SimpleSuggestion<>(resolver));
         }
 
         extractSuggestionFromParams();
@@ -827,7 +851,7 @@ public abstract class AbstractSubCommandProcessor<S> {
      * Adds the suggestions to the passed list.
      */
     private void extractSuggestionFromParams() {
-        final Parameter[] parameters = method.getParameters();
+        final Parameter[] parameters = this.method.getParameters();
         for (int i = 1; i < parameters.length; i++) {
             final Parameter parameter = parameters[i];
 
@@ -835,7 +859,9 @@ public abstract class AbstractSubCommandProcessor<S> {
             final SuggestionKey suggestionKey = suggestion == null ? null : SuggestionKey.of(suggestion.value());
 
             final Class<?> type = getGenericType(parameter);
+
             final int addIndex = i - 1;
+
             setOrAddSuggestion(addIndex, createSuggestion(suggestionKey, type));
         }
     }
@@ -844,16 +870,19 @@ public abstract class AbstractSubCommandProcessor<S> {
         if (suggestionKey == null) {
             if (Enum.class.isAssignableFrom(type)) return new EnumSuggestion<>((Class<? extends Enum<?>>) type);
 
-            final SuggestionResolver<S> resolver = suggestionRegistry.getSuggestionResolver(type);
+            final SuggestionResolver<S> resolver = this.suggestionRegistry.getSuggestionResolver(type);
+
             if (resolver != null) return new SimpleSuggestion<>(resolver);
 
             return new EmptySuggestion<>();
         }
 
-        final SuggestionResolver<S> resolver = suggestionRegistry.getSuggestionResolver(suggestionKey);
+        final SuggestionResolver<S> resolver = this.suggestionRegistry.getSuggestionResolver(suggestionKey);
+
         if (resolver == null) {
             throw createException("Cannot find the suggestion key `" + suggestionKey + "`");
         }
+
         return new SimpleSuggestion<>(resolver);
     }
 
@@ -864,32 +893,41 @@ public abstract class AbstractSubCommandProcessor<S> {
      * @param suggestion The suggestion.
      */
     private void setOrAddSuggestion(final int index, final @Nullable Suggestion<S> suggestion) {
-        if (index >= suggestionList.size()) {
+        if (index >= this.suggestionList.size()) {
             if (suggestion == null) {
-                suggestionList.add(new EmptySuggestion<>());
+                this.suggestionList.add(new EmptySuggestion<>());
+
                 return;
             }
-            suggestionList.add(suggestion);
+
+            this.suggestionList.add(suggestion);
+
             return;
         }
 
         if (suggestion == null) return;
-        suggestionList.set(index, suggestion);
+
+        this.suggestionList.set(index, suggestion);
     }
 
     private @NotNull List<dev.triumphteam.cmd.core.annotation.@NotNull Suggestion> getSuggestionsFromAnnotations() {
-        final Suggestions requirements = method.getAnnotation(Suggestions.class);
+        final Suggestions requirements = this.method.getAnnotation(Suggestions.class);
+
         if (requirements != null) return Arrays.asList(requirements.value());
 
-        final dev.triumphteam.cmd.core.annotation.Suggestion suggestion = method.getAnnotation(dev.triumphteam.cmd.core.annotation.Suggestion.class);
+        final dev.triumphteam.cmd.core.annotation.Suggestion suggestion = this.method.getAnnotation(dev.triumphteam.cmd.core.annotation.Suggestion.class);
+
         if (suggestion == null) return emptyList();
+
         return singletonList(suggestion);
     }
 
     private @NotNull Class<?> getGenericType(final @NotNull Parameter parameter) {
         final Class<?> type = parameter.getType();
+
         if (COLLECTIONS.stream().anyMatch(it -> it.isAssignableFrom(type))) {
             final ParameterizedType parameterizedType = (ParameterizedType) parameter.getParameterizedType();
+
             final Type[] types = parameterizedType.getActualTypeArguments();
 
             if (types.length != 1) {
@@ -897,6 +935,7 @@ public abstract class AbstractSubCommandProcessor<S> {
             }
 
             final Type genericType = types[0];
+
             return (Class<?>) (genericType instanceof WildcardType ? ((WildcardType) genericType).getUpperBounds()[0] : genericType);
         }
 

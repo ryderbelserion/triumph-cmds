@@ -26,7 +26,6 @@ package dev.triumphteam.cmd.core.sender;
 import dev.triumphteam.cmd.core.SubCommand;
 import dev.triumphteam.cmd.core.message.MessageRegistry;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.Set;
 
 /**
@@ -38,9 +37,5 @@ public interface SenderValidator<S> {
 
     @NotNull Set<Class<? extends S>> getAllowedSenders();
 
-    boolean validate(
-            final @NotNull MessageRegistry<S> messageRegistry,
-            final @NotNull SubCommand<S> subCommand,
-            final @NotNull S sender
-    );
+    boolean validate(final @NotNull MessageRegistry<S> messageRegistry, final @NotNull SubCommand<S> subCommand, final @NotNull S sender);
 }

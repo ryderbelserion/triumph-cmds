@@ -33,12 +33,14 @@ public final class ListArgumentBuilder extends AbstractArgumentBuilder<ListArgum
 
     public ListArgumentBuilder(final @NotNull Class<?> collectionType, final @NotNull Class<?> type) {
         super(type);
+
         this.collectionType = collectionType;
     }
 
     @Contract("_ -> this")
     public @NotNull ListArgumentBuilder separator(final @NotNull String separator) {
         this.separator = separator;
+
         return this;
     }
 
@@ -53,10 +55,10 @@ public final class ListArgumentBuilder extends AbstractArgumentBuilder<ListArgum
     }
 
     @NotNull Class<?> getCollectionType() {
-        return collectionType;
+        return this.collectionType;
     }
 
     @NotNull String getSeparator() {
-        return separator;
+        return this.separator;
     }
 }

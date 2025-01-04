@@ -56,4 +56,5 @@ public @interface Command {
      */
     @NotNull
     String[] alias() default {};
+
 }

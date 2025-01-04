@@ -26,7 +26,6 @@ package dev.triumphteam.cmd.core.suggestion;
 import dev.triumphteam.cmd.core.util.EnumUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -43,7 +42,7 @@ public final class EnumSuggestion<S> implements Suggestion<S> {
 
     @Override
     public @NotNull List<@NotNull String> getSuggestions(final @NotNull S sender, final @NotNull String current, final @NotNull SuggestionContext context) {
-        return EnumUtils.getEnumConstants(enumType)
+        return EnumUtils.getEnumConstants(this.enumType)
                 .values()
                 .stream()
                 .map(it -> {
@@ -59,20 +58,23 @@ public final class EnumSuggestion<S> implements Suggestion<S> {
     @Override
     public boolean equals(final @Nullable Object o) {
         if (this == o) return true;
+
         if (o == null || getClass() != o.getClass()) return false;
+
         final EnumSuggestion that = (EnumSuggestion) o;
-        return enumType.equals(that.enumType);
+
+        return this.enumType.equals(that.enumType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(enumType);
+        return Objects.hash(this.enumType);
     }
 
     @Override
     public @NotNull String toString() {
         return "EnumSuggestion{" +
-                "enumType=" + enumType +
+                "enumType=" + this.enumType +
                 '}';
     }
 }

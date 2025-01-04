@@ -70,4 +70,5 @@ public @interface Flag {
     // TODO: Comments
     @NotNull
     String suggestion() default "";
+
 }

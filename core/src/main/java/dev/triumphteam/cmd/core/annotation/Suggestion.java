@@ -37,4 +37,5 @@ public @interface Suggestion {
     String value();
 
     boolean strict() default false;
+
 }

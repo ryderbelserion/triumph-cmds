@@ -48,9 +48,9 @@ public final class ResolverInternalArgument<S> extends StringInternalArgument<S>
             final @NotNull ArgumentResolver<S> resolver,
             final @NotNull Suggestion<S> suggestion,
             final int position,
-            final boolean optional
-    ) {
+            final boolean optional) {
         super(name, description, type, suggestion, position, optional);
+
         this.resolver = resolver;
     }
 
@@ -69,22 +69,25 @@ public final class ResolverInternalArgument<S> extends StringInternalArgument<S>
     @Override
     public boolean equals(final @Nullable Object o) {
         if (this == o) return true;
+
         if (o == null || getClass() != o.getClass()) return false;
+
         if (!super.equals(o)) return false;
+
         final ResolverInternalArgument<?> that = (ResolverInternalArgument<?>) o;
-        return resolver.equals(that.resolver);
+
+        return this.resolver.equals(that.resolver);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), resolver);
+        return Objects.hash(super.hashCode(), this.resolver);
     }
 
     @Override
     public @NotNull String toString() {
         return "ResolverArgument{" +
-                "resolver=" + resolver +
+                "resolver=" + this.resolver +
                 ", super=" + super.toString() + "}";
     }
-
 }

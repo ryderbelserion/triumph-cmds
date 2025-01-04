@@ -1,6 +1,5 @@
 plugins {
-    id("cmds.base-conventions")
-    id("cmds.library-conventions")
+    id("triumph.base")
 }
 
 repositories {
@@ -9,5 +8,6 @@ repositories {
 
 dependencies {
     api(project(":triumph-cmd-core"))
-    compileOnly(libs.spigot)
+
+    compileOnly(libs.paper)
 }

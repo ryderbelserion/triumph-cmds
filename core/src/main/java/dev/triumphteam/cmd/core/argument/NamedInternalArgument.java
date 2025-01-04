@@ -30,7 +30,6 @@ import dev.triumphteam.cmd.core.suggestion.EmptySuggestion;
 import dev.triumphteam.cmd.core.suggestion.SuggestionContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -42,14 +41,9 @@ public final class NamedInternalArgument<S> extends LimitlessInternalArgument<S>
 
     private final Map<String, InternalArgument<S, ?>> arguments;
 
-    public NamedInternalArgument(
-            final @NotNull String name,
-            final @NotNull String description,
-            final @NotNull Map<String, InternalArgument<S, ?>> arguments,
-            final int position,
-            final boolean isOptional
-    ) {
+    public NamedInternalArgument(final @NotNull String name, final @NotNull String description, final @NotNull Map<String, InternalArgument<S, ?>> arguments, final int position, final boolean isOptional) {
         super(name, description, Arguments.class, new EmptySuggestion<>(), position, isOptional);
+
         this.arguments = arguments;
     }
 
@@ -60,9 +54,13 @@ public final class NamedInternalArgument<S> extends LimitlessInternalArgument<S>
 
         for (final Map.Entry<String, String> entry : parsedArgs.entrySet()) {
             final String key = entry.getKey();
-            final InternalArgument<S, ?> argument = arguments.get(key);
+
+            final InternalArgument<S, ?> argument = this.arguments.get(key);
+
             if (argument == null) continue;
+
             final Object resolved = resolveArgument(sender, argument, entry.getValue());
+
             mapped.put(key, resolved);
         }
 
@@ -78,7 +76,7 @@ public final class NamedInternalArgument<S> extends LimitlessInternalArgument<S>
         final Map<String, String> parsedArgs = NamedArgumentParser.parse(String.join(" ", trimmed));
         final String current = trimmed.get(trimmed.size() - 1);
 
-        final List<String> notUsed = arguments.keySet()
+        final List<String> notUsed = this.arguments.keySet()
                 .stream()
                 .filter(it -> parsedArgs.get(it) == null)
                 .filter(it -> it.startsWith(current))
@@ -89,15 +87,18 @@ public final class NamedInternalArgument<S> extends LimitlessInternalArgument<S>
 
         // Anything down here is actually terrible, someone with a better brain please fix lmao
         final String argName;
+
         if (notUsed.size() == 1) {
             argName = notUsed.get(0).replace(":", "");
         } else {
             final List<String> parsed = new ArrayList<>(parsedArgs.keySet());
-            if (parsed.size() == 0) return Collections.emptyList();
+
+            if (parsed.isEmpty()) return Collections.emptyList();
+
             argName = parsed.get(parsed.size() - 1);
         }
 
-        final InternalArgument<S, ?> argument = arguments.get(argName);
+        final InternalArgument<S, ?> argument = this.arguments.get(argName);
 
         if (argument != null) {
             final String raw = argName + ":";
@@ -109,21 +110,14 @@ public final class NamedInternalArgument<S> extends LimitlessInternalArgument<S>
 
             if (parsed.isEmpty()) return Collections.singletonList(raw);
 
-            return parsed
-                    .stream()
-                    .map(it -> argName + ":" + it)
-                    .collect(Collectors.toList());
+            return parsed.stream().map(it -> argName + ":" + it).collect(Collectors.toList());
         }
 
         return notUsed;
     }
 
     @SuppressWarnings("unchecked")
-    private @Nullable Object resolveArgument(
-            final @NotNull S sender,
-            final @NotNull InternalArgument<S, ?> argument,
-            final @NotNull String value
-    ) {
+    private @Nullable Object resolveArgument(final @NotNull S sender, final @NotNull InternalArgument<S, ?> argument, final @NotNull String value) {
         if (argument instanceof StringInternalArgument) {
             return ((StringInternalArgument<S>) argument).resolve(sender, value);
         }
@@ -134,7 +128,7 @@ public final class NamedInternalArgument<S> extends LimitlessInternalArgument<S>
     @Override
     public @NotNull String toString() {
         return "NamedInternalArgument{" +
-                "arguments=" + arguments +
+                "arguments=" + this.arguments +
                 ", super=" + super.toString() + "}";
     }
 }

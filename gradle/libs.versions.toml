@@ -1,29 +1,23 @@
 [versions]
-# Code
-guava = "31.1-jre"
-
-# Testing
-junit = "5.8.2"
-assertj = "3.22.0"
+# Core
+jetbrains = "24.1.0"
+guava = "33.4.0-jre"
 
 # Minecraft
-spigot = "1.18.2-R0.1-SNAPSHOT"
+## Paper - default
+paper = "1.21.4-R0.1-SNAPSHOT"
 
-# Discord
-jda = "5.0.0-alpha.18"
-
+## Spigot - deprecated
+spigot = "1.21.4-R0.1-SNAPSHOT"
 
 [libraries]
 # Core
+jetbrains = { module = "org.jetbrains:annotations", version.ref = "jetbrains" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 
-# Testing
-junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
-junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
-assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
-
 # Minecraft
-spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
+## Paper
+paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
 
-# Discord
-jda = { module = "net.dv8tion:JDA", version.ref = "jda" }
+## Spigot - deprecated
+spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }

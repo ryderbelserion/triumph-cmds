@@ -26,4 +26,5 @@ package dev.triumphteam.cmd.core.flag.internal;
 public final class EmptyFlagValue implements FlagValue {
 
     public static final EmptyFlagValue INSTANCE = new EmptyFlagValue();
+
 }

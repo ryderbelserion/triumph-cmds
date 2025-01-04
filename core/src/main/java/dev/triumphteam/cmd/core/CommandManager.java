@@ -37,7 +37,6 @@ import dev.triumphteam.cmd.core.sender.SenderValidator;
 import dev.triumphteam.cmd.core.suggestion.SuggestionKey;
 import dev.triumphteam.cmd.core.suggestion.SuggestionResolver;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,7 +46,6 @@ import java.util.List;
  * @param <DS> The default sender type.
  * @param <S>  The sender type.
  */
-@SuppressWarnings("unchecked")
 public abstract class CommandManager<DS, S> {
 
     private final SenderMapper<DS, S> senderMapper;

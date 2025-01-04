@@ -27,12 +27,11 @@ import dev.triumphteam.cmd.core.BaseCommand;
 import dev.triumphteam.cmd.core.exceptions.SubCommandRegistrationException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.lang.reflect.Method;
 
 /**
  * Modified from commons-cli.
- * https://github.com/apache/commons-cli
+ * <a href="https://github.com/apache/commons-cli">...</a>
  */
 public final class FlagValidator {
 
@@ -46,11 +45,7 @@ public final class FlagValidator {
      * @param flag   The {@link String} flag.
      * @param method The method from the registration so that better error message can be thrown.
      */
-    public static void validate(
-            final @Nullable String flag,
-            final @NotNull Method method,
-            final @NotNull BaseCommand baseCommand
-    ) {
+    public static void validate(final @Nullable String flag, final @NotNull Method method, final @NotNull BaseCommand baseCommand) {
         if (flag == null) return;
 
         // handle the single character flag
@@ -65,7 +60,7 @@ public final class FlagValidator {
         }
 
         // handle the multi character flag
-        for (char character : flag.toCharArray()) {
+        for (final char character : flag.toCharArray()) {
             if (!isValidChar(character)) {
                 throw new SubCommandRegistrationException(
                         "The flag \"" + flag + "\" contains an illegal character \"" + character + "\"",
@@ -95,5 +90,4 @@ public final class FlagValidator {
     private static boolean isValidChar(char c) {
         return Character.isJavaIdentifierPart(c);
     }
-
 }

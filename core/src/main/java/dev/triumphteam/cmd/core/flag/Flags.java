@@ -24,7 +24,6 @@
 package dev.triumphteam.cmd.core.flag;
 
 import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -84,4 +83,5 @@ public interface Flags {
      * @return A {@link List} with the typed arguments.
      */
     @NotNull List<@NotNull String> getArgs();
+
 }

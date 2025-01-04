@@ -26,7 +26,6 @@ package dev.triumphteam.cmd.core.argument.named;
 import dev.triumphteam.cmd.core.registry.Registry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,11 +35,10 @@ public final class NamedArgumentRegistry<S> implements Registry {
     private final Map<ArgumentKey, List<Argument>> namedArguments = new HashMap<>();
 
     public void register(final @NotNull ArgumentKey key, final @NotNull List<@NotNull Argument> arguments) {
-        namedArguments.put(key, arguments);
+        this.namedArguments.put(key, arguments);
     }
 
     public @Nullable List<@NotNull Argument> getResolver(final @NotNull ArgumentKey key) {
-        return namedArguments.get(key);
+        return this.namedArguments.get(key);
     }
-
 }

@@ -70,8 +70,10 @@ public final class SplitStringInternalArgument<S> extends StringInternalArgument
      */
     @Override
     public @NotNull Object resolve(final @NotNull S sender, final @NotNull String value) {
-        final Stream<Object> stream = Arrays.stream(value.split(regex)).map(arg -> internalArgument.resolve(sender, arg));
-        if (collectionType == Set.class) return stream.collect(Collectors.toSet());
+        final Stream<Object> stream = Arrays.stream(value.split(this.regex)).map(arg -> this.internalArgument.resolve(sender, arg));
+
+        if (this.collectionType == Set.class) return stream.collect(Collectors.toSet());
+
         return stream.collect(Collectors.toList());
     }
 
@@ -81,11 +83,16 @@ public final class SplitStringInternalArgument<S> extends StringInternalArgument
             final @NotNull List<@NotNull String> trimmed,
             final @NotNull SuggestionContext context
     ) {
-        final List<String> split = Arrays.asList(trimmed.get(trimmed.size() - 1).split(regex));
-        if (split.size() == 0) return Collections.emptyList();
+        final List<String> split = Arrays.asList(trimmed.get(trimmed.size() - 1).split(this.regex));
+
+        if (split.isEmpty()) return Collections.emptyList();
+
         final String current = split.get(split.size() - 1);
-        final String joined = String.join(regex, split.subList(0, split.size() - 1));
-        final String map = joined.isEmpty() ? "" : joined + regex;
+
+        final String joined = String.join(this.regex, split.subList(0, split.size() - 1));
+
+        final String map = joined.isEmpty() ? "" : joined + this.regex;
+
         return getSuggestion()
                 .getSuggestions(sender, current, context)
                 .stream()

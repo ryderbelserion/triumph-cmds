@@ -26,7 +26,6 @@ package dev.triumphteam.cmd.core.requirement;
 import dev.triumphteam.cmd.core.registry.Registry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +45,7 @@ public final class RequirementRegistry<S> implements Registry {
      * @param resolver The resolver to check if the requirement is met.
      */
     public void register(final @NotNull RequirementKey key, final @NotNull RequirementResolver<S> resolver) {
-        requirements.put(key, resolver);
+        this.requirements.put(key, resolver);
     }
 
     /**
@@ -56,7 +55,6 @@ public final class RequirementRegistry<S> implements Registry {
      * @return A saved {@link RequirementResolver}.
      */
     public @Nullable RequirementResolver<S> getRequirement(final @NotNull RequirementKey key) {
-        return requirements.get(key);
+        return this.requirements.get(key);
     }
-
 }

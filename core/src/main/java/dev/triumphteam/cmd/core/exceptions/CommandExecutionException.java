@@ -36,11 +36,7 @@ public final class CommandExecutionException extends RuntimeException {
         super(message);
     }
 
-    public CommandExecutionException(
-            final @NotNull String message,
-            final @NotNull String parent,
-            final @NotNull String command
-    ) {
+    public CommandExecutionException(final @NotNull String message, final @NotNull String parent, final @NotNull String command) {
         super(message + ". On \"" + parent + "\" command on \"" + command + "\" sub command.");
     }
 
@@ -48,6 +44,7 @@ public final class CommandExecutionException extends RuntimeException {
     @Override
     public synchronized @NotNull CommandExecutionException initCause(final @Nullable Throwable cause) {
         super.initCause(cause);
+
         return this;
     }
 }

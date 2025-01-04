@@ -30,7 +30,6 @@ import com.google.common.primitives.Longs;
 import dev.triumphteam.cmd.core.registry.Registry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,7 +74,7 @@ public final class ArgumentRegistry<S> implements Registry {
      * @param argument The {@link ArgumentResolver} with the resolution of the argument.
      */
     public void register(final @NotNull Class<?> clazz, final @NotNull ArgumentResolver<S> argument) {
-        arguments.put(clazz, argument);
+        this.arguments.put(clazz, argument);
     }
 
     /**
@@ -85,7 +84,6 @@ public final class ArgumentRegistry<S> implements Registry {
      * @return An {@link ArgumentResolver} or null if it doesn't exist.
      */
     public @Nullable ArgumentResolver<S> getResolver(final @NotNull Class<?> clazz) {
-        return arguments.get(clazz);
+        return this.arguments.get(clazz);
     }
-
 }

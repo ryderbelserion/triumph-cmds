@@ -1,42 +1,33 @@
-dependencyResolutionManagement {
-    includeBuild("build-logic")
-    repositories.gradlePluginPortal()
-}
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "triumph-cmd"
 
 listOf(
-    "core",
-    "kotlin-extras",
-    "simple"
+    "minecraft/bukkit" to "bukkit",
+
+    "core" to "core"
 ).forEach(::includeProject)
 
-listOf(
-    "minecraft/bukkit",
-    "discord/jda-common",
-    "discord/jda-prefixed",
-    "discord/jda-slash",
-).forEach {
-    val (folder, name) = it.split('/')
-    includeProject(name, folder)
-}
+fun includeProject(pair: Pair<String, String>): Unit = includeProject(pair.first, pair.second)
 
-include("test-module")
-
-fun includeProject(name: String) {
-    include(name) {
-        this.name = "${rootProject.name}-$name"
-    }
-}
-
-fun includeProject(name: String, folder: String) {
-    include(name) {
-        this.name = "${rootProject.name}-$name"
-        this.projectDir = file("$folder/$name")
-    }
-}
-
-fun include(name: String, block: ProjectDescriptor.() -> Unit) {
+fun includeProject(name: String, block: ProjectDescriptor.() -> Unit) {
     include(name)
     project(":$name").apply(block)
+}
+
+fun includeProject(path: String, name: String) {
+    includeProject(name) {
+        this.name = "${rootProject.name.lowercase()}-$name"
+        this.projectDir = File(path)
+    }
+}
+
+fun includeProject(name: String) {
+    includeProject(name) {
+        this.name = "${rootProject.name.lowercase()}-$name"
+    }
+}
+
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.9.0"
 }

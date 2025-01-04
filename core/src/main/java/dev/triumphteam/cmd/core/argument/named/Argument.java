@@ -26,7 +26,6 @@ package dev.triumphteam.cmd.core.argument.named;
 import dev.triumphteam.cmd.core.suggestion.SuggestionKey;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.List;
 import java.util.Set;
 
@@ -102,4 +101,5 @@ public interface Argument {
     @NotNull String getDescription();
 
     @Nullable SuggestionKey getSuggestion();
+
 }

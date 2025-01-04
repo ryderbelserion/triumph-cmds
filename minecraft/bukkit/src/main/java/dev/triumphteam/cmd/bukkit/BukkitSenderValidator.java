@@ -33,7 +33,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.Set;
 
 /**
@@ -45,16 +44,12 @@ class BukkitSenderValidator implements SenderValidator<CommandSender> {
      * {@inheritDoc}
      */
     @Override
-    public @NotNull Set<@NotNull Class<? extends @NotNull CommandSender>> getAllowedSenders() {
+    public @NotNull Set<Class<? extends CommandSender>> getAllowedSenders() {
         return ImmutableSet.of(CommandSender.class, ConsoleCommandSender.class, Player.class);
     }
 
     @Override
-    public boolean validate(
-            final @NotNull MessageRegistry<CommandSender> messageRegistry,
-            final @NotNull SubCommand<CommandSender> subCommand,
-            final @NotNull CommandSender sender
-    ) {
+    public boolean validate(final @NotNull MessageRegistry<CommandSender> messageRegistry, final @NotNull SubCommand<CommandSender> subCommand, final @NotNull CommandSender sender) {
         final Class<? extends CommandSender> senderClass = subCommand.getSenderType();
 
         if (Player.class.isAssignableFrom(senderClass) && !(sender instanceof Player)) {
@@ -63,6 +58,7 @@ class BukkitSenderValidator implements SenderValidator<CommandSender> {
                     sender,
                     new DefaultMessageContext(subCommand.getParentName(), subCommand.getName())
             );
+
             return false;
         }
 
@@ -72,6 +68,7 @@ class BukkitSenderValidator implements SenderValidator<CommandSender> {
                     sender,
                     new DefaultMessageContext(subCommand.getParentName(), subCommand.getName())
             );
+
             return false;
         }
 

@@ -26,7 +26,6 @@ package dev.triumphteam.cmd.core.suggestion;
 import dev.triumphteam.cmd.core.registry.RegistryKey;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,6 +40,7 @@ public final class SuggestionKey extends RegistryKey {
 
     private SuggestionKey(final @NotNull String key) {
         super(key);
+
         REGISTERED_KEYS.add(this);
     }
 

@@ -44,21 +44,21 @@ public final class SimpleArgument implements Argument {
 
     @Override
     public @NotNull Class<?> getType() {
-        return type;
+        return this.type;
     }
 
     @Override
     public @NotNull String getName() {
-        return name;
+        return this.name;
     }
 
     @Override
     public @NotNull String getDescription() {
-        return description;
+        return this.description;
     }
 
     @Override
     public @Nullable SuggestionKey getSuggestion() {
-        return suggestionKey;
+        return this.suggestionKey;
     }
 }

@@ -24,9 +24,7 @@
 package dev.triumphteam.cmd.core.suggestion;
 
 import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
-
 import static java.util.Collections.emptyList;
 
 public final class EmptySuggestion<S> implements Suggestion<S> {

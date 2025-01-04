@@ -41,11 +41,7 @@ public final class FlagOptions<S> {
     // TODO: 9/16/2021 Check if flag description is needed.
     private final StringInternalArgument<S> argument;
 
-    public FlagOptions(
-            final @Nullable String flag,
-            final @Nullable String longFlag,
-            final @Nullable StringInternalArgument<S> argument
-    ) {
+    public FlagOptions(final @Nullable String flag, final @Nullable String longFlag, final @Nullable StringInternalArgument<S> argument) {
         this.flag = flag;
         this.longFlag = longFlag;
         this.argument = argument;
@@ -57,7 +53,7 @@ public final class FlagOptions<S> {
      * @return The flag identifier.
      */
     public @Nullable String getFlag() {
-        return flag;
+        return this.flag;
     }
 
     /**
@@ -66,12 +62,12 @@ public final class FlagOptions<S> {
      * @return The long flag identifier.
      */
     public @Nullable String getLongFlag() {
-        return longFlag;
+        return this.longFlag;
     }
 
     // TODO: Comments
     public @Nullable StringInternalArgument<S> getArgument() {
-        return argument;
+        return this.argument;
     }
 
     /**
@@ -81,11 +77,11 @@ public final class FlagOptions<S> {
      */
     public @NotNull String getKey() {
         // Will never happen.
-        if (flag == null && longFlag == null) {
+        if (this.flag == null && this.longFlag == null) {
             throw new CommandExecutionException("Both options can't be null.");
         }
 
-        return (flag == null) ? longFlag : flag;
+        return (this.flag == null) ? this.longFlag : this.flag;
     }
 
     /**
@@ -94,6 +90,6 @@ public final class FlagOptions<S> {
      * @return Whether it has an argument.
      */
     public boolean hasArgument() {
-        return argument != null;
+        return this.argument != null;
     }
 }

@@ -36,10 +36,8 @@ import dev.triumphteam.cmd.core.sender.SenderMapper;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.*;
 import java.util.stream.Collectors;
-
 import static java.util.Collections.emptyList;
 
 public final class BukkitCommand<S> extends org.bukkit.command.Command implements Command<S, BukkitSubCommand<S>> {
@@ -71,6 +69,7 @@ public final class BukkitCommand<S> extends org.bukkit.command.Command implement
 
     /**
      * {@inheritDoc}
+     *
      * @throws CommandExecutionException If the sender mapper returns null.
      */
     @Override
@@ -78,42 +77,50 @@ public final class BukkitCommand<S> extends org.bukkit.command.Command implement
         BukkitSubCommand<S> subCommand = getDefaultSubCommand();
 
         String subCommandName = "";
+
         if (args.length > 0) subCommandName = args[0].toLowerCase();
+
         if (subCommand == null || subCommandExists(subCommandName)) {
             subCommand = getSubCommand(subCommandName);
         }
 
-        final S mappedSender = senderMapper.map(sender);
+        final S mappedSender = this.senderMapper.map(sender);
+
         if (mappedSender == null) {
             throw new CommandExecutionException("Invalid sender. Sender mapper returned null");
         }
 
         if (subCommand == null || (args.length > 0 && subCommand.isDefault() && !subCommand.hasArguments())) {
-            messageRegistry.sendMessage(MessageKey.UNKNOWN_COMMAND, mappedSender, new DefaultMessageContext(getName(), subCommandName));
+            this.messageRegistry.sendMessage(MessageKey.UNKNOWN_COMMAND, mappedSender, new DefaultMessageContext(getName(), subCommandName));
+
             return true;
         }
 
         final CommandPermission permission = subCommand.getPermission();
+
         if (!CommandPermission.hasPermission(sender, permission)) {
-            messageRegistry.sendMessage(BukkitMessageKey.NO_PERMISSION, mappedSender, new NoPermissionMessageContext(getName(), subCommand.getName(), permission));
+            this.messageRegistry.sendMessage(BukkitMessageKey.NO_PERMISSION, mappedSender, new NoPermissionMessageContext(getName(), subCommand.getName(), permission));
+
             return true;
         }
 
         final List<String> commandArgs = Arrays.asList(!subCommand.isDefault() ? Arrays.copyOfRange(args, 1, args.length) : args);
 
         subCommand.execute(mappedSender, commandArgs);
+
         return true;
     }
 
     @Override
     public @NotNull List<@NotNull String> tabComplete(final @NotNull CommandSender sender, final @NotNull String alias, final @NotNull String @NotNull [] args) throws IllegalArgumentException {
         if (args.length == 0) return emptyList();
+
         BukkitSubCommand<S> subCommand = getDefaultSubCommand();
 
         final String arg = args[0].toLowerCase();
 
         if (args.length == 1 && (subCommand == null || !subCommand.hasArguments())) {
-            return subCommands.entrySet().stream()
+            return this.subCommands.entrySet().stream()
                     .filter(it -> !it.getValue().isDefault())
                     .filter(it -> it.getKey().startsWith(arg))
                     .filter(it -> {
@@ -125,17 +132,21 @@ public final class BukkitCommand<S> extends org.bukkit.command.Command implement
         }
 
         if (subCommandExists(arg)) subCommand = getSubCommand(arg);
+
         if (subCommand == null) return emptyList();
 
         final CommandPermission permission = subCommand.getPermission();
+
         if (!CommandPermission.hasPermission(sender, permission)) return emptyList();
 
         final S mappedSender = senderMapper.map(sender);
+
         if (mappedSender == null) {
             return emptyList();
         }
 
         final List<String> commandArgs = Arrays.asList(args);
+
         return subCommand.getSuggestions(mappedSender, !subCommand.isDefault() ? commandArgs.subList(1, commandArgs.size()) : commandArgs);
     }
 
@@ -145,7 +156,7 @@ public final class BukkitCommand<S> extends org.bukkit.command.Command implement
      * @return A default SubCommand.
      */
     private @Nullable BukkitSubCommand<S> getDefaultSubCommand() {
-        return subCommands.get(Default.DEFAULT_CMD_NAME);
+        return this.subCommands.get(Default.DEFAULT_CMD_NAME);
     }
 
     /**
@@ -156,8 +167,10 @@ public final class BukkitCommand<S> extends org.bukkit.command.Command implement
      */
     private @Nullable BukkitSubCommand<S> getSubCommand(final @NotNull String key) {
         final BukkitSubCommand<S> subCommand = subCommands.get(key);
+
         if (subCommand != null) return subCommand;
-        return subCommandAliases.get(key);
+
+        return this.subCommandAliases.get(key);
     }
 
     /**
@@ -167,6 +180,6 @@ public final class BukkitCommand<S> extends org.bukkit.command.Command implement
      * @return whether a SubCommand with that key exists
      */
     private boolean subCommandExists(final @NotNull String key) {
-        return subCommands.containsKey(key) || subCommandAliases.containsKey(key);
+        return this.subCommands.containsKey(key) || this.subCommandAliases.containsKey(key);
     }
 }

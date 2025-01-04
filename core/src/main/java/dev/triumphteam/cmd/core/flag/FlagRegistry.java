@@ -27,7 +27,6 @@ import dev.triumphteam.cmd.core.registry.Registry;
 import dev.triumphteam.cmd.core.suggestion.SuggestionResolver;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,10 +36,10 @@ public final class FlagRegistry<S> implements Registry {
 
 
     public void register(final @NotNull FlagKey key, final @NotNull SuggestionResolver<S> resolver) {
-        suggestions.put(key, resolver);
+        this.suggestions.put(key, resolver);
     }
 
     public @Nullable SuggestionResolver<S> getSuggestionResolver(final @NotNull FlagKey key) {
-        return suggestions.get(key);
+        return this.suggestions.get(key);
     }
 }

@@ -31,7 +31,6 @@ import dev.triumphteam.cmd.core.suggestion.EmptySuggestion;
 import dev.triumphteam.cmd.core.suggestion.SuggestionContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -85,20 +84,22 @@ public final class FlagInternalArgument<S> extends LimitlessInternalArgument<S> 
         final String current = trimmed.get(size - 1);
 
         // TODO: Show flags before long flags.
-        final List<String> flags = flagGroup.getAllFlags();
+        final List<String> flags = this.flagGroup.getAllFlags();
 
         // Parses all the arguments to get the flags that have been used
-        final List<Map.Entry<FlagOptions<S>, String>> parsed = new ArrayList<>(flagParser.parseFlags(trimmed).entrySet());
+        final List<Map.Entry<FlagOptions<S>, String>> parsed = new ArrayList<>(this.flagParser.parseFlags(trimmed).entrySet());
         final List<String> used = new ArrayList<>();
 
         // Due to long flags and normal flags being together, loop through them to collect the used ones
         // Could have been done with stream but too complex for my brain right now
         for (final Map.Entry<FlagOptions<S>, String> entry : parsed) {
             final FlagOptions<S> options = entry.getKey();
+
             final String flag = options.getFlag();
             final String longFlag = options.getLongFlag();
 
             if (flag != null) used.add("-" + flag);
+
             if (longFlag != null) used.add("--" + longFlag);
         }
 

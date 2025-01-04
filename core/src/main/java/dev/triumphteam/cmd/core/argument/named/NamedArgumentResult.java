@@ -25,7 +25,6 @@ package dev.triumphteam.cmd.core.argument.named;
 
 import com.google.common.collect.ImmutableMap;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -42,35 +41,37 @@ public final class NamedArgumentResult implements Arguments {
 
     @Override
     public <T> @NotNull Optional<T> get(final @NotNull String name, final @NotNull Class<T> type) {
-        return (Optional<T>) Optional.ofNullable(values.get(name));
+        return (Optional<T>) Optional.ofNullable(this.values.get(name));
     }
 
     @Override
     public <T> @NotNull Optional<List<T>> getAsList(final @NotNull String name, final @NotNull Class<T> type) {
-        final List<T> value = (List<T>) values.get(name);
+        final List<T> value = (List<T>) this.values.get(name);
+
         return Optional.ofNullable(value);
     }
 
     @Override
     public <T> @NotNull Optional<Set<T>> getAsSet(final @NotNull String name, final @NotNull Class<T> type) {
-        final Set<T> value = (Set<T>) values.get(name);
+        final Set<T> value = (Set<T>) this.values.get(name);
+
         return Optional.ofNullable(value);
     }
 
     @Override
     public @NotNull Map<String, Object> getArguments() {
-        return ImmutableMap.copyOf(values);
+        return ImmutableMap.copyOf(this.values);
     }
 
     @Override
     public boolean isEmpty() {
-        return values.isEmpty();
+        return this.values.isEmpty();
     }
 
     @Override
     public @NotNull String toString() {
         return "Arguments{" +
-                "values=" + values +
+                "values=" + this.values +
                 '}';
     }
 }

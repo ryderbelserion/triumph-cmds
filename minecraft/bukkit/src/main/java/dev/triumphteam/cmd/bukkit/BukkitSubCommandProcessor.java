@@ -30,7 +30,6 @@ import dev.triumphteam.cmd.core.registry.RegistryContainer;
 import dev.triumphteam.cmd.core.sender.SenderValidator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -45,13 +44,14 @@ final class BukkitSubCommandProcessor<S> extends AbstractSubCommandProcessor<S> 
             final @NotNull Method method,
             final @NotNull RegistryContainer<S> registryContainer,
             final @NotNull SenderValidator<S> senderValidator,
-            final @Nullable CommandPermission basePermission
-    ) {
+            final @Nullable CommandPermission basePermission) {
         super(baseCommand, parentName, method, registryContainer, senderValidator);
 
         final Permission annotation = method.getAnnotation(Permission.class);
+
         if (annotation == null) {
             this.permission = basePermission;
+
             return;
         }
 

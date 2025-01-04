@@ -26,7 +26,6 @@ package dev.triumphteam.cmd.core.argument;
 import dev.triumphteam.cmd.core.suggestion.SuggestionContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.List;
 
 /**
@@ -87,5 +86,4 @@ public interface InternalArgument<S, T> {
             final @NotNull List<@NotNull String> trimmed,
             final @NotNull SuggestionContext context
     );
-
 }

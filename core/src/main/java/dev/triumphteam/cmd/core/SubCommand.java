@@ -25,7 +25,6 @@ package dev.triumphteam.cmd.core;
 
 import dev.triumphteam.cmd.core.annotation.Default;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 /**

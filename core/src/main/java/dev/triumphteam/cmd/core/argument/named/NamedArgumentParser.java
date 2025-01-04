@@ -24,7 +24,6 @@
 package dev.triumphteam.cmd.core.argument.named;
 
 import org.jetbrains.annotations.NotNull;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.PrimitiveIterator;
@@ -51,13 +50,16 @@ public final class NamedArgumentParser {
             // Marks next character to be escaped
             if (current == ESCAPE && !argument.isEmpty()) {
                 escape = true;
+
                 continue;
             }
 
             // Found a separator
             if (current == SEPARATOR && argument.isEmpty()) {
                 argument = builder.toString();
+
                 builder.setLength(0);
+
                 continue;
             }
 
@@ -67,19 +69,24 @@ public final class NamedArgumentParser {
                 // If no argument is found, discard values
                 if (argument.isEmpty()) {
                     builder.setLength(0);
+
                     continue;
                 }
 
                 // If argument is found, accept as value
                 args.put(argument, builder.toString());
+
                 builder.setLength(0);
+
                 argument = "";
+
                 continue;
             }
 
             // If no escapable token was found, aka :, re-append the backslash
             if (escape) {
                 builder.appendCodePoint(ESCAPE);
+
                 escape = false;
             }
 

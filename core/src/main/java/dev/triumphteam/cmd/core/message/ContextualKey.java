@@ -27,7 +27,6 @@ import dev.triumphteam.cmd.core.registry.RegistryKey;
 import dev.triumphteam.cmd.core.message.context.MessageContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -45,7 +44,9 @@ public abstract class ContextualKey<C extends MessageContext> extends RegistryKe
 
     protected ContextualKey(final @NotNull String key, final @NotNull Class<C> type) {
         super(key);
+
         this.type = type;
+
         REGISTERED_KEYS.add(this);
     }
 
@@ -55,7 +56,7 @@ public abstract class ContextualKey<C extends MessageContext> extends RegistryKe
      * @return The Context type.
      */
     public @NotNull Class<C> getType() {
-        return type;
+        return this.type;
     }
 
     /**
@@ -70,21 +71,25 @@ public abstract class ContextualKey<C extends MessageContext> extends RegistryKe
     @Override
     public boolean equals(final @Nullable Object o) {
         if (this == o) return true;
+
         if (o == null || getClass() != o.getClass()) return false;
+
         if (!super.equals(o)) return false;
+
         final ContextualKey<?> that = (ContextualKey<?>) o;
-        return type.equals(that.type);
+
+        return this.type.equals(that.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), type);
+        return Objects.hash(super.hashCode(), this.type);
     }
 
     @Override
     public @NotNull String toString() {
         return "ContextualKey{" +
-                "type=" + type +
+                "type=" + this.type +
                 ", super=" + super.toString() + "}";
     }
 }

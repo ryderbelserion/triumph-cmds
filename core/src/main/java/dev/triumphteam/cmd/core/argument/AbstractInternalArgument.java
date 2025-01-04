@@ -27,7 +27,6 @@ import dev.triumphteam.cmd.core.suggestion.Suggestion;
 import dev.triumphteam.cmd.core.suggestion.SuggestionContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.List;
 import java.util.Objects;
 
@@ -47,14 +46,7 @@ public abstract class AbstractInternalArgument<S, T> implements InternalArgument
     private final boolean optional;
     private final Suggestion<S> suggestion;
 
-    public AbstractInternalArgument(
-            final @NotNull String name,
-            final @NotNull String description,
-            final @NotNull Class<?> type,
-            final @NotNull Suggestion<S> suggestion,
-            final int position,
-            final boolean optional
-    ) {
+    public AbstractInternalArgument(final @NotNull String name, final @NotNull String description, final @NotNull Class<?> type, final @NotNull Suggestion<S> suggestion, final int position, final boolean optional) {
         this.name = name;
         this.description = description;
         this.type = type;
@@ -64,12 +56,8 @@ public abstract class AbstractInternalArgument<S, T> implements InternalArgument
     }
 
     @Override
-    public @NotNull List<@NotNull String> suggestions(
-            final @NotNull S sender,
-            final @NotNull List<@NotNull String> trimmed,
-            final @NotNull SuggestionContext context
-    ) {
-        return suggestion.getSuggestions(sender, trimmed.get(0), context);
+    public @NotNull List<@NotNull String> suggestions(final @NotNull S sender, final @NotNull List<@NotNull String> trimmed, final @NotNull SuggestionContext context) {
+        return this.suggestion.getSuggestions(sender, trimmed.get(0), context);
     }
 
     /**
@@ -81,17 +69,17 @@ public abstract class AbstractInternalArgument<S, T> implements InternalArgument
      */
     @Override
     public @NotNull String getName() {
-        return name;
+        return this.name;
     }
 
     @Override
     public int getPosition() {
-        return position;
+        return this.position;
     }
 
     @Override
     public @NotNull String getDescription() {
-        return description;
+        return this.description;
     }
 
     /**
@@ -102,7 +90,7 @@ public abstract class AbstractInternalArgument<S, T> implements InternalArgument
      */
     @Override
     public @NotNull Class<?> getType() {
-        return type;
+        return this.type;
     }
 
     /**
@@ -112,35 +100,38 @@ public abstract class AbstractInternalArgument<S, T> implements InternalArgument
      */
     @Override
     public boolean isOptional() {
-        return optional;
+        return this.optional;
     }
 
     protected @NotNull Suggestion<S> getSuggestion() {
-        return suggestion;
+        return this.suggestion;
     }
 
     @Override
     public boolean equals(final @Nullable Object o) {
         if (this == o) return true;
+
         if (o == null || getClass() != o.getClass()) return false;
+
         final AbstractInternalArgument<?, ?> internalArgument = (AbstractInternalArgument<?, ?>) o;
-        return optional == internalArgument.optional && name.equals(internalArgument.name) && type.equals(internalArgument.type);
+
+        return this.optional == internalArgument.optional && this.name.equals(internalArgument.name) && this.type.equals(internalArgument.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, type, optional);
+        return Objects.hash(this.name, this.type, this.optional);
     }
 
     @Override
     public @NotNull String toString() {
         return "AbstractInternalArgument{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", type=" + type +
-                ", position=" + position +
-                ", optional=" + optional +
-                ", suggestion=" + suggestion +
+                "name='" + this.name + '\'' +
+                ", description='" + this.description + '\'' +
+                ", type=" + this.type +
+                ", position=" + this.position +
+                ", optional=" + this.optional +
+                ", suggestion=" + this.suggestion +
                 '}';
     }
 }

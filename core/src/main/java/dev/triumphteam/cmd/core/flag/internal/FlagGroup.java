@@ -25,8 +25,6 @@ package dev.triumphteam.cmd.core.flag.internal;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.UnknownNullability;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,11 +43,11 @@ public final class FlagGroup<S> {
     private final List<String> allFlags = new ArrayList<>();
 
     public @NotNull Map<@Nullable String, @NotNull FlagOptions<S>> getFlags() {
-        return flags;
+        return this.flags;
     }
 
     public @NotNull Map<@NotNull String, @NotNull FlagOptions<S>> getLongFlags() {
-        return longFlags;
+        return this.longFlags;
     }
 
     /**
@@ -61,17 +59,18 @@ public final class FlagGroup<S> {
         final String key = flagOptions.getKey();
 
         final String longFlag = flagOptions.getLongFlag();
+
         if (longFlag != null) {
-            allFlags.add("--" + longFlag);
-            longFlags.put(longFlag, flagOptions);
+            this.allFlags.add("--" + longFlag);
+            this.longFlags.put(longFlag, flagOptions);
         }
 
-        allFlags.add("-" + key);
-        flags.put(key, flagOptions);
+        this.allFlags.add("-" + key);
+        this.flags.put(key, flagOptions);
     }
 
     public @NotNull List<@NotNull String> getAllFlags() {
-        return allFlags;
+        return this.allFlags;
     }
 
     /**
@@ -80,7 +79,7 @@ public final class FlagGroup<S> {
      * @return Whether the flag lists are empty.
      */
     public boolean isEmpty() {
-        return flags.isEmpty() && longFlags.isEmpty();
+        return this.flags.isEmpty() && this.longFlags.isEmpty();
     }
 
     /**
@@ -92,8 +91,9 @@ public final class FlagGroup<S> {
     public @Nullable FlagOptions<S> getMatchingFlag(final @NotNull String token) {
         final String stripped = stripLeadingHyphens(token);
 
-        final FlagOptions<S> flag = flags.get(stripped);
-        return flag != null ? flag : longFlags.get(stripped);
+        final FlagOptions<S> flag = this.flags.get(stripped);
+
+        return flag != null ? flag : this.longFlags.get(stripped);
     }
 
     /**
@@ -104,7 +104,9 @@ public final class FlagGroup<S> {
      */
     private @NotNull String stripLeadingHyphens(final @NotNull String token) {
         if (token.startsWith("--")) return token.substring(2);
+
         if (token.startsWith("-")) return token.substring(1);
+
         return token;
     }
 }

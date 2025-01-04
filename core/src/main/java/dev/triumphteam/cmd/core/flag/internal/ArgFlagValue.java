@@ -38,19 +38,20 @@ class ArgFlagValue<S> implements FlagValue {
     }
 
     public @Nullable Object getValue(final @NotNull S sender, final @NotNull Class<?> type) {
-        if (!type.equals(argument.getType())) return null;
-        return argument.resolve(sender, value);
+        if (!type.equals(this.argument.getType())) return null;
+
+        return this.argument.resolve(sender, this.value);
     }
 
     public @NotNull String getAsString() {
-        return value;
+        return this.value;
     }
 
     @Override
     public @NotNull String toString() {
         return "ArgFlagValue{" +
-                "value='" + value + '\'' +
-                ", argument=" + argument +
+                "value='" + this.value + '\'' +
+                ", argument=" + this.argument +
                 '}';
     }
 }

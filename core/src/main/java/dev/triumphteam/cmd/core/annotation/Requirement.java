@@ -58,4 +58,5 @@ public @interface Requirement {
     String messageKey() default "";
 
     boolean invert() default false;
+
 }

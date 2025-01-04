@@ -25,7 +25,6 @@ package dev.triumphteam.cmd.core.message.context;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.Objects;
 
 /**
@@ -37,14 +36,9 @@ public final class InvalidArgumentContext extends AbstractMessageContext {
     private final String name;
     private final Class<?> type;
 
-    public InvalidArgumentContext(
-            final @NotNull String command,
-            final @NotNull String subCommand,
-            final @NotNull String argument,
-            final @NotNull String name,
-            final @NotNull Class<?> type
-    ) {
+    public InvalidArgumentContext(final @NotNull String command, final @NotNull String subCommand, final @NotNull String argument, final @NotNull String name, final @NotNull Class<?> type) {
         super(command, subCommand);
+
         this.argument = argument;
         this.name = name;
         this.type = type;
@@ -56,7 +50,7 @@ public final class InvalidArgumentContext extends AbstractMessageContext {
      * @return The invalid argument.
      */
     public @NotNull String getTypedArgument() {
-        return argument;
+        return this.argument;
     }
 
     /**
@@ -67,7 +61,7 @@ public final class InvalidArgumentContext extends AbstractMessageContext {
      * @return The argument name, should be equal to the parameter name.
      */
     public @NotNull String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -76,29 +70,33 @@ public final class InvalidArgumentContext extends AbstractMessageContext {
      * @return The argument type the user should have used.
      */
     public @NotNull Class<?> getArgumentType() {
-        return type;
+        return this.type;
     }
 
     @Override
     public boolean equals(final @Nullable Object o) {
         if (this == o) return true;
+
         if (o == null || getClass() != o.getClass()) return false;
+
         if (!super.equals(o)) return false;
+
         final InvalidArgumentContext that = (InvalidArgumentContext) o;
-        return argument.equals(that.argument) && name.equals(that.name) && type.equals(that.type);
+
+        return this.argument.equals(that.argument) && this.name.equals(that.name) && this.type.equals(that.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), argument, name, type);
+        return Objects.hash(super.hashCode(), this.argument, this.name, this.type);
     }
 
     @Override
     public @NotNull String toString() {
         return "InvalidArgumentContext{" +
-                "argument='" + argument + '\'' +
-                ", name='" + name + '\'' +
-                ", type=" + type +
+                "argument='" + this.argument + '\'' +
+                ", name='" + this.name + '\'' +
+                ", type=" + this.type +
                 ", super=" + super.toString() + "}";
     }
 }

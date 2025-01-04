@@ -30,9 +30,7 @@ import dev.triumphteam.cmd.core.execution.ExecutionProvider;
 import dev.triumphteam.cmd.core.suggestion.SuggestionContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.List;
-
 import static java.util.Collections.emptyList;
 
 public final class BukkitSubCommand<S> extends AbstractSubCommand<S> {
@@ -46,12 +44,15 @@ public final class BukkitSubCommand<S> extends AbstractSubCommand<S> {
         if (this.permission != null) this.permission.register();
     }
 
-    public @NotNull List<@NotNull String> getSuggestions(final @NotNull S sender, final @NotNull List<@NotNull String> args) {
+    public @NotNull List<String> getSuggestions(final @NotNull S sender, final @NotNull List<String> args) {
         final int index = args.size() - 1;
+
         final InternalArgument<S, ?> internalArgument = getArgument(index);
+
         if (internalArgument == null) return emptyList();
 
         final List<String> trimmed;
+
         if (internalArgument instanceof LimitlessInternalArgument) {
             trimmed = args.subList(getArguments().size() - 1, args.size());
         } else {

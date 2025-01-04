@@ -25,7 +25,6 @@ package dev.triumphteam.cmd.core.message.context;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.Objects;
 
 /**
@@ -48,7 +47,7 @@ public abstract class AbstractMessageContext implements MessageContext {
      */
     @Override
     public @NotNull String getCommand() {
-        return command;
+        return this.command;
     }
 
     /**
@@ -58,27 +57,30 @@ public abstract class AbstractMessageContext implements MessageContext {
      */
     @Override
     public @NotNull String getSubCommand() {
-        return subCommand;
+        return this.subCommand;
     }
 
     @Override
     public boolean equals(final @Nullable Object o) {
         if (this == o) return true;
+
         if (o == null || getClass() != o.getClass()) return false;
+
         final AbstractMessageContext that = (AbstractMessageContext) o;
-        return command.equals(that.command) && Objects.equals(subCommand, that.subCommand);
+
+        return this.command.equals(that.command) && Objects.equals(this.subCommand, that.subCommand);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(command, subCommand);
+        return Objects.hash(this.command, this.subCommand);
     }
 
     @Override
     public @NotNull String toString() {
         return "AbstractMessageContext{" +
-                "command='" + command + '\'' +
-                ", subCommand='" + subCommand + '\'' +
+                "command='" + this.command + '\'' +
+                ", subCommand='" + this.subCommand + '\'' +
                 '}';
     }
 }
