@@ -33,6 +33,8 @@ import dev.triumphteam.cmd.core.message.MessageKey;
 import dev.triumphteam.cmd.core.message.MessageRegistry;
 import dev.triumphteam.cmd.core.message.context.DefaultMessageContext;
 import dev.triumphteam.cmd.core.sender.SenderMapper;
+import io.papermc.paper.command.brigadier.BasicCommand;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -40,7 +42,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import static java.util.Collections.emptyList;
 
-public final class BukkitCommand<S> extends org.bukkit.command.Command implements Command<S, BukkitSubCommand<S>> {
+public final class BukkitCommand<S> implements BasicCommand, Command<S, BukkitSubCommand<S>> {
 
     private final MessageRegistry<S> messageRegistry;
 
@@ -49,8 +51,11 @@ public final class BukkitCommand<S> extends org.bukkit.command.Command implement
     private final Map<String, BukkitSubCommand<S>> subCommands = new HashMap<>();
     private final Map<String, BukkitSubCommand<S>> subCommandAliases = new HashMap<>();
 
+    private final String description;
+    private final String name;
+
     public BukkitCommand(final @NotNull String name, final @NotNull BukkitCommandProcessor<S> processor) {
-        super(name);
+        this.name = name;
 
         this.description = processor.getDescription();
         this.messageRegistry = processor.getRegistryContainer().getMessageRegistry();
@@ -67,13 +72,10 @@ public final class BukkitCommand<S> extends org.bukkit.command.Command implement
         subCommandAliases.putIfAbsent(alias, subCommand);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws CommandExecutionException If the sender mapper returns null.
-     */
     @Override
-    public boolean execute(final @NotNull CommandSender sender, final @NotNull String commandLabel, final @NotNull String @NotNull [] args) {
+    public void execute(final CommandSourceStack commandSourceStack, final String[] args) {
+        final CommandSender sender = commandSourceStack.getSender();
+
         BukkitSubCommand<S> subCommand = getDefaultSubCommand();
 
         String subCommandName = "";
@@ -93,7 +95,7 @@ public final class BukkitCommand<S> extends org.bukkit.command.Command implement
         if (subCommand == null || (args.length > 0 && subCommand.isDefault() && !subCommand.hasArguments())) {
             this.messageRegistry.sendMessage(MessageKey.UNKNOWN_COMMAND, mappedSender, new DefaultMessageContext(getName(), subCommandName));
 
-            return true;
+            return;
         }
 
         final CommandPermission permission = subCommand.getPermission();
@@ -101,19 +103,19 @@ public final class BukkitCommand<S> extends org.bukkit.command.Command implement
         if (!CommandPermission.hasPermission(sender, permission)) {
             this.messageRegistry.sendMessage(BukkitMessageKey.NO_PERMISSION, mappedSender, new NoPermissionMessageContext(getName(), subCommand.getName(), permission));
 
-            return true;
+            return;
         }
 
         final List<String> commandArgs = Arrays.asList(!subCommand.isDefault() ? Arrays.copyOfRange(args, 1, args.length) : args);
 
         subCommand.execute(mappedSender, commandArgs);
-
-        return true;
     }
 
     @Override
-    public @NotNull List<@NotNull String> tabComplete(final @NotNull CommandSender sender, final @NotNull String alias, final @NotNull String @NotNull [] args) throws IllegalArgumentException {
+    public Collection<String> suggest(final CommandSourceStack commandSourceStack, final String[] args) {
         if (args.length == 0) return emptyList();
+
+        final CommandSender sender = commandSourceStack.getSender();
 
         BukkitSubCommand<S> subCommand = getDefaultSubCommand();
 
@@ -148,6 +150,14 @@ public final class BukkitCommand<S> extends org.bukkit.command.Command implement
         final List<String> commandArgs = Arrays.asList(args);
 
         return subCommand.getSuggestions(mappedSender, !subCommand.isDefault() ? commandArgs.subList(1, commandArgs.size()) : commandArgs);
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     /**

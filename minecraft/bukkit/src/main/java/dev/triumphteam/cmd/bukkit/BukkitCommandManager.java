@@ -32,10 +32,11 @@ import dev.triumphteam.cmd.core.message.MessageKey;
 import dev.triumphteam.cmd.core.registry.RegistryContainer;
 import dev.triumphteam.cmd.core.sender.SenderMapper;
 import dev.triumphteam.cmd.core.sender.SenderValidator;
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -54,8 +55,6 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
     private final ExecutionProvider syncExecutionProvider = new SyncExecutionProvider();
     private final ExecutionProvider asyncExecutionProvider;
 
-    private final CommandMap commandMap;
-
     // TODO: Default base from constructor
     private final CommandPermission basePermission = null;
 
@@ -65,8 +64,6 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
         this.plugin = plugin;
 
         this.asyncExecutionProvider = new BukkitAsyncExecutionProvider(plugin);
-
-        this.commandMap = this.plugin.getServer().getCommandMap();
 
         // Register some defaults
         registerArgument(Material.class, (sender, arg) -> Material.matchMaterial(arg));
@@ -142,7 +139,11 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
     private @NotNull BukkitCommand<S> createAndRegisterCommand(final @NotNull String name, final @NotNull BukkitCommandProcessor<S> processor) {
         final BukkitCommand<S> newCommand = new BukkitCommand<>(name, processor);
 
-        this.commandMap.register(this.plugin.getName(), newCommand);
+        this.plugin.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
+            final Commands registry = event.registrar();
+
+            registry.register(newCommand.getName(), newCommand.getDescription(), newCommand);
+        });
 
         return newCommand;
     }

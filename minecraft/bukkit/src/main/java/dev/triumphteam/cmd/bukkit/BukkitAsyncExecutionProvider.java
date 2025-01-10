@@ -44,6 +44,6 @@ public final class BukkitAsyncExecutionProvider implements ExecutionProvider {
      */
     @Override
     public void execute(final @NotNull Runnable command) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, command);
+        this.plugin.getServer().getGlobalRegionScheduler().run(this.plugin, scheduledTask -> command.run());
     }
 }
