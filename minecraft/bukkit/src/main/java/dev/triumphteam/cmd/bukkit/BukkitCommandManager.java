@@ -23,31 +23,39 @@
  */
 package dev.triumphteam.cmd.bukkit;
 
+import com.ryderbelserion.cmd.core.TriumphManager;
+import com.ryderbelserion.cmd.core.TriumphProvider;
 import dev.triumphteam.cmd.bukkit.message.BukkitMessageKey;
 import dev.triumphteam.cmd.core.CommandManager;
 import dev.triumphteam.cmd.core.command.RootCommand;
+import dev.triumphteam.cmd.core.enums.Mode;
 import dev.triumphteam.cmd.core.exceptions.CommandRegistrationException;
 import dev.triumphteam.cmd.core.extention.registry.MessageRegistry;
 import dev.triumphteam.cmd.core.extention.registry.RegistryContainer;
 import dev.triumphteam.cmd.core.extention.sender.SenderExtension;
 import dev.triumphteam.cmd.core.message.MessageKey;
 import dev.triumphteam.cmd.core.processor.RootCommandProcessor;
+import net.kyori.adventure.audience.Audience;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.PluginIdentifiableCommand;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -68,18 +76,22 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
             final @NotNull RegistryContainer<CommandSender, S> registryContainer
     ) {
         super(commandOptions);
+
         this.plugin = plugin;
         this.registryContainer = registryContainer;
 
         this.commandMap = getCommandMap();
-        this.bukkitCommands = getBukkitCommands(commandMap);
+        this.bukkitCommands = getBukkitCommands(this.commandMap);
 
-        // Register some defaults
-        registerArgument(Material.class, (sender, arg) -> Material.matchMaterial(arg));
-        registerArgument(Player.class, (sender, arg) -> Bukkit.getPlayer(arg));
-        registerArgument(World.class, (sender, arg) -> Bukkit.getWorld(arg));
+        final Server server = this.plugin.getServer();
 
-        registerSuggestion(Player.class, (sender, arguments) -> Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList()));
+        registerArgument(Material.class, (sender, arg) -> Material.matchMaterial(arg)); //todo() add support for ItemType as matchMaterial is dead
+        registerArgument(Player.class, (sender, arg) -> server.getPlayer(arg)); //todo() add support for offline players
+        registerArgument(World.class, (sender, arg) -> server.getWorld(arg));
+
+        registerSuggestion(Player.class, (sender, arguments) -> server.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList()));
+
+        TriumphProvider.register(this);
     }
 
     /**
@@ -168,6 +180,34 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
         rootCommand.addCommands(command, processor.commands(rootCommand));
 
         // TODO: ALIASES
+    }
+
+    @Override
+    public void registerNodes(@NotNull final List<String> nodes, @NotNull final String description, @NotNull final Mode mode) {
+        final PluginManager manager = this.plugin.getServer().getPluginManager();
+
+        nodes.forEach(node -> {
+            final Permission permission = manager.getPermission(node);
+
+            if (permission != null) return;
+
+            PermissionDefault permissionDefault = PermissionDefault.OP;
+
+            switch (mode) {
+                case TRUE -> permissionDefault = PermissionDefault.TRUE;
+                case FALSE -> permissionDefault = PermissionDefault.FALSE;
+                case NOT_OP -> permissionDefault = PermissionDefault.NOT_OP;
+            }
+
+            manager.addPermission(new Permission(node, description, permissionDefault));
+        });
+    }
+
+    @Override
+    public boolean hasPermission(@NotNull final Audience audience, @NotNull final String permission) {
+        final CommandSender sender = (CommandSender) audience;
+
+        return sender instanceof ConsoleCommandSender || sender.hasPermission(permission);
     }
 
     @Override
