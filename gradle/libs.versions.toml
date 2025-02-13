@@ -1,11 +1,17 @@
+[plugins]
+runPaper = { id = "xyz.jpenilla.run-paper", version.ref = "runPaper" }
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
+
 [versions]
 # Core
+shadow = "9.0.0-beta4"
 jetbrains = "24.1.0"
 guava = "33.4.0-jre"
 
 # Minecraft
 ## Paper - default
 paper = "1.21.4-R0.1-SNAPSHOT"
+runPaper = "2.3.1"
 
 ## Spigot - deprecated
 spigot = "1.21.4-R0.1-SNAPSHOT"

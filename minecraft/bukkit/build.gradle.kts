@@ -1,5 +1,7 @@
 plugins {
     id("triumph.base")
+
+    alias(libs.plugins.shadow)
 }
 
 dependencies {
