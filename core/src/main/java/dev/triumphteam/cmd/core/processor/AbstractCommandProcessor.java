@@ -65,7 +65,6 @@ import dev.triumphteam.cmd.core.util.Pair;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
@@ -85,7 +84,7 @@ import java.util.stream.Collectors;
  * I know this could be done better, but couldn't think of a better way.
  * If you do please PR or let me know on my discord!
  *
- * @param <S> The sender type.
+ * @param <S> the sender type.
  */
 @SuppressWarnings("unchecked")
 abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> {
@@ -131,30 +130,30 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
 
     @Override
     public @NotNull RegistryContainer<D, S> getRegistryContainer() {
-        return registryContainer;
+        return this.registryContainer;
     }
 
     @Override
     public @NotNull CommandOptions<D, S> getCommandOptions() {
-        return commandOptions;
+        return this.commandOptions;
     }
 
     protected @NotNull CommandMeta getParentMeta() {
-        return parentMeta;
+        return this.parentMeta;
     }
 
     @Override
     public @Nullable Syntax getSyntaxAnnotation() {
-        return syntax;
+        return this.syntax;
     }
 
     @Contract("_ -> new")
     protected @NotNull SubCommandRegistrationException createException(final @NotNull String message) {
-        return new SubCommandRegistrationException(message, annotatedElement, invocationInstance.getClass());
+        return new SubCommandRegistrationException(message, this.annotatedElement, this.invocationInstance.getClass());
     }
 
     private @Nullable String nameOf() {
-        final Command commandAnnotation = annotatedElement.getAnnotation(Command.class);
+        final Command commandAnnotation = this.annotatedElement.getAnnotation(Command.class);
 
         // Not a command element
         if (commandAnnotation == null) return null;
@@ -163,7 +162,7 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
     }
 
     private @Nullable List<String> aliasesOf() {
-        final Command commandAnnotation = annotatedElement.getAnnotation(Command.class);
+        final Command commandAnnotation = this.annotatedElement.getAnnotation(Command.class);
 
         // Not a command element
         if (commandAnnotation == null) return null;
@@ -174,15 +173,15 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
     }
 
     public @Nullable String getName() {
-        return name;
+        return this.name;
     }
 
     public @NotNull List<String> getAliases() {
-        return aliases;
+        return this.aliases;
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     protected @NotNull InternalArgument<S, ?> argumentFromParameter(
@@ -219,6 +218,7 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
 
             if (parameter.isAnnotationPresent(Split.class)) {
                 final Split splitAnnotation = parameter.getAnnotation(Split.class);
+
                 return new SplitStringInternalArgument<>(
                         meta,
                         argumentName,
@@ -245,6 +245,7 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
         // Handler for using String with `@Join`.
         if (type == String.class && parameter.isAnnotationPresent(Join.class)) {
             final Join joinAnnotation = parameter.getAnnotation(Join.class);
+
             return new JoinedStringInternalArgument<>(
                     meta,
                     argumentName,
@@ -299,7 +300,8 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
             final boolean optional
     ) {
         // All other types default to the resolver.
-        final ArgumentResolver<S> resolver = argumentRegistry.getResolver(type);
+        final ArgumentResolver<S> resolver = this.argumentRegistry.getResolver(type);
+
         if (resolver == null) {
             // Handler for using any Enum.
             if (Enum.class.isAssignableFrom(type)) {
@@ -314,13 +316,15 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
                 );
             }
 
-            final InternalArgument.Factory<S> factory = argumentRegistry.getFactory(type);
+            final InternalArgument.Factory<S> factory = this.argumentRegistry.getFactory(type);
+
             if (factory != null) {
                 return factory.create(meta, name, description, type, suggestion, optional);
             }
 
             return new UnknownInternalArgument<>(type);
         }
+
         return new ResolverInternalArgument<>(
                 meta,
                 name,
@@ -340,6 +344,7 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
 
         for (final Flag flag : group.getAll()) {
             final Class<?> argType = flag.getArgument();
+
             if (argType == null) continue;
 
             final Suggestion<S> suggestion = createSuggestion(flag.getSuggestion(), argType);
@@ -371,9 +376,7 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
 
             final Suggestion<S> suggestion = createSuggestion(argument.getSuggestion(), argType);
 
-            if (argument instanceof ListArgument) {
-                final ListArgument listArgument = (ListArgument) argument;
-
+            if (argument instanceof ListArgument listArgument) {
                 final InternalArgument<S, String> internalArgument = createSimpleArgument(
                         meta,
                         listArgument.getType(),
@@ -420,8 +423,8 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
      * Gets the internalArgument name, either from the parameter or from the annotation.
      * If the parameter is not annotated, turn the name from Camel Case to "lower-hyphen".
      *
-     * @param parameter The parameter to get data from.
-     * @return The final internalArgument name.
+     * @param parameter the parameter to get data from.
+     * @return the final internalArgument name.
      */
     private @NotNull String getArgName(final @NotNull Parameter parameter) {
         if (parameter.isAnnotationPresent(ArgName.class)) {
@@ -434,10 +437,10 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
     /**
      * Gets the internalArgument description.
      *
-     * @param argDescriptions List with collected method annotation instead of argument annotation.
-     * @param parameter       The parameter to get data from.
-     * @param index           The index of the internalArgument.
-     * @return The final internalArgument description.
+     * @param argDescriptions list with collected method annotation instead of argument annotation.
+     * @param parameter the parameter to get data from.
+     * @param index the index of the internalArgument.
+     * @return the final internalArgument description.
      */
     private @NotNull String getArgumentDescription(
             final List<String> argDescriptions,
@@ -445,24 +448,29 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
             final int index
     ) {
         final Description description = parameter.getAnnotation(Description.class);
+
         if (description != null) {
             return description.value();
         }
 
         if (index < argDescriptions.size()) return argDescriptions.get(index);
+
         return "";
     }
 
     private @NotNull String descriptionOf() {
         final Class<?> commandClass = invocationInstance.getClass();
+
         final Description descriptionAnnotation = commandClass.getAnnotation(Description.class);
 
         if (descriptionAnnotation != null) return descriptionAnnotation.value();
+
         return "";
     }
 
     private @NotNull Class<?> getGenericType(final @NotNull Parameter parameter) {
         final Class<?> type = parameter.getType();
+
         if (SUPPORTED_COLLECTIONS.stream().anyMatch(it -> it.isAssignableFrom(type))) {
             final ParameterizedType parameterizedType = (ParameterizedType) parameter.getParameterizedType();
             final Type[] types = parameterizedType.getActualTypeArguments();
@@ -472,6 +480,7 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
             }
 
             final Type genericType = types[0];
+
             return (Class<?>) (genericType instanceof WildcardType ? ((WildcardType) genericType).getUpperBounds()[0] : genericType);
         }
 
@@ -485,20 +494,24 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
             }
 
             final Pair<SuggestionResolver<S>, SuggestionMethod> pair = suggestionRegistry.getSuggestionResolver(type);
+
             if (pair != null) return new SimpleSuggestion<>(pair.first(), pair.second());
 
             return new EmptySuggestion<>();
         }
 
         final Pair<SuggestionResolver<S>, SuggestionMethod> pair = suggestionRegistry.getSuggestionResolver(suggestionKey);
+
         if (pair == null) {
             throw createException("Cannot find the suggestion key `" + suggestionKey + "`");
         }
+
         return new SimpleSuggestion<>(pair.first(), pair.second());
     }
 
     private @NotNull Suggestion<S> suggestionFromParam(final @NotNull Parameter parameter) {
         final dev.triumphteam.cmd.core.annotations.Suggestion parameterAnnotation = parameter.getAnnotation(dev.triumphteam.cmd.core.annotations.Suggestion.class);
+
         final SuggestionKey suggestionKey = parameterAnnotation == null ? null : SuggestionKey.of(parameterAnnotation.value());
 
         final Class<?> type = getGenericType(parameter);

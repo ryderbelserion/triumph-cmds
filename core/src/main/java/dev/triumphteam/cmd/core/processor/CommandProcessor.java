@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -41,7 +41,6 @@ import dev.triumphteam.cmd.core.requirement.RequirementKey;
 import dev.triumphteam.cmd.core.requirement.RequirementResolver;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.util.Arrays;
@@ -54,7 +53,7 @@ public interface CommandProcessor<D, S> {
     /**
      * Create a new meta and handle some processing before it's fully created.
      *
-     * @return The immutable {@link CommandMeta} instance.
+     * @return the immutable {@link CommandMeta} instance.
      */
     @NotNull CommandMeta createMeta(final @NotNull Settings.Builder<D, S> settingsBuilder);
 
@@ -69,10 +68,10 @@ public interface CommandProcessor<D, S> {
     /**
      * Process all annotations for the specific {@link AnnotatedElement}.
      *
-     * @param extensions The main extensions to get the processors from.
-     * @param element    The annotated element to process its annotations.
-     * @param target     The target of the annotation.
-     * @param meta       The meta builder that'll be passed to processors.
+     * @param extensions the main extensions to get the processors from.
+     * @param element the annotated element to process its annotations.
+     * @param target the target of the annotation.
+     * @param meta the meta builder that'll be passed to processors.
      */
     @SuppressWarnings("unchecked")
     default void processAnnotations(
@@ -85,8 +84,7 @@ public interface CommandProcessor<D, S> {
                 = extensions.getAnnotationProcessors();
 
         for (final Annotation annotation : element.getAnnotations()) {
-            @SuppressWarnings("rawtypes") final AnnotationProcessor annotationProcessor
-                    = processors.get(annotation.annotationType());
+            final AnnotationProcessor annotationProcessor = processors.get(annotation.annotationType());
 
             // No processors available
             if (annotationProcessor == null) continue;
@@ -105,6 +103,7 @@ public interface CommandProcessor<D, S> {
             final MessageKey<MessageContext> messageKey = MessageKey.of(messageKeyValue, MessageContext.class);
 
             final RequirementResolver<D, S> resolver = requirementRegistry.getRequirement(requirementKey);
+
             if (resolver == null) {
                 // TODO EXCEPTION CHECK
                 throw new CommandRegistrationException("Could not find Requirement Key \"" + requirementKey.getKey() + "\"");
@@ -128,10 +127,13 @@ public interface CommandProcessor<D, S> {
         final AnnotatedElement element = getAnnotatedElement();
 
         final Requirements requirements = element.getAnnotation(Requirements.class);
+
         if (requirements != null) return Arrays.asList(requirements.value());
 
         final dev.triumphteam.cmd.core.annotations.Requirement requirement = element.getAnnotation(dev.triumphteam.cmd.core.annotations.Requirement.class);
+
         if (requirement == null) return Collections.emptyList();
+
         return Collections.singletonList(requirement);
     }
 }

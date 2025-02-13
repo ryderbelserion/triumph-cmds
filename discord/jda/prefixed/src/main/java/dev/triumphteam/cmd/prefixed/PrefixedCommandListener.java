@@ -46,7 +46,7 @@ import java.util.regex.Pattern;
 /**
  * Listener for the JDA's {@link MessageReceivedEvent}, which triggers the command execution.
  *
- * @param <S> The sender type.
+ * @param <S> the sender type.
  */
 final class PrefixedCommandListener<S> extends ListenerAdapter {
 

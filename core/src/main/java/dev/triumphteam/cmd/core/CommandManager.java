@@ -42,15 +42,14 @@ import dev.triumphteam.cmd.core.suggestion.SuggestionKey;
 import dev.triumphteam.cmd.core.suggestion.SuggestionMethod;
 import dev.triumphteam.cmd.core.suggestion.SuggestionResolver;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * Base command manager for all platforms.
  *
- * @param <D> The default sender type.
- * @param <S> The sender type.
+ * @param <D> the default sender type.
+ * @param <S> the sender type.
  */
 public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
 
@@ -63,14 +62,14 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
     /**
      * Registers a command into the manager.
      *
-     * @param command The instance of the command to be registered.
+     * @param command the instance of the command to be registered.
      */
     public abstract void registerCommand(final @NotNull Object command);
 
     /**
      * Registers commands.
      *
-     * @param commands A list of commands to be registered.
+     * @param commands a list of commands to be registered.
      */
     public final void registerCommand(final @NotNull Object @NotNull ... commands) {
         for (final Object command : commands) {
@@ -81,14 +80,14 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
     /**
      * Main method for unregistering commands to be implemented in other platform command managers.
      *
-     * @param command The command to be unregistered.
+     * @param command the command to be unregistered.
      */
     public abstract void unregisterCommand(final @NotNull Object command);
 
     /**
      * Method to unregister commands with vararg.
      *
-     * @param commands A list of commands to be unregistered.
+     * @param commands a list of commands to be unregistered.
      */
     public final void unregisterCommands(final @NotNull Object @NotNull ... commands) {
         for (final Object command : commands) {
@@ -99,8 +98,8 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
     /**
      * Registers a custom argument.
      *
-     * @param clazz    The class of the argument to be registered.
-     * @param resolver The {@link ArgumentResolver} with the argument resolution.
+     * @param clazz the class of the argument to be registered.
+     * @param resolver the {@link ArgumentResolver} with the argument resolution.
      */
     public final void registerArgument(final @NotNull Class<?> clazz, final @NotNull ArgumentResolver<S> resolver) {
         getRegistryContainer().getArgumentRegistry().register(clazz, resolver);
@@ -113,8 +112,8 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
     /**
      * Registers a suggestion to be used for specific arguments.
      *
-     * @param key      The {@link SuggestionKey} that identifies the registered suggestion.
-     * @param resolver The {@link SuggestionResolver} with the suggestion resolution.
+     * @param key the {@link SuggestionKey} that identifies the registered suggestion.
+     * @param resolver the {@link SuggestionResolver} with the suggestion resolution.
      */
     public void registerSuggestion(final @NotNull SuggestionKey key, final @NotNull SuggestionResolver<S> resolver) {
         registerSuggestion(key, SuggestionMethod.STARTS_WITH, resolver);
@@ -123,9 +122,9 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
     /**
      * Registers a suggestion to be used for specific arguments.
      *
-     * @param key      The {@link SuggestionKey} that identifies the registered suggestion.
-     * @param method   The resolution method to use for suggestions.
-     * @param resolver The {@link SuggestionResolver} with the suggestion resolution.
+     * @param key the {@link SuggestionKey} that identifies the registered suggestion.
+     * @param method the resolution method to use for suggestions.
+     * @param resolver the {@link SuggestionResolver} with the suggestion resolution.
      */
     public void registerSuggestion(
             final @NotNull SuggestionKey key,
@@ -138,8 +137,8 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
     /**
      * Registers a suggestion to be used for all arguments of a specific type.
      *
-     * @param type     Using specific {@link Class} types as target for suggestions instead of keys.
-     * @param resolver The {@link SuggestionResolver} with the suggestion resolution.
+     * @param type using specific {@link Class} types as target for suggestions instead of keys.
+     * @param resolver the {@link SuggestionResolver} with the suggestion resolution.
      */
     public void registerSuggestion(final @NotNull Class<?> type, final @NotNull SuggestionResolver<S> resolver) {
         registerSuggestion(type, SuggestionMethod.STARTS_WITH, resolver);
@@ -148,9 +147,9 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
     /**
      * Registers a suggestion to be used for all arguments of a specific type.
      *
-     * @param type     Using specific {@link Class} types as target for suggestions instead of keys.
-     * @param method   The resolution method to use for suggestions.
-     * @param resolver The {@link SuggestionResolver} with the suggestion resolution.
+     * @param type using specific {@link Class} types as target for suggestions instead of keys.
+     * @param method the resolution method to use for suggestions.
+     * @param resolver the {@link SuggestionResolver} with the suggestion resolution.
      */
     public void registerSuggestion(
             final @NotNull Class<?> type,
@@ -163,8 +162,8 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
     /**
      * Registers a list of arguments to be used as named arguments in a command.
      *
-     * @param key       The {@link ArgumentKey} to represent the list.
-     * @param arguments The list of arguments.
+     * @param key the {@link ArgumentKey} to represent the list.
+     * @param arguments the list of arguments.
      */
     public final void registerNamedArguments(final @NotNull ArgumentKey key, final @NotNull Argument @NotNull ... arguments) {
         registerNamedArguments(key, Arrays.asList(arguments));
@@ -173,8 +172,8 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
     /**
      * Registers a list of arguments to be used on a {@link Arguments} argument in a command.
      *
-     * @param key       The {@link ArgumentKey} to represent the list.
-     * @param arguments The {@link List} of arguments.
+     * @param key the {@link ArgumentKey} to represent the list.
+     * @param arguments the {@link List} of arguments.
      */
     public final void registerNamedArguments(final @NotNull ArgumentKey key, final @NotNull List<Argument> arguments) {
         getRegistryContainer().getNamedArgumentRegistry().register(key, arguments);
@@ -183,8 +182,8 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
     /**
      * Registers a list of flags to be used on a {@link Flags} argument or {@link Arguments} argument, in a command.
      *
-     * @param key   The {@link FlagKey} to represent the list.
-     * @param flags The list of flags.
+     * @param key   the {@link FlagKey} to represent the list.
+     * @param flags the list of flags.
      */
     public final void registerFlags(final @NotNull FlagKey key, final @NotNull Flag @NotNull ... flags) {
         registerFlags(key, Arrays.asList(flags));
@@ -193,8 +192,8 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
     /**
      * Registers a list of flags to be used on a {@link Flags} argument or {@link Arguments} argument, in a command.
      *
-     * @param key   The {@link FlagKey} to represent the list.
-     * @param flags The {@link List} of flags.
+     * @param key the {@link FlagKey} to represent the list.
+     * @param flags the {@link List} of flags.
      */
     public final void registerFlags(final @NotNull FlagKey key, final @NotNull List<Flag> flags) {
         getRegistryContainer().getFlagRegistry().register(key, flags);
@@ -203,8 +202,8 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
     /**
      * Registers a custom message.
      *
-     * @param key      The {@link ContextualKey} of the message to be registered.
-     * @param resolver The {@link ArgumentResolver} with the message sending resolution.
+     * @param key the {@link ContextualKey} of the message to be registered.
+     * @param resolver the {@link ArgumentResolver} with the message sending resolution.
      */
     public final <C extends MessageContext> void registerMessage(
             final @NotNull ContextualKey<C> key,
@@ -216,8 +215,8 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
     /**
      * Registers a requirement.
      *
-     * @param key      The {@link RequirementKey} of the requirement to be registered.
-     * @param resolver The {@link ArgumentResolver} with the requirement resolution.
+     * @param key the {@link RequirementKey} of the requirement to be registered.
+     * @param resolver the {@link ArgumentResolver} with the requirement resolution.
      */
     public final void registerRequirement(
             final @NotNull RequirementKey key,
@@ -229,6 +228,6 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
     protected abstract @NotNull RegistryContainer<D, S> getRegistryContainer();
 
     protected @NotNull O getCommandOptions() {
-        return commandOptions;
+        return this.commandOptions;
     }
 }

@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -44,7 +44,6 @@ import dev.triumphteam.cmd.core.processor.SubCommandProcessor;
 import dev.triumphteam.cmd.core.util.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.lang.reflect.Method;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -56,7 +55,6 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singleton;
 
@@ -97,16 +95,18 @@ public class SubCommand<D, S> implements Command<D, S> {
         this.aliases = processor.getAliases();
 
         final Settings.Builder<D, S> settingsBuilder = new Settings.Builder<>();
+
         processor.captureRequirements(settingsBuilder);
+
         this.meta = processor.createMeta(settingsBuilder);
 
         this.senderType = processor.senderType();
-        this.argumentList = processor.arguments(meta);
+        this.argumentList = processor.arguments(this.meta);
         this.argumentMap = this.argumentList.stream()
                 .map(argument -> new Pair<>(argument.getName(), argument))
                 .collect(Collectors.toMap(Pair::first, Pair::second));
 
-        this.containsLimitless = argumentList.stream().anyMatch(LimitlessInternalArgument.class::isInstance);
+        this.containsLimitless = this.argumentList.stream().anyMatch(LimitlessInternalArgument.class::isInstance);
 
         final CommandOptions<D, S> commandOptions = processor.getCommandOptions();
 
@@ -120,26 +120,23 @@ public class SubCommand<D, S> implements Command<D, S> {
     }
 
     @Override
-    public void execute(
-            final @NotNull S sender,
-            final @Nullable Supplier<Object> instanceSupplier,
-            final @NotNull Deque<String> arguments
-    ) throws Throwable {
-        final ValidationResult<MessageKey<MessageContext>> validationResult = senderExtension.validate(meta, senderType, sender);
+    public void execute(final @NotNull S sender, final @Nullable Supplier<Object> instanceSupplier, final @NotNull Deque<String> arguments) throws Throwable {
+        final ValidationResult<MessageKey<MessageContext>> validationResult = this.senderExtension.validate(this.meta, this.senderType, sender);
 
         // If the result is invalid for a reason given by the validator, we stop the execution and use its key to send
         // a message to the sender
         if (validationResult instanceof ValidationResult.Invalid) {
-            messageRegistry.sendMessage(
+            this.messageRegistry.sendMessage(
                     ((ValidationResult.Invalid<MessageKey<MessageContext>>) validationResult).getMessage(),
                     sender,
-                    new SyntaxMessageContext(meta, syntax)
+                    new SyntaxMessageContext(this.meta, this.syntax)
             );
+
             return;
         }
 
         // Testing if all requirements pass before we continue
-        if (!settings.testRequirements(messageRegistry, sender, meta, senderExtension)) return;
+        if (!this.settings.testRequirements(this.messageRegistry, sender, this.meta, this.senderExtension)) return;
 
         // Creates the invoking arguments list
         final List<Object> invokeArguments = new ArrayList<>();
@@ -147,15 +144,16 @@ public class SubCommand<D, S> implements Command<D, S> {
 
         if (!validateAndCollectArguments(sender, invokeArguments, arguments)) return;
 
-        if ((!containsLimitless) && arguments.size() >= invokeArguments.size()) {
-            messageRegistry.sendMessage(MessageKey.TOO_MANY_ARGUMENTS, sender, new SyntaxMessageContext(meta, syntax));
+        if ((!this.containsLimitless) && arguments.size() >= invokeArguments.size()) {
+            this.messageRegistry.sendMessage(MessageKey.TOO_MANY_ARGUMENTS, sender, new SyntaxMessageContext(this.meta, this.syntax));
+
             return;
         }
 
-        commandExecutor.execute(
-                meta,
-                instanceSupplier == null ? invocationInstance : instanceSupplier.get(),
-                method,
+        this.commandExecutor.execute(
+                this.meta,
+                instanceSupplier == null ? this.invocationInstance : instanceSupplier.get(),
+                this.method,
                 invokeArguments
         );
     }
@@ -168,31 +166,35 @@ public class SubCommand<D, S> implements Command<D, S> {
             final @NotNull Map<String, Pair<String, Object>> arguments
     ) throws Throwable {
         // TODO DRY
-        final ValidationResult<MessageKey<MessageContext>> validationResult = senderExtension.validate(meta, senderType, sender);
+        final ValidationResult<MessageKey<MessageContext>> validationResult = this.senderExtension.validate(this.meta, this.senderType, sender);
 
         // If the result is invalid for a reason given by the validator, we stop the execution and use its key to send
         // a message to the sender
         if (validationResult instanceof ValidationResult.Invalid) {
-            messageRegistry.sendMessage(
+            this.messageRegistry.sendMessage(
                     ((ValidationResult.Invalid<MessageKey<MessageContext>>) validationResult).getMessage(),
                     sender,
-                    new SyntaxMessageContext(meta, syntax)
+                    new SyntaxMessageContext(this.meta, this.syntax)
             );
+
             return;
         }
 
         // Testing if all requirements pass before we continue
-        if (!settings.testRequirements(messageRegistry, sender, meta, senderExtension)) return;
+        if (!this.settings.testRequirements(this.messageRegistry, sender, this.meta, this.senderExtension)) return;
 
         // Creates the invoking arguments list
         final List<Object> invokeArguments = new ArrayList<>();
+
         invokeArguments.add(sender);
 
-        argumentList.forEach(it -> {
+        this.argumentList.forEach(it -> {
             final Pair<String, Object> pair = arguments.get(it.getName());
+
             // Should only really happen on optional arguments
             if (pair == null) {
                 invokeArguments.add(null);
+
                 return;
             }
 
@@ -206,10 +208,10 @@ public class SubCommand<D, S> implements Command<D, S> {
             validateAndCollectArgument(sender, invokeArguments, raw, it, pair.second());
         });
 
-        commandExecutor.execute(
-                meta,
-                instanceSupplier == null ? invocationInstance : instanceSupplier.get(),
-                method,
+        this.commandExecutor.execute(
+                this.meta,
+                instanceSupplier == null ? this.invocationInstance : instanceSupplier.get(),
+                this.method,
                 invokeArguments
         );
     }
@@ -223,6 +225,7 @@ public class SubCommand<D, S> implements Command<D, S> {
 
         final int index = arguments.size() - 1;
         final InternalArgument<S, ?> argument = getArgumentFromIndex(index);
+
         if (argument == null) return emptyList();
 
         return argument.suggestions(sender, arguments);
@@ -230,14 +233,18 @@ public class SubCommand<D, S> implements Command<D, S> {
 
     public @Nullable InternalArgument<S, ?> getArgumentFromIndex(final int index) {
         if (!hasArguments()) return null;
-        final int size = argumentList.size();
+
+        final int size = this.argumentList.size();
+
         if (index >= size) {
-            final InternalArgument<S, ?> last = argumentList.get(size - 1);
+            final InternalArgument<S, ?> last = this.argumentList.get(size - 1);
+
             if (last instanceof LimitlessInternalArgument) return last;
+
             return null;
         }
 
-        return argumentList.get(index);
+        return this.argumentList.get(index);
     }
 
     public @NotNull List<String> suggest(
@@ -246,21 +253,23 @@ public class SubCommand<D, S> implements Command<D, S> {
             final @NotNull String value
     ) {
         final InternalArgument<S, ?> argument = getArgumentFromName(name);
+
         if (argument == null) return emptyList();
+
         return argument.suggestions(sender, new ArrayDeque<>(singleton(value)));
     }
 
     private @Nullable InternalArgument<S, ?> getArgumentFromName(final @NotNull String name) {
-        return argumentMap.get(name);
+        return this.argumentMap.get(name);
     }
 
     /**
      * Used for checking if the arguments are valid and adding them to the `invokeArguments`.
      *
-     * @param sender          The sender of the command.
-     * @param invokeArguments A list with the arguments that'll be used on the `invoke` of the command method.
-     * @param commandArgs     The command arguments type.
-     * @return False if any internalArgument fails to pass.
+     * @param sender the sender of the command.
+     * @param invokeArguments a list with the arguments that'll be used on the `invoke` of the command method.
+     * @param commandArgs the command arguments type.
+     * @return false if any internalArgument fails to pass.
      */
     private boolean validateAndCollectArguments(
             final @NotNull S sender,
@@ -284,6 +293,7 @@ public class SubCommand<D, S> implements Command<D, S> {
             final @Nullable Object provided
     ) {
         final Result<Object, BiFunction<CommandMeta, String, InvalidArgumentContext>> result;
+
         if (internalArgument instanceof LimitlessInternalArgument) {
             final LimitlessInternalArgument<S> limitlessArgument = (LimitlessInternalArgument<S>) internalArgument;
 
@@ -296,30 +306,34 @@ public class SubCommand<D, S> implements Command<D, S> {
             if (arg == null || arg.isEmpty()) {
                 if (internalArgument.isOptional()) {
                     invokeArguments.add(null);
+
                     return true;
                 }
 
-                messageRegistry.sendMessage(MessageKey.NOT_ENOUGH_ARGUMENTS, sender, new SyntaxMessageContext(meta, syntax));
+                this.messageRegistry.sendMessage(MessageKey.NOT_ENOUGH_ARGUMENTS, sender, new SyntaxMessageContext(this.meta, this.syntax));
+
                 return false;
             }
 
             // Pop the command out
             commandArgs.pop();
+
             result = stringArgument.resolve(sender, arg, provided);
         } else {
             // Should never happen, this should be a sealed type ... but hey, it's Java 8
-            throw new CommandExecutionException("Found unsupported argument", "", name);
+            throw new CommandExecutionException("Found unsupported argument", "", this.name);
         }
 
         // In case of failure we send the Sender a message
         if (result instanceof Result.Failure) {
-            messageRegistry.sendMessage(
+            this.messageRegistry.sendMessage(
                     MessageKey.INVALID_ARGUMENT,
                     sender,
                     ((Result.Failure<Object, BiFunction<CommandMeta, String, InvalidArgumentContext>>) result)
                             .getFail()
                             .apply(meta, syntax)
             );
+
             return false;
         }
 
@@ -336,64 +350,65 @@ public class SubCommand<D, S> implements Command<D, S> {
             final @NotNull CommandProcessor<D, S> processor
     ) {
         final Syntax syntaxAnnotation = processor.getSyntaxAnnotation();
+
         if (syntaxAnnotation != null) return syntaxAnnotation.value();
 
         final StringBuilder builder = new StringBuilder(parentCommand.getSyntax());
 
-        if (!dev.triumphteam.cmd.core.annotations.Command.DEFAULT_CMD_NAME.equals(name)) {
-            builder.append(" ").append(name);
+        if (!dev.triumphteam.cmd.core.annotations.Command.DEFAULT_CMD_NAME.equals(this.name)) {
+            builder.append(" ").append(this.name);
         }
 
-        argumentList.forEach(argument -> builder.append(" ").append("<").append(argument.getName()).append(">"));
+        this.argumentList.forEach(argument -> builder.append(" ").append("<").append(argument.getName()).append(">"));
 
         return builder.toString();
     }
 
     @Override
     public @NotNull CommandMeta getMeta() {
-        return meta;
+        return this.meta;
     }
 
     @Override
     public @NotNull Settings<D, S> getCommandSettings() {
-        return settings;
+        return this.settings;
     }
 
     @Override
     public @NotNull String getName() {
-        return name;
+        return this.name;
     }
 
     @Override
     public @NotNull String getDescription() {
-        return description;
+        return this.description;
     }
 
     @Override
     public @NotNull List<String> getAliases() {
-        return aliases;
+        return this.aliases;
     }
 
     @Override
     public @NotNull String getSyntax() {
-        return syntax;
+        return this.syntax;
     }
 
     public @NotNull List<InternalArgument<S, ?>> getArgumentList() {
-        return argumentList;
+        return this.argumentList;
     }
 
     public @NotNull Map<String, InternalArgument<S, ?>> getArgumentMap() {
-        return argumentMap;
+        return this.argumentMap;
     }
 
     @Override
     public boolean isDefault() {
-        return name.equals(dev.triumphteam.cmd.core.annotations.Command.DEFAULT_CMD_NAME);
+        return this.name.equals(dev.triumphteam.cmd.core.annotations.Command.DEFAULT_CMD_NAME);
     }
 
     @Override
     public boolean hasArguments() {
-        return !argumentList.isEmpty();
+        return !this.argumentList.isEmpty();
     }
 }

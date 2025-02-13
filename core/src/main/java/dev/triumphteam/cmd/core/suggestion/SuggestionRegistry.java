@@ -28,14 +28,13 @@ import dev.triumphteam.cmd.core.util.Pair;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Registry used for registering new suggestions for all commands to use.
  *
- * @param <S> The sender type.
+ * @param <S> the sender type.
  */
 public final class SuggestionRegistry<S> implements Registry {
 
@@ -45,52 +44,53 @@ public final class SuggestionRegistry<S> implements Registry {
     /**
      * Registers a new {@link SuggestionResolver} for the specific Key.
      *
-     * @param key      The suggestion key.
-     * @param resolver The action to get the suggestions.
-     * @param method   The method os suggestion to be used.
+     * @param key the suggestion key.
+     * @param resolver the action to get the suggestions.
+     * @param method the method os suggestion to be used.
      */
     public void register(
             final @NotNull SuggestionKey key,
             final @NotNull SuggestionResolver<S> resolver,
             final @NotNull SuggestionMethod method
     ) {
-        suggestions.put(key, new Pair<>(resolver, method));
+        this.suggestions.put(key, new Pair<>(resolver, method));
     }
 
     /**
      * Registers a new {@link SuggestionResolver} for the specific Key.
      *
-     * @param type     The type to suggest for.
-     * @param resolver The action to get the suggestions.
-     * @param method   The method os suggestion to be used.
+     * @param type the type to suggest for.
+     * @param resolver the action to get the suggestions.
+     * @param method the method os suggestion to be used.
      */
     public void register(
             final @NotNull Class<?> type,
             final @NotNull SuggestionResolver<S> resolver,
             final @NotNull SuggestionMethod method
     ) {
-        typeSuggestions.put(type, new Pair<>(resolver, method));
+        this.typeSuggestions.put(type, new Pair<>(resolver, method));
     }
 
     /**
      * Gets the {@link SuggestionResolver} for the specific Key.
      *
-     * @param key The specific key.
-     * @return A saved {@link SuggestionResolver}.
+     * @param key the specific key.
+     * @return a saved {@link SuggestionResolver}.
      */
     @Contract("null -> null")
     public @Nullable Pair<SuggestionResolver<S>, SuggestionMethod> getSuggestionResolver(final @Nullable SuggestionKey key) {
         if (key == null) return null;
-        return suggestions.get(key);
+
+        return this.suggestions.get(key);
     }
 
     /**
      * Gets the {@link SuggestionResolver} for the specific type.
      *
-     * @param type The specific type.
-     * @return A saved {@link SuggestionResolver}.
+     * @param type the specific type.
+     * @return a saved {@link SuggestionResolver}.
      */
     public @Nullable Pair<SuggestionResolver<S>, SuggestionMethod> getSuggestionResolver(final @NotNull Class<?> type) {
-        return typeSuggestions.get(type);
+        return this.typeSuggestions.get(type);
     }
 }

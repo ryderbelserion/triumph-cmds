@@ -4,5 +4,6 @@ public enum SuggestionMethod {
 
     STARTS_WITH,
     CONTAINS,
-    NONE;
+    NONE
+
 }

@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -43,7 +43,6 @@ import dev.triumphteam.cmd.core.suggestion.SuggestionRegistry;
 import dev.triumphteam.cmd.core.suggestion.SuggestionResolver;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
@@ -58,17 +57,16 @@ public class CommandOptions<D, S> {
             final @NotNull SenderExtension<D, S> senderExtension,
             final @NotNull Builder<D, S, ?, ?, ?> builder
     ) {
-
         this.commandExtensions = builder.extensionBuilder.build(senderExtension);
         this.suggestLowercaseEnum = builder.suggestLowercaseEnum;
     }
 
     public @NotNull CommandExtensions<D, S> getCommandExtensions() {
-        return commandExtensions;
+        return this.commandExtensions;
     }
 
     public boolean suggestLowercaseEnum() {
-        return suggestLowercaseEnum;
+        return this.suggestLowercaseEnum;
     }
 
     public static abstract class Builder<D, S, O extends CommandOptions<D, S>, I extends Setup<D, S, I>, B extends Builder<D, S, O, I, B>> {
@@ -83,19 +81,22 @@ public class CommandOptions<D, S> {
 
         @Contract("_ -> this")
         public @NotNull B setup(final @NotNull Consumer<I> consumer) {
-            consumer.accept(setup);
+            consumer.accept(this.setup);
+
             return (B) this;
         }
 
         @Contract("_ -> this")
         public @NotNull B extensions(final @NotNull Consumer<ExtensionBuilder<D, S>> consumer) {
-            consumer.accept(extensionBuilder);
+            consumer.accept(this.extensionBuilder);
+
             return (B) this;
         }
 
         @Contract(" -> this")
         public @NotNull B suggestLowercaseEnum() {
             this.suggestLowercaseEnum = true;
+
             return (B) this;
         }
 
@@ -126,7 +127,8 @@ public class CommandOptions<D, S> {
                 final @NotNull MessageKey<C> messageKey,
                 final @NotNull MessageResolver<S, C> resolver
         ) {
-            messageRegistry.register(messageKey, resolver);
+            this.messageRegistry.register(messageKey, resolver);
+
             return (I) this;
         }
 
@@ -135,7 +137,8 @@ public class CommandOptions<D, S> {
                 final @NotNull Class<?> type,
                 final @NotNull ArgumentResolver<S> resolver
         ) {
-            argumentRegistry.register(type, resolver);
+            this.argumentRegistry.register(type, resolver);
+
             return (I) this;
         }
 
@@ -144,7 +147,8 @@ public class CommandOptions<D, S> {
                 final @NotNull Class<?> type,
                 final @NotNull SuggestionResolver<S> resolver
         ) {
-            suggestionRegistry.register(type, resolver, SuggestionMethod.STARTS_WITH);
+            this.suggestionRegistry.register(type, resolver, SuggestionMethod.STARTS_WITH);
+
             return (I) this;
         }
 
@@ -153,7 +157,8 @@ public class CommandOptions<D, S> {
                 final @NotNull SuggestionKey key,
                 final @NotNull SuggestionResolver<S> resolver
         ) {
-            suggestionRegistry.register(key, resolver, SuggestionMethod.STARTS_WITH);
+            this.suggestionRegistry.register(key, resolver, SuggestionMethod.STARTS_WITH);
+
             return (I) this;
         }
 
@@ -162,7 +167,8 @@ public class CommandOptions<D, S> {
                 final @NotNull ArgumentKey key,
                 final @NotNull List<Argument> arguments
         ) {
-            namedArgumentRegistry.register(key, arguments);
+            this.namedArgumentRegistry.register(key, arguments);
+
             return (I) this;
         }
 
@@ -179,7 +185,8 @@ public class CommandOptions<D, S> {
                 final @NotNull FlagKey key,
                 final @NotNull List<Flag> flags
         ) {
-            flagRegistry.register(key, flags);
+            this.flagRegistry.register(key, flags);
+
             return (I) this;
         }
 
@@ -192,7 +199,7 @@ public class CommandOptions<D, S> {
         }
 
         protected @NotNull RegistryContainer<D, S> getRegistryContainer() {
-            return registryContainer;
+            return this.registryContainer;
         }
     }
 }

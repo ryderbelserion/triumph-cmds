@@ -52,7 +52,7 @@ import java.util.regex.Pattern;
  * Allows for registering of global and guild specific commands.
  * As well the implementation of custom command senders.
  *
- * @param <S> The sender type.
+ * @param <S> the sender type.
  */
 public final class PrefixedCommandManager<S> extends CommandManager<PrefixedSender, S> {
 

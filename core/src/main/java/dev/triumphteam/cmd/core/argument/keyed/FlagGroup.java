@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,7 +25,6 @@ package dev.triumphteam.cmd.core.argument.keyed;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -50,31 +49,33 @@ final class FlagGroup implements ArgumentGroup<Flag> {
         final String key = argument.getKey();
 
         final String longFlag = argument.getLongFlag();
+
         if (longFlag != null) {
-            allFlags.put("--" + longFlag, argument);
-            longFlags.put(longFlag, argument);
+            this.allFlags.put("--" + longFlag, argument);
+            this.longFlags.put(longFlag, argument);
         }
 
-        allFlags.put("-" + key, argument);
-        flags.put(key, argument);
+        this.allFlags.put("-" + key, argument);
+        this.flags.put(key, argument);
     }
 
     @Override
     public @NotNull Set<String> getAllNames() {
-        return allFlags.keySet();
+        return this.allFlags.keySet();
     }
 
     @Override
     public boolean isEmpty() {
-        return flags.isEmpty() && longFlags.isEmpty();
+        return this.flags.isEmpty() && this.longFlags.isEmpty();
     }
 
     @Override
     public @Nullable Flag matchExact(final @NotNull String token) {
         final String stripped = stripLeadingHyphens(token);
 
-        final Flag flag = flags.get(stripped);
-        return flag != null ? flag : longFlags.get(stripped);
+        final Flag flag = this.flags.get(stripped);
+
+        return flag != null ? flag : this.longFlags.get(stripped);
     }
 
     @Override
@@ -84,25 +85,27 @@ final class FlagGroup implements ArgumentGroup<Flag> {
 
     @Override
     public @NotNull Set<Flag> getAll() {
-        return new HashSet<>(flags.values());
+        return new HashSet<>(this.flags.values());
     }
 
     /**
      * Strips the hyphens from the token.
      *
-     * @param token The flag token.
-     * @return The flag token without hyphens.
+     * @param token the flag token.
+     * @return the flag token without hyphens.
      */
     private @NotNull String stripLeadingHyphens(final @NotNull String token) {
         if (token.startsWith("--")) return token.substring(2);
+
         if (token.startsWith("-")) return token.substring(1);
+
         return token;
     }
 
     @Override
     public String toString() {
         return "FlagGroup{" +
-                "allFlags=" + allFlags +
+                "allFlags=" + this.allFlags +
                 '}';
     }
 }

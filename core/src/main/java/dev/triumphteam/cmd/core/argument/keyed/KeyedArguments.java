@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,7 +26,6 @@ package dev.triumphteam.cmd.core.argument.keyed;
 import dev.triumphteam.cmd.core.util.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -45,6 +44,7 @@ public final class KeyedArguments extends FlagsContainer {
             final @NotNull List<String> nonTokens
     ) {
         super(flags);
+
         this.values = values;
         this.nonTokens = nonTokens;
     }
@@ -57,17 +57,20 @@ public final class KeyedArguments extends FlagsContainer {
     @Override
     public <T> @NotNull Optional<List<T>> getListArgument(final @NotNull String name, final @NotNull Class<T> type) {
         final List<T> value = (List<T>) getValue(name);
+
         return Optional.ofNullable(value);
     }
 
     @Override
     public <T> @NotNull Optional<Set<T>> getSetArgument(final @NotNull String name, final @NotNull Class<T> type) {
         final Set<T> value = (Set<T>) getValue(name);
+
         return Optional.ofNullable(value);
     }
 
     private @Nullable Object getValue(final @NotNull String name) {
-        final ArgumentValue argumentValue = values.get(name);
+        final ArgumentValue argumentValue = this.values.get(name);
+
         if (argumentValue == null) return null;
 
         if (argumentValue instanceof SimpleArgumentValue) {
@@ -79,11 +82,13 @@ public final class KeyedArguments extends FlagsContainer {
 
     @Override
     public @NotNull Map<String, Object> getAllArguments() {
-        return values.entrySet().stream().map(entry -> {
+        return this.values.entrySet().stream().map(entry -> {
             final ArgumentValue value = entry.getValue();
+
             if (value instanceof SimpleArgumentValue) {
                 return new Pair<>(entry.getKey(), ((SimpleArgumentValue) value).getValue());
             }
+
             return new Pair<>(entry.getKey(), null);
         }).collect(Collectors.toMap(Pair::first, Pair::second));
     }
@@ -95,18 +100,18 @@ public final class KeyedArguments extends FlagsContainer {
 
     @Override
     public @NotNull String getText(final @NotNull String delimiter) {
-        return String.join(delimiter, nonTokens);
+        return String.join(delimiter, this.nonTokens);
     }
 
     @Override
     public boolean hasArguments() {
-        return !values.isEmpty();
+        return !this.values.isEmpty();
     }
 
     @Override
     public @NotNull String toString() {
         return "Arguments{" +
-                "values=" + values +
+                "values=" + this.values +
                 ", super=" + super.toString() + "}";
     }
 }

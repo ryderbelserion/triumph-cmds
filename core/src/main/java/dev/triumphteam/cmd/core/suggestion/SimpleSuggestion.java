@@ -25,7 +25,6 @@ package dev.triumphteam.cmd.core.suggestion;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -50,16 +49,18 @@ public final class SimpleSuggestion<S> implements Suggestion<S> {
             final @NotNull String current,
             final @NotNull List<String> arguments
     ) {
-        Stream<String> stream = resolver.resolve(sender, arguments).stream();
+        Stream<String> stream = this.resolver.resolve(sender, arguments).stream();
 
         switch (method) {
             case STARTS_WITH: {
                 stream = stream.filter(it -> it.toLowerCase().startsWith(current.toLowerCase()));
+
                 break;
             }
 
             case CONTAINS: {
                 stream = stream.filter(it -> it.toLowerCase().contains(current.toLowerCase()));
+
                 break;
             }
 
@@ -72,20 +73,23 @@ public final class SimpleSuggestion<S> implements Suggestion<S> {
     @Override
     public boolean equals(final @Nullable Object o) {
         if (this == o) return true;
+
         if (o == null || getClass() != o.getClass()) return false;
+
         final SimpleSuggestion<?> that = (SimpleSuggestion<?>) o;
-        return resolver.equals(that.resolver);
+
+        return this.resolver.equals(that.resolver);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(resolver);
+        return Objects.hash(this.resolver);
     }
 
     @Override
     public @NotNull String toString() {
         return "SimpleSuggestion{" +
-                "resolver=" + resolver +
+                "resolver=" + this.resolver +
                 '}';
     }
 }

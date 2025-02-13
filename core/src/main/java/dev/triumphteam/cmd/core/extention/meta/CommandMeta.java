@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,7 +27,6 @@ import dev.triumphteam.cmd.core.command.Command;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,28 +41,28 @@ public interface CommandMeta {
     /**
      * Get the value of the meta associated with the passed {@link MetaKey}.
      *
-     * @param metaKey The {@link MetaKey} associated with the value.
-     * @param <V>     The type of the value to cast to.
-     * @return An {@link Optional} value as {@link V}.
+     * @param metaKey the {@link MetaKey} associated with the value.
+     * @param <V> the type of the value to cast to.
+     * @return an {@link Optional} value as {@link V}.
      */
     <V> @NotNull Optional<V> get(final @NotNull MetaKey<V> metaKey);
 
     /**
      * Get the value of the meta associated with the passed {@link MetaKey}.
      *
-     * @param metaKey The {@link MetaKey} associated with the value.
-     * @param <V>     The type of the value to cast to.
-     * @return A nullable value as {@link V}.
+     * @param metaKey the {@link MetaKey} associated with the value.
+     * @param <V> the type of the value to cast to.
+     * @return a nullable value as {@link V}.
      */
     <V> @Nullable V getNullable(final @NotNull MetaKey<V> metaKey);
 
     /**
      * Get the value of the meta associated with the passed {@link MetaKey}.
      *
-     * @param metaKey The {@link MetaKey} associated with the value.
-     * @param def     The default value to return in case the stored value doesn't exist.
-     * @param <V>     The type of the value to cast to.
-     * @return The value as {@link V} or default {@link V} if it doesn't exist, the return is null if the default value is null.
+     * @param metaKey the {@link MetaKey} associated with the value.
+     * @param def the default value to return in case the stored value doesn't exist.
+     * @param <V> the type of the value to cast to.
+     * @return the value as {@link V} or default {@link V} if it doesn't exist, the return is null if the default value is null.
      */
     @Contract("_, null -> null; _, !null -> !null")
     <V> V getOrDefault(final @NotNull MetaKey<V> metaKey, final @Nullable V def);
@@ -71,16 +70,16 @@ public interface CommandMeta {
     /**
      * Checks if there is any value associated with the passed {@link MetaKey}.
      *
-     * @param metaKey The {@link MetaKey} associated with the value.
-     * @param <V>     The type of the value to cast to.
-     * @return True if the value exists.
+     * @param metaKey the {@link MetaKey} associated with the value.
+     * @param <V> the type of the value to cast to.
+     * @return true if the value exists.
      */
     <V> boolean isPresent(final @NotNull MetaKey<V> metaKey);
 
     /**
      * Get the immutable parent {@link CommandMeta} of this instance.
      *
-     * @return The parent meta of this instance.
+     * @return the parent meta of this instance.
      */
     @Nullable CommandMeta getParentMeta();
 
@@ -100,9 +99,9 @@ public interface CommandMeta {
         /**
          * Add the value {@link V} to the map associated by the {@link MetaKey}.
          *
-         * @param metaKey The {@link MetaKey} to be the key of the internal map.
-         * @param value   The nullable value {@link V} to be stored.
-         * @param <V>     The type of value that'll be stored.
+         * @param metaKey the {@link MetaKey} to be the key of the internal map.
+         * @param value the nullable value {@link V} to be stored.
+         * @param <V> the type of value that'll be stored.
          */
         @Contract("_, _ -> this")
         public <V> @NotNull Builder add(final @NotNull MetaKey<V> metaKey, final @Nullable V value) {
@@ -114,8 +113,8 @@ public interface CommandMeta {
          * Add the value {@link V} to the map associated by the {@link MetaKey}.
          * Defaults the value to null.
          *
-         * @param metaKey The {@link MetaKey} to be the key of the internal map.
-         * @param <V>     The type of value that'll be stored.
+         * @param metaKey the {@link MetaKey} to be the key of the internal map.
+         * @param <V> the type of value that'll be stored.
          */
         @Contract("_, -> this")
         public <V> @NotNull Builder add(final @NotNull MetaKey<V> metaKey) {
@@ -135,7 +134,7 @@ public interface CommandMeta {
          */
         @Override
         public <V> @Nullable V getNullable(final @NotNull MetaKey<V> metaKey) {
-            return (V) metaMap.get(metaKey);
+            return (V) this.metaMap.get(metaKey);
         }
 
         /**
@@ -143,7 +142,7 @@ public interface CommandMeta {
          */
         @Override
         public <V> @Nullable V getOrDefault(final @NotNull MetaKey<V> metaKey, @Nullable final V def) {
-            return (V) metaMap.getOrDefault(metaKey, def);
+            return (V) this.metaMap.getOrDefault(metaKey, def);
         }
 
         /**
@@ -151,7 +150,7 @@ public interface CommandMeta {
          */
         @Override
         public <V> boolean isPresent(final @NotNull MetaKey<V> metaKey) {
-            return metaMap.containsKey(metaKey);
+            return this.metaMap.containsKey(metaKey);
         }
 
         /**
@@ -159,18 +158,18 @@ public interface CommandMeta {
          */
         @Override
         public @Nullable CommandMeta getParentMeta() {
-            return parentMeta;
+            return this.parentMeta;
         }
 
         /**
          * Creates the final immutable meta.
          * This should not be used externally, but if you need a copy of the current meta state, sure.
          *
-         * @return A new {@link CommandMeta} with the current meta map immutable.
+         * @return a new {@link CommandMeta} with the current meta map immutable.
          */
         @Contract(" -> new")
         public @NotNull CommandMeta build() {
-            return new ImmutableCommandMeta(parentMeta, Collections.unmodifiableMap(metaMap));
+            return new ImmutableCommandMeta(this.parentMeta, Collections.unmodifiableMap(this.metaMap));
         }
     }
 }

@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -30,7 +30,6 @@ import dev.triumphteam.cmd.core.message.context.InvalidArgumentContext;
 import dev.triumphteam.cmd.core.suggestion.Suggestion;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.function.BiFunction;
 
 /**
@@ -39,7 +38,7 @@ import java.util.function.BiFunction;
  * Uses an {@link ArgumentResolver} from the {@link ArgumentRegistry}.
  * Allows you to register many other simple argument types.
  *
- * @param <S> The sender type.
+ * @param <S> the sender type.
  */
 public final class ResolverInternalArgument<S> extends StringInternalArgument<S> {
 
@@ -55,15 +54,16 @@ public final class ResolverInternalArgument<S> extends StringInternalArgument<S>
             final boolean optional
     ) {
         super(meta, name, description, type, suggestion, optional);
+
         this.resolver = resolver;
     }
 
     /**
      * Resolves the argument type.
      *
-     * @param sender The sender to resolve to.
-     * @param value  The {@link String} argument value.
-     * @return An Object value of the correct type, based on the result from the {@link ArgumentResolver}.
+     * @param sender the sender to resolve to.
+     * @param value the {@link String} argument value.
+     * @return an Object value of the correct type, based on the result from the {@link ArgumentResolver}.
      */
     @Override
     public @NotNull Result<@Nullable Object, BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext>> resolve(
@@ -71,7 +71,7 @@ public final class ResolverInternalArgument<S> extends StringInternalArgument<S>
             final @NotNull String value,
             final @Nullable Object provided
     ) {
-        final Object result = resolver.resolve(sender, value);
+        final Object result = this.resolver.resolve(sender, value);
 
         if (result == null) {
             return invalid((commands, arguments) -> new InvalidArgumentContext(commands, arguments, value, getName(), getType()));
@@ -83,8 +83,7 @@ public final class ResolverInternalArgument<S> extends StringInternalArgument<S>
     @Override
     public @NotNull String toString() {
         return "ResolverArgument{" +
-                "resolver=" + resolver +
+                "resolver=" + this.resolver +
                 ", super=" + super.toString() + "}";
     }
-
 }

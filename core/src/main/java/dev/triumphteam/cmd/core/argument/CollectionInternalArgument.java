@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -29,7 +29,6 @@ import dev.triumphteam.cmd.core.message.context.InvalidArgumentContext;
 import dev.triumphteam.cmd.core.suggestion.Suggestion;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -41,7 +40,7 @@ import java.util.stream.Stream;
  * Collection argument, a {@link LimitlessInternalArgument} but returns a {@link List} instead.
  * Currently, only supports {@link List} and {@link Set}.
  *
- * @param <S> The sender type.
+ * @param <S> the sender type.
  */
 public final class CollectionInternalArgument<S> extends LimitlessInternalArgument<S> {
 
@@ -58,6 +57,7 @@ public final class CollectionInternalArgument<S> extends LimitlessInternalArgume
             final boolean optional
     ) {
         super(meta, name, description, String.class, suggestion, optional);
+
         this.internalArgument = internalArgument;
         this.collectionType = collectionType;
     }
@@ -65,9 +65,9 @@ public final class CollectionInternalArgument<S> extends LimitlessInternalArgume
     /**
      * Resolves the argument type.
      *
-     * @param sender The sender to resolve to.
-     * @param value  The arguments {@link List}.
-     * @return A {@link java.util.Collection} type as the resolved value.
+     * @param sender the sender to resolve to.
+     * @param value the arguments {@link List}.
+     * @return a {@link java.util.Collection} type as the resolved value.
      */
     @Override
     public @NotNull Result<@Nullable Object, BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext>> resolve(
@@ -75,15 +75,17 @@ public final class CollectionInternalArgument<S> extends LimitlessInternalArgume
             final @NotNull Collection<String> value,
             final @Nullable Object provided
     ) {
-        final Stream<Object> stream = value.stream().map(arg -> internalArgument.resolve(sender, arg));
-        if (collectionType == Set.class) return success(stream.collect(Collectors.toSet()));
+        final Stream<Object> stream = value.stream().map(arg -> this.internalArgument.resolve(sender, arg));
+
+        if (this.collectionType == Set.class) return success(stream.collect(Collectors.toSet()));
+
         return success(stream.collect(Collectors.toList()));
     }
 
     @Override
     public @NotNull String toString() {
         return "CollectionArgument{" +
-                "collectionType=" + collectionType +
+                "collectionType=" + this.collectionType +
                 ", super=" + super.toString() + "}";
     }
 }

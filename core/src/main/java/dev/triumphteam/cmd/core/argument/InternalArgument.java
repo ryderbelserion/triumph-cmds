@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -30,7 +30,6 @@ import dev.triumphteam.cmd.core.message.context.InvalidArgumentContext;
 import dev.triumphteam.cmd.core.suggestion.Suggestion;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.Deque;
 import java.util.List;
 import java.util.function.BiFunction;
@@ -38,8 +37,8 @@ import java.util.function.BiFunction;
 /**
  * Command argument.
  *
- * @param <S> The sender type.
- * @param <T> The Argument type.
+ * @param <S> the sender type.
+ * @param <T> the Argument type.
  */
 public interface InternalArgument<S, T> extends CommandMetaContainer {
 
@@ -48,7 +47,7 @@ public interface InternalArgument<S, T> extends CommandMetaContainer {
      * This will be either the parameter name or <code>arg1</code>, <code>arg2</code>, etc.
      * Needs to be compiled with compiler argument <code>-parameters</code> to show actual names.
      *
-     * @return The argument name.
+     * @return the argument name.
      */
     @NotNull String getName();
 
@@ -56,7 +55,7 @@ public interface InternalArgument<S, T> extends CommandMetaContainer {
      * The description of this Argument.
      * Holds the description.
      *
-     * @return The description of this Argument.
+     * @return the description of this Argument.
      */
     @NotNull String getDescription();
 
@@ -64,14 +63,14 @@ public interface InternalArgument<S, T> extends CommandMetaContainer {
      * The argument type.
      * Holds the class type of the argument.
      *
-     * @return The argument type.
+     * @return the argument type.
      */
     @NotNull Class<?> getType();
 
     /**
      * If argument is optional or not.
      *
-     * @return Whether the argument is optional.
+     * @return whether the argument is optional.
      */
     boolean isOptional();
 
@@ -80,10 +79,10 @@ public interface InternalArgument<S, T> extends CommandMetaContainer {
     /**
      * Resolves the argument type.
      *
-     * @param sender   The sender to resolve to.
-     * @param value    The argument value.
-     * @param provided A provided value by a platform in case parsing isn't needed.
-     * @return A resolve {@link Result}.
+     * @param sender the sender to resolve to.
+     * @param value the argument value.
+     * @param provided a provided value by a platform in case parsing isn't needed.
+     * @return a resolve {@link Result}.
      */
     @NotNull Result<@Nullable Object, BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext>> resolve(
             final @NotNull S sender,
@@ -94,9 +93,9 @@ public interface InternalArgument<S, T> extends CommandMetaContainer {
     /**
      * Resolves the argument type.
      *
-     * @param sender The sender to resolve to.
-     * @param value  The argument value.
-     * @return A resolve {@link Result}.
+     * @param sender the sender to resolve to.
+     * @param value the argument value.
+     * @return a resolve {@link Result}.
      */
     default @NotNull Result<@Nullable Object, BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext>> resolve(
             final @NotNull S sender,
@@ -108,9 +107,9 @@ public interface InternalArgument<S, T> extends CommandMetaContainer {
     /**
      * Create a list of suggestion strings to return to the platform requesting it.
      *
-     * @param sender    Rhe sender to get suggestions for.
-     * @param arguments The arguments used in the suggestion.
-     * @return A list of valid suggestions for the argument.
+     * @param sender the sender to get suggestions for.
+     * @param arguments the arguments used in the suggestion.
+     * @return a list of valid suggestions for the argument.
      */
     @NotNull List<String> suggestions(final @NotNull S sender, final @NotNull Deque<String> arguments);
 

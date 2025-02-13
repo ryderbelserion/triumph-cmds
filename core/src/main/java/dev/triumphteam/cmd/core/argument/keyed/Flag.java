@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -34,8 +34,8 @@ public interface Flag {
     /**
      * Creates a {@link Flag} builder.
      *
-     * @param flag The flag value to start with.
-     * @return A {@link Argument.Builder} to create a new {@link Flag}.
+     * @param flag the flag value to start with.
+     * @return a {@link Argument.Builder} to create a new {@link Flag}.
      */
     @Contract("_ -> new")
     static @NotNull Builder flag(final @NotNull String flag) {
@@ -45,8 +45,8 @@ public interface Flag {
     /**
      * Creates a {@link Flag} builder.
      *
-     * @param longFlag The long flag value to start with.
-     * @return A {@link Argument.Builder} to create a new {@link Flag}.
+     * @param longFlag the long flag value to start with.
+     * @return a {@link Argument.Builder} to create a new {@link Flag}.
      */
     @Contract("_ -> new")
     static @NotNull Builder longFlag(final @NotNull String longFlag) {
@@ -54,37 +54,37 @@ public interface Flag {
     }
 
     /**
-     * @return The flag identifier.
+     * @return the flag identifier.
      */
     @Nullable String getFlag();
 
     /**
-     * @return The long flag identifier.
+     * @return the long flag identifier.
      */
     @Nullable String getLongFlag();
 
     /**
-     * @return Either be the {@link Flag#getFlag()} or the {@link Flag#getLongFlag()}..
+     * @return either be the {@link Flag#getFlag()} or the {@link Flag#getLongFlag()}..
      */
     @NotNull String getKey();
 
     /**
-     * @return The description of the flag.
+     * @return the description of the flag.
      */
     @NotNull String getDescription();
 
     /**
-     * @return The {@link SuggestionKey} to be used.
+     * @return the {@link SuggestionKey} to be used.
      */
     @Nullable SuggestionKey getSuggestion();
 
     /**
-     * @return Whether the flag contains arguments.
+     * @return whether the flag contains arguments.
      */
     boolean hasArgument();
 
     /**
-     * @return Gets the argument if there is one.
+     * @return gets the argument if there is one.
      */
     @Nullable Class<?> getArgument();
 
@@ -102,8 +102,8 @@ public interface Flag {
         /**
          * Sets the flag name.
          *
-         * @param flag The flag to be used.
-         * @return This builder.
+         * @param flag the flag to be used.
+         * @return this builder.
          */
         @Contract("_ -> this")
         public @NotNull Builder flag(final @NotNull String flag) {
@@ -114,8 +114,8 @@ public interface Flag {
         /**
          * Sets the long flag name.
          *
-         * @param longFlag The long flag to be used.
-         * @return This builder.
+         * @param longFlag the long flag to be used.
+         * @return this builder.
          */
         @Contract("_ -> this")
         public @NotNull Builder longFlag(final @NotNull String longFlag) {
@@ -126,8 +126,8 @@ public interface Flag {
         /**
          * Sets the description of the Flag.
          *
-         * @param description The description of the Flag.
-         * @return This builder.
+         * @param description the description of the Flag.
+         * @return this builder.
          */
         @Contract("_ -> this")
         public @NotNull Builder description(final @NotNull String description) {
@@ -138,8 +138,8 @@ public interface Flag {
         /**
          * Sets the argument type of the Flag.
          *
-         * @param argumentType The argument type of the Flag.
-         * @return This builder.
+         * @param argumentType the argument type of the Flag.
+         * @return this builder.
          */
         @Contract("_ -> this")
         public @NotNull Builder argument(final @NotNull Class<?> argumentType) {
@@ -151,8 +151,8 @@ public interface Flag {
          * Sets the suggestion key to be used by the Flag.
          * If not are supplied the Flag will use {@link EmptySuggestion} instead.
          *
-         * @param suggestionKey The registered suggestion key.
-         * @return This builder.
+         * @param suggestionKey the registered suggestion key.
+         * @return this builder.
          */
         @Contract("_ -> this")
         public @NotNull Builder suggestion(final @NotNull SuggestionKey suggestionKey) {
@@ -163,7 +163,7 @@ public interface Flag {
         /**
          * Builds the flag.
          *
-         * @return A new {@link Flag} with the data from this builder.
+         * @return a new {@link Flag} with the data from this builder.
          */
         @Contract(" -> new")
         public @NotNull Flag build() {
@@ -171,23 +171,23 @@ public interface Flag {
         }
 
         @NotNull Class<?> getArgument() {
-            return argument;
+            return this.argument;
         }
 
         @NotNull String getFlag() {
-            return flag;
+            return this.flag;
         }
 
         @NotNull String getLongFlag() {
-            return longFlag;
+            return this.longFlag;
         }
 
         @NotNull String getDescription() {
-            return description;
+            return this.description;
         }
 
         @Nullable SuggestionKey getSuggestionKey() {
-            return suggestionKey;
+            return this.suggestionKey;
         }
     }
 }

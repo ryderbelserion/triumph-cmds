@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,7 +25,6 @@ package dev.triumphteam.cmd.core.extention.meta;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.Map;
 import java.util.Optional;
 
@@ -50,28 +49,28 @@ final class ImmutableCommandMeta implements CommandMeta {
 
     @Override
     public <V> @Nullable V getNullable(final @NotNull MetaKey<V> metaKey) {
-        return (V) meta.get(metaKey);
+        return (V) this.meta.get(metaKey);
     }
 
     @Override
     public <V> V getOrDefault(final @NotNull MetaKey<V> metaKey, @Nullable final V def) {
-        return (V) meta.getOrDefault(metaKey, def);
+        return (V) this.meta.getOrDefault(metaKey, def);
     }
 
     @Override
     public <V> boolean isPresent(final @NotNull MetaKey<V> metaKey) {
-        return meta.containsKey(metaKey);
+        return this.meta.containsKey(metaKey);
     }
 
     @Override
     public @Nullable CommandMeta getParentMeta() {
-        return parentMeta;
+        return this.parentMeta;
     }
 
     @Override
     public String toString() {
         return "ImmutableCommandMeta{" +
-                "meta=" + meta +
+                "meta=" + this.meta +
                 '}';
     }
 }

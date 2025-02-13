@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -31,7 +31,6 @@ import dev.triumphteam.cmd.core.argument.ArgumentResolver;
 import dev.triumphteam.cmd.core.argument.InternalArgument;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +39,7 @@ import java.util.Map;
  * Also allows for registration of custom ones.
  * Each platform will introduce their own new ones by default.
  *
- * @param <S> The sender type.
+ * @param <S> the sender type.
  */
 public final class ArgumentRegistry<S> implements Registry {
 
@@ -73,22 +72,22 @@ public final class ArgumentRegistry<S> implements Registry {
     /**
      * Registers a new argument type.
      *
-     * @param clazz    The {@link Class} type the argument should be.
-     * @param argument The {@link ArgumentResolver} with the resolution of the argument.
+     * @param clazz the {@link Class} type the argument should be.
+     * @param argument the {@link ArgumentResolver} with the resolution of the argument.
      */
     public void register(final @NotNull Class<?> clazz, final @NotNull ArgumentResolver<S> argument) {
-        arguments.put(clazz, argument);
+        this.arguments.put(clazz, argument);
     }
 
     public void register(final @NotNull Class<?> clazz, final @NotNull InternalArgument.Factory<S> factory) {
-        internals.put(clazz, factory);
+        this.internals.put(clazz, factory);
     }
 
     public @Nullable ArgumentResolver<S> getResolver(final @NotNull Class<?> clazz) {
-        return arguments.get(clazz);
+        return this.arguments.get(clazz);
     }
 
     public @Nullable InternalArgument.Factory<S> getFactory(final @NotNull Class<?> clazz) {
-        return internals.get(clazz);
+        return this.internals.get(clazz);
     }
 }

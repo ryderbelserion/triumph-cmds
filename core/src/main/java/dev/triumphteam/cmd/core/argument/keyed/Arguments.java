@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,7 +24,6 @@
 package dev.triumphteam.cmd.core.argument.keyed;
 
 import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -36,10 +35,10 @@ public interface Arguments extends Flags {
      * Gets an argument by name.
      * The argument will be an empty {@link Optional} if it does not exist.
      *
-     * @param name The name of the argument.
-     * @param type The class of the type of the argument.
-     * @param <T>  The generic type of the argument.
-     * @return An {@link Optional} argument.
+     * @param name the name of the argument.
+     * @param type the class of the type of the argument.
+     * @param <T> the generic type of the argument.
+     * @return an {@link Optional} argument.
      */
     <T> @NotNull Optional<T> getArgument(final @NotNull String name, final @NotNull Class<T> type);
 
@@ -47,10 +46,10 @@ public interface Arguments extends Flags {
      * Gets a {@link List} argument by name.
      * The argument will be an empty {@link Optional} if it does not exist.
      *
-     * @param name The name of the argument.
-     * @param type The class of the type of the argument.
-     * @param <T>  The generic type of the argument.
-     * @return An {@link Optional} argument.
+     * @param name the name of the argument.
+     * @param type the class of the type of the argument.
+     * @param <T> the generic type of the argument.
+     * @return an {@link Optional} argument.
      */
     <T> @NotNull Optional<List<T>> getListArgument(final @NotNull String name, final @NotNull Class<T> type);
 
@@ -58,9 +57,9 @@ public interface Arguments extends Flags {
      * Gets a {@link Set} argument by name.
      * The argument will be an empty {@link Optional} if it does not exist.
      *
-     * @param name The name of the argument.
-     * @param type The class of the type of the argument.
-     * @param <T>  The generic type of the argument.
+     * @param name the name of the argument.
+     * @param type the class of the type of the argument.
+     * @param <T> the generic type of the argument.
      * @return An {@link Optional} argument.
      */
     <T> @NotNull Optional<Set<T>> getSetArgument(final @NotNull String name, final @NotNull Class<T> type);

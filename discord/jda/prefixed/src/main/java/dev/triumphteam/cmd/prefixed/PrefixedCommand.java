@@ -40,7 +40,7 @@ import java.util.Map;
 /**
  * Main implementation of the command for prefixed JDA.
  *
- * @param <S> The sender type.
+ * @param <S> the sender type.
  */
 final class PrefixedCommand<S> implements ParentCommand<S> {
 

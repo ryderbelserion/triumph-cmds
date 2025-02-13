@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,7 +26,6 @@ package dev.triumphteam.cmd.core.argument.keyed;
 import dev.triumphteam.cmd.core.util.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -58,7 +57,7 @@ final class ArgumentParser {
      * Parse the current {@link List} of raw arguments for {@link Flag}s and {@link Argument}.
      *
      * @param arguments A {@link List} of raw arguments.
-     * @return A {@link Result} object containing the raw results of the parse.
+     * @return a {@link Result} object containing the raw results of the parse.
      */
     public Result parse(final @NotNull Collection<String> arguments) {
         final Iterator<String> tokens = arguments.iterator();
@@ -75,6 +74,7 @@ final class ArgumentParser {
             // Reset the flag argument that is pending
             if (pendingResultReset) {
                 pendingResultReset = false;
+
                 result.setFlagWaiting(null);
             }
 
@@ -83,6 +83,7 @@ final class ArgumentParser {
             // If escaping the flag then just, skip
             if (token.startsWith(ESCAPE)) {
                 result.addNonToken(token);
+
                 continue;
             }
 
@@ -94,6 +95,7 @@ final class ArgumentParser {
 
                 // Mark for result reset after
                 pendingResultReset = true;
+
                 continue;
             }
 
@@ -104,28 +106,34 @@ final class ArgumentParser {
                 // Not a flag nor a named argument, so just ignore
                 if (separator == -1) {
                     final Argument partial = namedGroup.matchPartialSingle(token);
+
                     if (partial != null) {
                         result.setArgumentWaiting(partial);
                     }
 
                     result.addNonToken(token);
+
                     continue;
                 }
 
                 // Handling of named arguments
                 handleNamed(result, token, separator);
+
                 continue;
             }
 
             final int equals = token.indexOf(FLAG_SEPARATOR);
+
             // No equals char was found
             if (equals == -1) {
                 handleNoEquals(result, token);
+
                 continue;
             }
 
             // Handling of arguments with equals
             handleWithEquals(result, token, equals);
+
             pendingResultReset = true;
         }
 
@@ -135,9 +143,9 @@ final class ArgumentParser {
     /**
      * Parser handler for named arguments.
      *
-     * @param result    The results instance to add to.
-     * @param token     The current named argument token.
-     * @param separator The position of the separator.
+     * @param result the results instance to add to.
+     * @param token the current named argument token.
+     * @param separator the position of the separator.
      */
     private void handleNamed(
             final @NotNull Result result,
@@ -148,10 +156,12 @@ final class ArgumentParser {
         final String namedToken = token.substring(0, separator);
         final String argToken = token.substring(separator + 1);
 
-        final Argument argument = namedGroup.matchExact(namedToken);
+        final Argument argument = this.namedGroup.matchExact(namedToken);
+
         // If there is no valid argument we ignore it
         if (argument == null) {
             result.addNonToken(token);
+
             return;
         }
 
@@ -164,18 +174,20 @@ final class ArgumentParser {
      * Parser handler for flags without an equals.
      * The argument would be the next iteration.
      *
-     * @param result The results instance to add to.
-     * @param token  The current flag token.
+     * @param result the results instance to add to.
+     * @param token the current flag token.
      */
     private void handleNoEquals(
             final @NotNull Result result,
             final @NotNull String token
 
     ) {
-        final Flag flag = flagGroup.matchExact(token);
+        final Flag flag = this.flagGroup.matchExact(token);
+
         // No valid flag with the name, skip
         if (flag == null) {
             result.addNonToken(token);
+
             return;
         }
 
@@ -183,8 +195,11 @@ final class ArgumentParser {
         if (flag.hasArgument()) {
             // Waiting with a type
             final Result.FlagType type = token.startsWith("--") ? Result.FlagType.LONG_NO_EQUALS : Result.FlagType.FLAG_NO_EQUALS;
+
             result.setFlagWaiting(new Pair<>(flag, type));
+
             result.setCurrent(token);
+
             return;
         }
 
@@ -195,8 +210,8 @@ final class ArgumentParser {
     /**
      * Parser handler for flags with an equals.
      *
-     * @param result The results instance to add to.
-     * @param token  The current flag token.
+     * @param result the results instance to add to.
+     * @param token the current flag token.
      */
     private void handleWithEquals(
             final @NotNull Result result,
@@ -207,24 +222,30 @@ final class ArgumentParser {
         final String flagToken = token.substring(0, equals);
         final String argToken = token.substring(equals + 1);
 
-        final Flag flag = flagGroup.matchExact(flagToken);
+        final Flag flag = this.flagGroup.matchExact(flagToken);
+
         // No valid flag with the name, skip
         if (flag == null) {
             result.addNonToken(token);
+
             return;
         }
 
         // Flag with equals should always have argument, so we ignore if it doesn't
         if (!flag.hasArgument()) {
             result.addNonToken(token);
+
             return;
         }
 
         // Add flag normally
         result.addFlag(flag, argToken);
+
         result.setCurrent(argToken);
+
         // Waiting with a type
         final Result.FlagType type = token.startsWith("--") ? Result.FlagType.LONG : Result.FlagType.FLAG;
+
         result.setFlagWaiting(new Pair<>(flag, type), true);
     }
 
@@ -239,35 +260,35 @@ final class ArgumentParser {
         private Pair<Flag, FlagType> flagWaiting = null;
 
         public void addNamedArgument(final @NotNull Argument argument, final @NotNull String value) {
-            namedArguments.put(argument, value);
+            this.namedArguments.put(argument, value);
         }
 
         public void addFlag(final @NotNull Flag flagOptions) {
-            flags.put(flagOptions, "");
+            this.flags.put(flagOptions, "");
         }
 
         public void addFlag(final @NotNull Flag flagOptions, final @NotNull String value) {
-            flags.put(flagOptions, value);
+            this.flags.put(flagOptions, value);
         }
 
         public void addNonToken(final @NotNull String token) {
-            nonTokens.add(token);
+            this.nonTokens.add(token);
         }
 
         public Map<Flag, String> getFlags() {
-            return flags;
+            return this.flags;
         }
 
         public Map<Argument, String> getNamedArguments() {
-            return namedArguments;
+            return this.namedArguments;
         }
 
         public List<String> getNonTokens() {
-            return nonTokens;
+            return this.nonTokens;
         }
 
         public @Nullable Argument getArgumentWaiting() {
-            return argumentWaiting;
+            return this.argumentWaiting;
         }
 
         public void setArgumentWaiting(final @Nullable Argument argumentWaiting) {
@@ -275,7 +296,7 @@ final class ArgumentParser {
         }
 
         public @Nullable Pair<Flag, FlagType> getFlagWaiting() {
-            return flagWaiting;
+            return this.flagWaiting;
         }
 
         public void setFlagWaiting(final @Nullable Pair<Flag, FlagType> flagWaiting) {
@@ -283,14 +304,15 @@ final class ArgumentParser {
         }
 
         public void setFlagWaiting(final @Nullable Pair<Flag, FlagType> flagWaiting, final boolean ignore) {
-            if (!ignore && (flagWaiting != null && flags.containsKey(flagWaiting.first()))) {
+            if (!ignore && (flagWaiting != null && this.flags.containsKey(flagWaiting.first()))) {
                 return;
             }
+
             this.flagWaiting = flagWaiting;
         }
 
         public @NotNull String getCurrent() {
-            return current;
+            return this.current;
         }
 
         public void setCurrent(final @NotNull String current) {

@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -47,7 +47,6 @@ import dev.triumphteam.cmd.core.suggestion.EmptySuggestion;
 import dev.triumphteam.cmd.core.suggestion.Suggestion;
 import dev.triumphteam.cmd.core.suggestion.SuggestionKey;
 import org.jetbrains.annotations.NotNull;
-
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -59,7 +58,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
@@ -69,7 +67,7 @@ import static java.util.Collections.singletonList;
  * I know this could be done better, but couldn't think of a better way.
  * If you do please PR or let me know on my discord!
  *
- * @param <S> The sender type.
+ * @param <S> the sender type.
  */
 @SuppressWarnings("unchecked")
 public final class SubCommandProcessor<D, S> extends AbstractCommandProcessor<D, S> {
@@ -94,7 +92,7 @@ public final class SubCommandProcessor<D, S> extends AbstractCommandProcessor<D,
 
     @Override
     public @NotNull AnnotatedElement getAnnotatedElement() {
-        return method;
+        return this.method;
     }
 
     @Override
@@ -106,10 +104,11 @@ public final class SubCommandProcessor<D, S> extends AbstractCommandProcessor<D,
         meta.add(MetaKey.DESCRIPTION, getDescription());
 
         // Process all the class annotations
-        processAnnotations(getCommandOptions().getCommandExtensions(), method, ProcessorTarget.COMMAND, meta);
+        processAnnotations(getCommandOptions().getCommandExtensions(), this.method, ProcessorTarget.COMMAND, meta);
+
         processCommandMeta(
                 getCommandOptions().getCommandExtensions(),
-                method,
+                this.method,
                 ProcessorTarget.COMMAND,
                 meta,
                 settingsBuilder
@@ -123,10 +122,11 @@ public final class SubCommandProcessor<D, S> extends AbstractCommandProcessor<D,
      * Gets the correct sender type for the command.
      * It'll validate the sender with a {@link SenderExtension}.
      *
-     * @return The validated sender type.
+     * @return the validated sender type.
      */
     public @NotNull Class<? extends S> senderType() {
-        final Parameter[] parameters = method.getParameters();
+        final Parameter[] parameters = this.method.getParameters();
+
         if (parameters.length == 0) {
             throw createException("Sender parameter missing");
         }
@@ -151,17 +151,20 @@ public final class SubCommandProcessor<D, S> extends AbstractCommandProcessor<D,
     /**
      * Create all arguments necessary for the command to function.
      *
-     * @param parentMeta The {@link CommandMeta} inherited from the parent command.
-     * @return A {@link List} of validated arguments.
+     * @param parentMeta the {@link CommandMeta} inherited from the parent command.
+     * @return a {@link List} of validated arguments.
      */
     public @NotNull List<InternalArgument<S, ?>> arguments(final @NotNull CommandMeta parentMeta) {
-        final Parameter[] parameters = method.getParameters();
+        final Parameter[] parameters = this.method.getParameters();
 
         // First thing is to process the parameter annotations
         final Map<Parameter, CommandMeta> parameterMetas = new HashMap<>();
+
         for (final Parameter parameter : parameters) {
             final CommandMeta.Builder meta = new CommandMeta.Builder(parentMeta);
+
             processAnnotations(getCommandOptions().getCommandExtensions(), parameter, ProcessorTarget.ARGUMENT, meta);
+
             parameterMetas.put(parameter, meta.build());
         }
 
@@ -170,8 +173,8 @@ public final class SubCommandProcessor<D, S> extends AbstractCommandProcessor<D,
 
         final List<String> argDescriptions = argDescriptionFromMethodAnnotation();
         final Map<Integer, Suggestion<S>> suggestions = suggestionsFromMethodAnnotation();
-        final ArgumentGroup<Flag> flagGroup = flagGroupFromMethod(method);
-        final ArgumentGroup<Argument> argumentGroup = argumentGroupFromMethod(method);
+        final ArgumentGroup<Flag> flagGroup = flagGroupFromMethod(this.method);
+        final ArgumentGroup<Argument> argumentGroup = argumentGroupFromMethod(this.method);
 
         // Position of the last argument.
         final int last = parameters.length - 1;
@@ -184,6 +187,7 @@ public final class SubCommandProcessor<D, S> extends AbstractCommandProcessor<D,
 
             // Validating the argument
             final CommandMeta meta = parameterMetas.get(parameter);
+
             if (meta == null) {
                 throw createException("An error occurred while getting parameter meta data for parameter " + parameter.getName());
             }
@@ -218,14 +222,15 @@ public final class SubCommandProcessor<D, S> extends AbstractCommandProcessor<D,
     /**
      * Create a named argument group from the values passed by the annotation.
      *
-     * @param method The method to extract annotations from.
-     * @return The final group of named arguments or null if none was available.
+     * @param method the method to extract annotations from.
+     * @return the final group of named arguments or null if none was available.
      */
     private @NotNull ArgumentGroup<Argument> argumentGroupFromMethod(final @NotNull Method method) {
         final NamedArguments namedAnnotation = method.getAnnotation(NamedArguments.class);
         if (namedAnnotation == null) return ArgumentGroup.named(emptyList());
 
-        final List<Argument> argumentsFromRegistry = namedArgumentRegistry.getArguments(ArgumentKey.of(namedAnnotation.value()));
+        final List<Argument> argumentsFromRegistry = this.namedArgumentRegistry.getArguments(ArgumentKey.of(namedAnnotation.value()));
+
         if (argumentsFromRegistry == null) return ArgumentGroup.named(emptyList());
 
         return ArgumentGroup.named(argumentsFromRegistry);
@@ -234,37 +239,43 @@ public final class SubCommandProcessor<D, S> extends AbstractCommandProcessor<D,
     /**
      * Create a flag group from the values passed by the annotation.
      *
-     * @param method The method to extract annotations from.
-     * @return The final group of flags or null if none was available.
+     * @param method the method to extract annotations from.
+     * @return the final group of flags or null if none was available.
      */
     private @NotNull ArgumentGroup<Flag> flagGroupFromMethod(final @NotNull Method method) {
         final CommandFlags flagsAnnotation = method.getAnnotation(CommandFlags.class);
 
         if (flagsAnnotation != null) {
             final String key = flagsAnnotation.key();
+
             // We give priority to keyed value from the registry
             if (!key.isEmpty()) {
-                final List<Flag> flagsFromRegistry = flagRegistry.getFlags(FlagKey.of(key));
+                final List<Flag> flagsFromRegistry = this.flagRegistry.getFlags(FlagKey.of(key));
+
                 if (flagsFromRegistry != null) return ArgumentGroup.flags(flagsFromRegistry);
             }
 
             // If key not present, parse annotations into usable flag data
             final List<Flag> flags = flagsFromRawFlags(Arrays.asList(flagsAnnotation.value()));
+
             return ArgumentGroup.flags(flags);
         }
 
         final dev.triumphteam.cmd.core.annotations.Flag flagAnnotation = method.getAnnotation(dev.triumphteam.cmd.core.annotations.Flag.class);
+
         if (flagAnnotation == null) return ArgumentGroup.flags(emptyList());
+
         // Parse single annotation into usable flag data
         final List<Flag> flags = flagsFromRawFlags(singletonList(flagAnnotation));
+
         return ArgumentGroup.flags(flags);
     }
 
     /**
      * Converts a flag annotation into usable flag data just like the one from the registry.
      *
-     * @param rawFlags The raw flag annotations.
-     * @return The converted flag data.
+     * @param rawFlags the raw flag annotations.
+     * @return the converted flag data.
      */
     private @NotNull List<Flag> flagsFromRawFlags(final @NotNull List<dev.triumphteam.cmd.core.annotations.Flag> rawFlags) {
         return rawFlags.stream().map(it -> Flag.flag(it.flag())
@@ -274,17 +285,18 @@ public final class SubCommandProcessor<D, S> extends AbstractCommandProcessor<D,
                 .suggestion(SuggestionKey.of(it.suggestion()))
                 .build()
         ).collect(Collectors.toList());
-
     }
 
     /**
      * Extracts the {@link ArgDescriptions} Annotation from the Method.
      *
-     * @return A list with the descriptions ordered by parameter order.
+     * @return a list with the descriptions ordered by parameter order.
      */
     private @NotNull List<String> argDescriptionFromMethodAnnotation() {
-        final ArgDescriptions argDescriptions = method.getAnnotation(ArgDescriptions.class);
+        final ArgDescriptions argDescriptions = this.method.getAnnotation(ArgDescriptions.class);
+
         if (argDescriptions == null) return Collections.emptyList();
+
         return Arrays.asList(argDescriptions.value());
     }
 
@@ -292,6 +304,7 @@ public final class SubCommandProcessor<D, S> extends AbstractCommandProcessor<D,
         final Map<Integer, Suggestion<S>> map = new HashMap<>();
 
         final List<dev.triumphteam.cmd.core.annotations.Suggestion> suggestionsFromAnnotations = getSuggestionsFromAnnotations();
+
         for (int i = 0; i < suggestionsFromAnnotations.size(); i++) {
             final dev.triumphteam.cmd.core.annotations.Suggestion suggestion = suggestionsFromAnnotations.get(i);
             final String key = suggestion.value();
@@ -299,6 +312,7 @@ public final class SubCommandProcessor<D, S> extends AbstractCommandProcessor<D,
             // Empty suggestion
             if (key.isEmpty()) {
                 map.put(i, new EmptySuggestion<>());
+
                 continue;
             }
 
@@ -310,10 +324,13 @@ public final class SubCommandProcessor<D, S> extends AbstractCommandProcessor<D,
 
     private @NotNull List<dev.triumphteam.cmd.core.annotations.@NotNull Suggestion> getSuggestionsFromAnnotations() {
         final Suggestions requirements = method.getAnnotation(Suggestions.class);
+
         if (requirements != null) return Arrays.asList(requirements.value());
 
         final dev.triumphteam.cmd.core.annotations.Suggestion suggestion = method.getAnnotation(dev.triumphteam.cmd.core.annotations.Suggestion.class);
+
         if (suggestion == null) return emptyList();
+
         return singletonList(suggestion);
     }
 }

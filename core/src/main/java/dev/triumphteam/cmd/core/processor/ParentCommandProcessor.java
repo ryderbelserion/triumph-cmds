@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -30,7 +30,6 @@ import dev.triumphteam.cmd.core.extention.meta.CommandMeta;
 import dev.triumphteam.cmd.core.extention.meta.MetaKey;
 import dev.triumphteam.cmd.core.extention.registry.RegistryContainer;
 import org.jetbrains.annotations.NotNull;
-
 import java.lang.reflect.AnnotatedElement;
 
 /**
@@ -39,7 +38,7 @@ import java.lang.reflect.AnnotatedElement;
  * I know this could be done better, but couldn't think of a better way.
  * If you do please PR or let me know on my discord!
  *
- * @param <S> The sender type.
+ * @param <S> the sender type.
  */
 @SuppressWarnings("unchecked")
 public final class ParentCommandProcessor<D, S> extends AbstractCommandProcessor<D, S> {
@@ -60,7 +59,7 @@ public final class ParentCommandProcessor<D, S> extends AbstractCommandProcessor
 
     @Override
     public @NotNull AnnotatedElement getAnnotatedElement() {
-        return klass;
+        return this.klass;
     }
 
     @Override
@@ -72,10 +71,10 @@ public final class ParentCommandProcessor<D, S> extends AbstractCommandProcessor
         meta.add(MetaKey.DESCRIPTION, getDescription());
 
         // Process all the class annotations
-        processAnnotations(getCommandOptions().getCommandExtensions(), klass, ProcessorTarget.PARENT_COMMAND, meta);
+        processAnnotations(getCommandOptions().getCommandExtensions(), this.klass, ProcessorTarget.PARENT_COMMAND, meta);
         processCommandMeta(
                 getCommandOptions().getCommandExtensions(),
-                klass,
+                this.klass,
                 ProcessorTarget.PARENT_COMMAND,
                 meta,
                 settingsBuilder

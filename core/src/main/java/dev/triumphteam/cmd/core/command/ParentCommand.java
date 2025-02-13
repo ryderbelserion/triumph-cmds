@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -46,7 +46,7 @@ import static java.util.Collections.emptyList;
  * A parent command means it's a simple holder of other commands.
  * The commands can either be a parent as well or simple sub commands.
  *
- * @param <S> The sender type.
+ * @param <S> the sender type.
  */
 public abstract class ParentCommand<D, S> implements Command<D, S> {
 
@@ -80,14 +80,15 @@ public abstract class ParentCommand<D, S> implements Command<D, S> {
             final @NotNull Deque<String> arguments
     ) {
         final String argument = arguments.peek();
+
         if (argument == null) return emptyList();
 
         final Command<D, S> command = findCommand(sender, arguments, false);
 
         if (command == null) {
-            return commands.entrySet().stream()
+            return this.commands.entrySet().stream()
                     // Filter commands the sender can't see
-                    .filter(it -> it.getValue().getCommandSettings().testRequirements(sender, meta, senderExtension))
+                    .filter(it -> it.getValue().getCommandSettings().testRequirements(sender, this.meta, this.senderExtension))
                     // Commands that match what the sender is typing
                     .filter(it -> it.getKey().startsWith(argument))
                     // Only use the names
@@ -101,8 +102,8 @@ public abstract class ParentCommand<D, S> implements Command<D, S> {
     /**
      * Add a new command to the maps.
      *
-     * @param instance The instance of the command the commands came from.
-     * @param commands A list of command to be added.
+     * @param instance the instance of the command the commands came from.
+     * @param commands a list of command to be added.
      */
     public void addCommands(
             final @NotNull Object instance,
@@ -111,11 +112,12 @@ public abstract class ParentCommand<D, S> implements Command<D, S> {
         for (final Command<D, S> command : commands) {
             // If it's a parent command with argument we add it
             if (command instanceof ParentSubCommand && command.hasArguments()) {
-                if (parentCommandWithArgument != null) {
+                if (this.parentCommandWithArgument != null) {
                     throw new CommandRegistrationException("Only one inner command with argument is allowed per command", instance.getClass());
                 }
 
-                parentCommandWithArgument = command;
+                this.parentCommandWithArgument = command;
+
                 return;
             }
 
@@ -147,27 +149,29 @@ public abstract class ParentCommand<D, S> implements Command<D, S> {
             // No default command found, send message and return null
             // If there is default command then return it
             if (defaultCommand == null && message) {
-                messageRegistry.sendMessage(MessageKey.UNKNOWN_COMMAND, sender, new InvalidCommandContext(meta, ""));
+                this.messageRegistry.sendMessage(MessageKey.UNKNOWN_COMMAND, sender, new InvalidCommandContext(meta, ""));
             }
 
             return defaultCommand;
         }
 
         final Command<D, S> command = getCommandByName(name);
+
         if (command != null) {
             // Pop command out of arguments list and returns it
             arguments.pop();
+
             return command;
         }
 
         if (defaultCommand == null || !defaultCommand.hasArguments()) {
             // No command found with the name [name]
-            if (parentCommandWithArgument == null && message) {
-                messageRegistry.sendMessage(MessageKey.UNKNOWN_COMMAND, sender, new InvalidCommandContext(meta, name));
+            if (this.parentCommandWithArgument == null && message) {
+                this.messageRegistry.sendMessage(MessageKey.UNKNOWN_COMMAND, sender, new InvalidCommandContext(meta, name));
             }
 
             // Don't pop because it'll be the argument
-            return parentCommandWithArgument;
+            return this.parentCommandWithArgument;
         }
 
         // Default command is never null here
@@ -175,12 +179,12 @@ public abstract class ParentCommand<D, S> implements Command<D, S> {
     }
 
     public @Nullable Command<D, S> getCommand(final @NotNull String name) {
-        return commands.get(name);
+        return this.commands.get(name);
     }
 
     @Override
     public @NotNull Settings<D, S> getCommandSettings() {
-        return settings;
+        return this.settings;
     }
 
     @Override
@@ -189,31 +193,31 @@ public abstract class ParentCommand<D, S> implements Command<D, S> {
     }
 
     public Command<D, S> getDefaultCommand() {
-        return defaultCommand;
+        return this.defaultCommand;
     }
 
     public @NotNull Map<String, Command<D, S>> getCommands() {
-        return commands;
+        return this.commands;
     }
 
     protected @Nullable Command<D, S> getCommandByName(final @NotNull String key) {
-        return commands.getOrDefault(key, commandAliases.get(key));
+        return this.commands.getOrDefault(key, this.commandAliases.get(key));
     }
 
     @Override
     public @NotNull CommandMeta getMeta() {
-        return meta;
+        return this.meta;
     }
 
     protected @NotNull MessageRegistry<S> getMessageRegistry() {
-        return messageRegistry;
+        return this.messageRegistry;
     }
 
     protected @NotNull Settings<D, S> getSettings() {
-        return settings;
+        return this.settings;
     }
 
     protected @NotNull SenderExtension<D, S> getSenderExtension() {
-        return senderExtension;
+        return this.senderExtension;
     }
 }

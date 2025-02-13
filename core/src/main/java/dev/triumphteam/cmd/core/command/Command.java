@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -45,10 +45,10 @@ public interface Command<D, S> extends CommandMetaContainer {
     /**
      * Execute the command with the needed arguments, instance, and some extra.
      *
-     * @param sender           The sender of the command.
-     * @param instanceSupplier A supplier for which instance will be needed when invoking the command.
-     * @param arguments        A {@link Deque} with the arguments passed, these are consumed on each step.
-     * @throws Throwable Anything that goes wrong with the execution.
+     * @param sender the sender of the command.
+     * @param instanceSupplier a supplier for which instance will be needed when invoking the command.
+     * @param arguments a {@link Deque} with the arguments passed, these are consumed on each step.
+     * @throws Throwable anything that goes wrong with the execution.
      */
     void execute(
             final @NotNull S sender,
@@ -66,9 +66,9 @@ public interface Command<D, S> extends CommandMetaContainer {
     /**
      * Create a list of suggestion strings to return to the platform requesting it.
      *
-     * @param sender    Rhe sender to get suggestions for.
-     * @param arguments The arguments used in the suggestion.
-     * @return A list of valid suggestions for the command.
+     * @param sender the sender to get suggestions for.
+     * @param arguments the arguments used in the suggestion.
+     * @return a list of valid suggestions for the command.
      */
     @NotNull List<String> suggestions(
             final @NotNull S sender,
@@ -78,32 +78,33 @@ public interface Command<D, S> extends CommandMetaContainer {
     @NotNull Settings<D, S> getCommandSettings();
 
     /**
-     * @return The name of the command.
+     * @return the name of the command.
      */
     @NotNull String getName();
 
     /**
-     * @return The command's description.
+     * @return the command's description.
      */
     @NotNull String getDescription();
 
     /**
-     * @return A list with all of its aliases.
+     * @return a list with all of its aliases.
      */
     @NotNull List<String> getAliases();
 
     /**
-     * @return Whether this is a "default" command, meaning it represents the class itself and is not separate.
+     * @return whether this is a "default" command, meaning it represents the class itself and is not separate.
      */
     boolean isDefault();
 
     /**
-     * @return Whether the command has arguments.
+     * @return whether the command has arguments.
      */
     boolean hasArguments();
 
     /**
-     * @return The command's syntax.
+     * @return the command's syntax.
      */
     @NotNull String getSyntax();
+
 }
