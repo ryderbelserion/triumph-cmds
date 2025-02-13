@@ -82,7 +82,9 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
      *
      * @param command the command to be unregistered.
      */
-    public abstract void unregisterCommand(final @NotNull Object command);
+    public void unregisterCommand(final @NotNull Object command) {
+        // note, not possible on paper servers when using lifecycle event manager, the registry is frozen.
+    }
 
     /**
      * Method to unregister commands with vararg.

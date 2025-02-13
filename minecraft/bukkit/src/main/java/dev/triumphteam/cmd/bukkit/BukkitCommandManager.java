@@ -29,22 +29,19 @@ import dev.triumphteam.cmd.bukkit.message.BukkitMessageKey;
 import dev.triumphteam.cmd.core.CommandManager;
 import dev.triumphteam.cmd.core.command.RootCommand;
 import dev.triumphteam.cmd.core.enums.Mode;
-import dev.triumphteam.cmd.core.exceptions.CommandRegistrationException;
 import dev.triumphteam.cmd.core.extention.registry.MessageRegistry;
 import dev.triumphteam.cmd.core.extention.registry.RegistryContainer;
 import dev.triumphteam.cmd.core.extention.sender.SenderExtension;
 import dev.triumphteam.cmd.core.message.MessageKey;
 import dev.triumphteam.cmd.core.processor.RootCommandProcessor;
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import net.kyori.adventure.audience.Audience;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.World;
-import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.command.PluginIdentifiableCommand;
-import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
@@ -52,8 +49,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,9 +62,6 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
 
     private final Map<String, BukkitCommand<S>> commands = new HashMap<>();
 
-    private final CommandMap commandMap;
-    private final Map<String, org.bukkit.command.Command> bukkitCommands;
-
     private BukkitCommandManager(
             final @NotNull Plugin plugin,
             final @NotNull BukkitCommandOptions<S> commandOptions,
@@ -79,9 +71,6 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
 
         this.plugin = plugin;
         this.registryContainer = registryContainer;
-
-        this.commandMap = getCommandMap();
-        this.bukkitCommands = getBukkitCommands(this.commandMap);
 
         final Server server = this.plugin.getServer();
 
@@ -218,11 +207,6 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
     }
 
     @Override
-    public void unregisterCommand(final @NotNull Object command) {
-        // TODO add a remove functionality
-    }
-
-    @Override
     protected @NotNull RegistryContainer<CommandSender, S> getRegistryContainer() {
         return this.registryContainer;
     }
@@ -231,46 +215,14 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
             final @NotNull RootCommandProcessor<CommandSender, S> processor,
             final @NotNull String name
     ) {
-        // From ACF (https://github.com/aikar/commands)
-        // To allow commands to be registered on the plugin.yml
-        final org.bukkit.command.Command oldCommand = this.commandMap.getCommand(name);
-
-        if (oldCommand instanceof PluginIdentifiableCommand && ((PluginIdentifiableCommand) oldCommand).getPlugin() == plugin) {
-            this.bukkitCommands.remove(name);
-            oldCommand.unregister(commandMap);
-        }
-
         final BukkitCommand<S> newCommand = new BukkitCommand<>(processor);
 
-        this.commandMap.register(plugin.getName(), newCommand);
+        this.plugin.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
+            final Commands registry = event.registrar();
+
+            registry.register(newCommand.getName(), newCommand.getDescription(), newCommand);
+        });
 
         return newCommand;
-    }
-
-    /**
-     * @return Bukkit's {@link CommandMap} to register commands to.
-     */
-    private static @NotNull CommandMap getCommandMap() {
-        try {
-            final Server server = Bukkit.getServer();
-            final Method getCommandMap = server.getClass().getDeclaredMethod("getCommandMap");
-
-            getCommandMap.setAccessible(true);
-
-            return (CommandMap) getCommandMap.invoke(server);
-        } catch (final Exception ignored) {
-            throw new CommandRegistrationException("Unable get Command Map. Commands will not be registered!");
-        }
-    }
-
-    private static @NotNull Map<String, org.bukkit.command.@NotNull Command> getBukkitCommands(final @NotNull CommandMap commandMap) {
-        try {
-            final Field bukkitCommands = SimpleCommandMap.class.getDeclaredField("knownCommands");
-            bukkitCommands.setAccessible(true);
-            //noinspection unchecked
-            return (Map<String, org.bukkit.command.Command>) bukkitCommands.get(commandMap);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new CommandRegistrationException("Unable get Bukkit commands. Commands might not be registered correctly!");
-        }
     }
 }

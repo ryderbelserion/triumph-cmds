@@ -26,50 +26,61 @@ package dev.triumphteam.cmd.bukkit;
 import dev.triumphteam.cmd.core.command.RootCommand;
 import dev.triumphteam.cmd.core.extention.sender.SenderExtension;
 import dev.triumphteam.cmd.core.processor.RootCommandProcessor;
-import org.bukkit.command.Command;
+import io.papermc.paper.command.brigadier.BasicCommand;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
-final class BukkitCommand<S> extends Command {
+@SuppressWarnings("UnstableApiUsage")
+final class BukkitCommand<S> implements BasicCommand {
 
     private final RootCommand<CommandSender, S> rootCommand;
     private final SenderExtension<CommandSender, S> senderExtension;
 
+    private final String name;
+    private final String description;
+    private final List<String> aliases;
+
     BukkitCommand(final @NotNull RootCommandProcessor<CommandSender, S> processor) {
-        super(processor.getName(), processor.getDescription(), "", processor.getAliases());
+        this.name = processor.getName();
+        this.description = processor.getDescription();
+        this.aliases = processor.getAliases();
 
         this.rootCommand = new RootCommand<>(processor);
         this.senderExtension = processor.getCommandOptions().getCommandExtensions().getSenderExtension();
     }
 
     @Override
-    public boolean execute(
-            final @NotNull CommandSender sender,
-            final @NotNull String commandLabel,
-            final @NotNull String @NotNull [] args
-    ) {
+    public void execute(@NotNull CommandSourceStack source, @NotNull String @NotNull [] args) {
         this.rootCommand.execute(
-                this.senderExtension.map(sender),
+                this.senderExtension.map(source.getSender()),
                 null,
                 new ArrayDeque<>(Arrays.asList(args))
         );
-
-        return true;
     }
 
     @Override
-    public @NotNull List<String> tabComplete(
-            final @NotNull CommandSender sender,
-            final @NotNull String alias,
-            final @NotNull String @NotNull [] args
-    ) {
-        return this.rootCommand.suggestions(this.senderExtension.map(sender), new ArrayDeque<>(Arrays.asList(args)));
+    public @NotNull Collection<String> suggest(@NotNull CommandSourceStack source, @NotNull String @NotNull [] args) {
+        return this.rootCommand.suggestions(this.senderExtension.map(source.getSender()), new ArrayDeque<>(Arrays.asList(args)));
     }
 
     public @NotNull RootCommand<CommandSender, S> getRootCommand() {
         return this.rootCommand;
+    }
+
+    public List<String> getAliases() {
+        return this.aliases;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }
