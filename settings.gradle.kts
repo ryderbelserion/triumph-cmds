@@ -1,13 +1,46 @@
-dependencyResolutionManagement {
-    includeBuild("build-logic")
-    repositories.gradlePluginPortal()
-}
-
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-rootProject.name = "triumph-cmd"
+rootProject.name = "triumph-cmds"
 
 listOf(
+    "core",
+    "simple"
+).forEach(::includeProject)
+
+fun includeProject(name: String) {
+    include(name) {
+        this.name = "${rootProject.name}-$name"
+    }
+}
+
+listOf(
+    "minecraft/bukkit" to "bukkit",
+
+    //"discord/common/slash" to "discord-slash-common",
+    //"discord/jda/common" to "jda-common",
+    // "discord/jda-prefixed" to "jda-prefixed",
+    //"discord/jda/slash" to "jda-slash",
+    //"discord/kord/slash" to "kord-slash",
+
+    //"kotlin/coroutines" to "kotlin-coroutines",
+    //"kotlin/extensions" to "kotlin-extensions",
+).forEach {
+    includeProjectFolders(it.first, it.second)
+}
+
+fun includeProjectFolders(folder: String, name: String) {
+    include(name) {
+        this.name = "${rootProject.name}-$name"
+        this.projectDir = file(folder)
+    }
+}
+
+fun include(name: String, block: ProjectDescriptor.() -> Unit) {
+    include(name)
+    project(":$name").apply(block)
+}
+
+/*listOf(
     "core",
     "simple"
 ).forEach(::includeProject)
@@ -56,4 +89,4 @@ fun includeProjectFolders(folder: String, name: String) {
 fun include(name: String, block: ProjectDescriptor.() -> Unit) {
     include(name)
     project(":$name").apply(block)
-}
+}*/

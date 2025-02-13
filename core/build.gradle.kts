@@ -1,19 +1,11 @@
 plugins {
-    id("cmds.base-conventions")
-    id("cmds.library-conventions")
+    id("triumph.base")
 }
 
 dependencies {
-    testImplementation(kotlin("stdlib"))
-    testImplementation(libs.junit.api)
-    testImplementation(libs.junit.engine)
-    testImplementation(libs.assertj)
+    compileOnlyApi(libs.jetbrains)
+
+    compileOnly(libs.bundles.adventure)
 
     compileOnly(libs.guava)
-}
-
-tasks {
-    test {
-        useJUnitPlatform()
-    }
 }
