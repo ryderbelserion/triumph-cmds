@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,6 +25,7 @@ package dev.triumphteam.cmd.bukkit;
 
 import dev.triumphteam.cmd.bukkit.message.BukkitMessageKey;
 import dev.triumphteam.cmd.bukkit.message.NoPermissionMessageContext;
+import dev.triumphteam.cmd.core.CommandPermission;
 import dev.triumphteam.cmd.core.extention.meta.CommandMeta;
 import dev.triumphteam.cmd.core.extention.registry.MessageRegistry;
 import dev.triumphteam.cmd.core.extention.sender.SenderMapper;
@@ -46,7 +47,7 @@ final class PermissionRequirement<S> implements Requirement<CommandSender, S> {
             final @NotNull CommandMeta meta,
             final @NotNull SenderMapper<CommandSender, S> senderMapper
     ) {
-        return permission.hasPermission(senderMapper.mapBackwards(sender));
+        return this.permission.hasPermission(senderMapper.mapBackwards(sender));
     }
 
     @Override
@@ -55,13 +56,11 @@ final class PermissionRequirement<S> implements Requirement<CommandSender, S> {
             final @NotNull MessageRegistry<S> messageRegistry,
             final @NotNull CommandMeta meta
     ) {
-        messageRegistry.sendMessage(BukkitMessageKey.NO_PERMISSION, sender, new NoPermissionMessageContext(meta, permission));
+        messageRegistry.sendMessage(BukkitMessageKey.NO_PERMISSION, sender, new NoPermissionMessageContext(meta, this.permission));
     }
 
     @Override
     public String toString() {
-        return "PermissionRequirement{" +
-                "permission=" + permission +
-                '}';
+        return "PermissionRequirement{" + "permission=" + this.permission + '}';
     }
 }

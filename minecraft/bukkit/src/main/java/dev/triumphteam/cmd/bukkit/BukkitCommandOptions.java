@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,6 +23,8 @@
  */
 package dev.triumphteam.cmd.bukkit;
 
+import dev.triumphteam.cmd.core.CommandPermission;
+import dev.triumphteam.cmd.core.enums.Mode;
 import dev.triumphteam.cmd.core.extention.CommandOptions;
 import dev.triumphteam.cmd.core.extention.defaults.DefaultArgumentValidator;
 import dev.triumphteam.cmd.core.extention.defaults.DefaultCommandExecutor;
@@ -31,7 +33,6 @@ import dev.triumphteam.cmd.core.extention.sender.SenderExtension;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.PermissionDefault;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 public final class BukkitCommandOptions<S> extends CommandOptions<CommandSender, S> {
@@ -56,7 +57,7 @@ public final class BukkitCommandOptions<S> extends CommandOptions<CommandSender,
         public Builder(final @NotNull RegistryContainer<CommandSender, S> registryContainer) {
             super(new Setup<>(registryContainer));
 
-            // Setters have to be done first thing, so they can be overriden.
+            // Setters have to be done first thing, so they can be overridden.
             extensions(extension -> {
                 extension.setArgumentValidator(new DefaultArgumentValidator<>());
                 extension.setCommandExecutor(new DefaultCommandExecutor());
@@ -71,21 +72,22 @@ public final class BukkitCommandOptions<S> extends CommandOptions<CommandSender,
          */
         public Builder<S> setGlobalPermission(final @NotNull CommandPermission commandPermission) {
             this.globalPermission = commandPermission;
+
             return this;
         }
 
         /**
          * Set a {@link CommandPermission} that'll apply to all commands registered by this manager.
          *
-         * @param nodes             Permission nodes to be used.
-         * @param description       A description for the command.
-         * @param permissionDefault The {@link PermissionDefault} to be used when registering the permission.
-         * @return This {@link Builder}.
+         * @param nodes permission nodes to be used.
+         * @param description a description for the command.
+         * @param permissionDefault the {@link PermissionDefault} to be used when registering the permission.
+         * @return this {@link Builder}.
          */
         public Builder<S> setGlobalPermission(
                 final @NotNull List<String> nodes,
                 final @NotNull String description,
-                final @NotNull PermissionDefault permissionDefault
+                final @NotNull Mode permissionDefault
         ) {
             return setGlobalPermission(new CommandPermission(nodes, description, permissionDefault));
         }
@@ -93,7 +95,7 @@ public final class BukkitCommandOptions<S> extends CommandOptions<CommandSender,
         @Override
         public @NotNull BukkitCommandOptions<S> build(final @NotNull SenderExtension<CommandSender, S> senderExtension) {
             // Add permissions
-            extensions(extension -> extension.addProcessor(new PermissionProcessor<>(globalPermission)));
+            extensions(extension -> extension.addProcessor(new PermissionProcessor<>(this.globalPermission)));
 
             return new BukkitCommandOptions<>(senderExtension, this);
         }

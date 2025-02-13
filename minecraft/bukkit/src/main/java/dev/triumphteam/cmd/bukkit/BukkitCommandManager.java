@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2019-2021 Matt
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -60,7 +60,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public final class BukkitCommandManager<S> extends CommandManager<CommandSender, S, BukkitCommandOptions<S>> {
+public final class BukkitCommandManager<S> extends CommandManager<CommandSender, S, BukkitCommandOptions<S>> implements TriumphManager {
 
     private final Plugin plugin;
     private final RegistryContainer<CommandSender, S> registryContainer;
@@ -97,8 +97,8 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
     /**
      * Creates a new instance of the {@link BukkitCommandManager}.
      *
-     * @param plugin The {@link Plugin} instance created.
-     * @return A new instance of the {@link BukkitCommandManager}.
+     * @param plugin the {@link Plugin} instance created.
+     * @return a new instance of the {@link BukkitCommandManager}.
      */
     @Contract("_, _, _ -> new")
     public static <S> @NotNull BukkitCommandManager<S> create(
@@ -107,8 +107,11 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
             final @NotNull Consumer<BukkitCommandOptions.Builder<S>> builder
     ) {
         final RegistryContainer<CommandSender, S> registryContainer = new RegistryContainer<>();
+
         final BukkitCommandOptions.Builder<S> extensionBuilder = new BukkitCommandOptions.Builder<>(registryContainer);
+
         builder.accept(extensionBuilder);
+
         return new BukkitCommandManager<>(plugin, extensionBuilder.build(senderExtension), registryContainer);
     }
 
@@ -116,8 +119,8 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
      * Creates a new instance of the {@link BukkitCommandManager}.
      * This factory adds all the defaults based on the default sender {@link CommandSender}.
      *
-     * @param plugin The {@link Plugin} instance created.
-     * @return A new instance of the {@link BukkitCommandManager}.
+     * @param plugin the {@link Plugin} instance created.
+     * @return a new instance of the {@link BukkitCommandManager}.
      */
     @Contract("_ -> new")
     public static @NotNull BukkitCommandManager<CommandSender> create(final @NotNull Plugin plugin) {
@@ -128,8 +131,8 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
      * Creates a new instance of the {@link BukkitCommandManager}.
      * This factory adds all the defaults based on the default sender {@link CommandSender}.
      *
-     * @param plugin The {@link Plugin} instance created.
-     * @return A new instance of the {@link BukkitCommandManager}.
+     * @param plugin the {@link Plugin} instance created.
+     * @return a new instance of the {@link BukkitCommandManager}.
      */
     @Contract("_, _ -> new")
     public static @NotNull BukkitCommandManager<CommandSender> create(
@@ -141,17 +144,19 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
 
         // Setup defaults for Bukkit
         final MessageRegistry<CommandSender> messageRegistry = registryContainer.getMessageRegistry();
+
         setUpDefaults(messageRegistry);
 
         // Then accept configured values
         builder.accept(extensionBuilder);
+
         return new BukkitCommandManager<>(plugin, extensionBuilder.build(new BukkitSenderExtension()), registryContainer);
     }
 
     /**
      * Sets up all the default values for the Bukkit implementation.
      *
-     * @param messageRegistry The {@link BukkitCommandManager} instance to set up.
+     * @param messageRegistry the {@link BukkitCommandManager} instance to set up.
      */
     private static void setUpDefaults(final @NotNull MessageRegistry<CommandSender> messageRegistry) {
         messageRegistry.register(MessageKey.UNKNOWN_COMMAND, (sender, context) -> sender.sendMessage("Unknown command: `" + context.getInvalidInput() + "`."));
@@ -176,7 +181,9 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
 
         // Get or add command, then add its sub commands
         final BukkitCommand<S> bukkitCommand = commands.computeIfAbsent(name, it -> createAndRegisterCommand(processor, name));
+
         final RootCommand<CommandSender, S> rootCommand = bukkitCommand.getRootCommand();
+
         rootCommand.addCommands(command, processor.commands(rootCommand));
 
         // TODO: ALIASES
@@ -217,7 +224,7 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
 
     @Override
     protected @NotNull RegistryContainer<CommandSender, S> getRegistryContainer() {
-        return registryContainer;
+        return this.registryContainer;
     }
 
     private @NotNull BukkitCommand<S> createAndRegisterCommand(
@@ -226,14 +233,17 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
     ) {
         // From ACF (https://github.com/aikar/commands)
         // To allow commands to be registered on the plugin.yml
-        final org.bukkit.command.Command oldCommand = commandMap.getCommand(name);
+        final org.bukkit.command.Command oldCommand = this.commandMap.getCommand(name);
+
         if (oldCommand instanceof PluginIdentifiableCommand && ((PluginIdentifiableCommand) oldCommand).getPlugin() == plugin) {
-            bukkitCommands.remove(name);
+            this.bukkitCommands.remove(name);
             oldCommand.unregister(commandMap);
         }
 
         final BukkitCommand<S> newCommand = new BukkitCommand<>(processor);
-        commandMap.register(plugin.getName(), newCommand);
+
+        this.commandMap.register(plugin.getName(), newCommand);
+
         return newCommand;
     }
 
@@ -244,6 +254,7 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
         try {
             final Server server = Bukkit.getServer();
             final Method getCommandMap = server.getClass().getDeclaredMethod("getCommandMap");
+
             getCommandMap.setAccessible(true);
 
             return (CommandMap) getCommandMap.invoke(server);
