@@ -36,7 +36,7 @@ import java.util.Collection;
 import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
-final class BukkitCommand<S> implements BasicCommand {
+public final class BukkitCommand<S> implements BasicCommand {
 
     private final RootCommand<CommandSender, S> rootCommand;
     private final SenderExtension<CommandSender, S> senderExtension;

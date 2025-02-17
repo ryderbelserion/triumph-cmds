@@ -49,6 +49,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -204,6 +206,10 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
         final CommandSender sender = (CommandSender) audience;
 
         return sender instanceof ConsoleCommandSender || sender.hasPermission(permission);
+    }
+
+    public Map<String, BukkitCommand<S>> getCommands() {
+        return Collections.unmodifiableMap(this.commands);
     }
 
     @Override

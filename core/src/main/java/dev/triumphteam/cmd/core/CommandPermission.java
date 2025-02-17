@@ -87,7 +87,7 @@ public final class CommandPermission {
     }
 
     /**
-     * Register the {@link Permission} to the server.
+     * Register the permission to the server.
      */
     public void register() {
         TriumphProvider.getInstance().registerNodes(this.nodes, this.description, this.permissionDefault);
