@@ -23,6 +23,7 @@
  */
 package dev.triumphteam.cmd.core.command;
 
+import dev.triumphteam.cmd.core.annotations.Syntax;
 import dev.triumphteam.cmd.core.exceptions.CommandExecutionException;
 import dev.triumphteam.cmd.core.processor.RootCommandProcessor;
 import dev.triumphteam.cmd.core.util.Pair;
@@ -47,7 +48,10 @@ public class RootCommand<D, S> extends ParentCommand<D, S> {
         this.name = processor.getName();
         this.description = processor.getDescription();
         this.aliases = processor.getAliases();
-        this.syntax = "/" + name;
+
+        @Nullable final Syntax annotation = processor.getSyntaxAnnotation();
+
+        this.syntax = annotation != null ? annotation.value() : "/" + this.name;
     }
 
     @Override
