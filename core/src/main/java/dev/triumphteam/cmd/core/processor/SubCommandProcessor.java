@@ -27,6 +27,7 @@ import dev.triumphteam.cmd.core.annotations.ArgDescriptions;
 import dev.triumphteam.cmd.core.annotations.CommandFlags;
 import dev.triumphteam.cmd.core.annotations.NamedArguments;
 import dev.triumphteam.cmd.core.annotations.Suggestions;
+import dev.triumphteam.cmd.core.annotations.Syntax;
 import dev.triumphteam.cmd.core.argument.InternalArgument;
 import dev.triumphteam.cmd.core.argument.keyed.Argument;
 import dev.triumphteam.cmd.core.argument.keyed.ArgumentGroup;
@@ -102,6 +103,12 @@ public final class SubCommandProcessor<D, S> extends AbstractCommandProcessor<D,
         // Defaults
         meta.add(MetaKey.NAME, getName());
         meta.add(MetaKey.DESCRIPTION, getDescription());
+
+        final Syntax syntax = getSyntaxAnnotation();
+
+        if (syntax != null) {
+            meta.add(MetaKey.SYNTAX, syntax.value());
+        }
 
         // Process all the class annotations
         processAnnotations(getCommandOptions().getCommandExtensions(), this.method, ProcessorTarget.COMMAND, meta);

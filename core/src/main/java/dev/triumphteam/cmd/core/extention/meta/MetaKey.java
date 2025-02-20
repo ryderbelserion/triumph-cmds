@@ -36,6 +36,7 @@ public final class MetaKey<V> extends StringKey {
 
     public static final MetaKey<String> NAME = new MetaKey<>("command.name", String.class);
     public static final MetaKey<String> DESCRIPTION = new MetaKey<>("command.description", String.class);
+    public static final MetaKey<String> SYNTAX = new MetaKey<>("command.syntax", String.class);
 
     private final Class<V> valueType;
 
