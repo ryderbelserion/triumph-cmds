@@ -41,11 +41,11 @@ final class FlagGroup implements ArgumentGroup<Flag> {
 
     private final Map<String, Flag> allFlags = new HashMap<>();
 
-    public FlagGroup(final @NotNull List<Flag> flags) {
+    public FlagGroup(@NotNull final List<Flag> flags) {
         flags.forEach(this::addArgument);
     }
 
-    public void addArgument(final @NotNull Flag argument) {
+    public void addArgument(@NotNull final Flag argument) {
         final String key = argument.getKey();
 
         final String longFlag = argument.getLongFlag();
@@ -70,7 +70,7 @@ final class FlagGroup implements ArgumentGroup<Flag> {
     }
 
     @Override
-    public @Nullable Flag matchExact(final @NotNull String token) {
+    public @Nullable Flag matchExact(@NotNull final String token) {
         final String stripped = stripLeadingHyphens(token);
 
         final Flag flag = this.flags.get(stripped);
@@ -79,7 +79,7 @@ final class FlagGroup implements ArgumentGroup<Flag> {
     }
 
     @Override
-    public @Nullable Flag matchPartialSingle(final @NotNull String token) {
+    public @Nullable Flag matchPartialSingle(@NotNull final String token) {
         return null;
     }
 
@@ -94,7 +94,7 @@ final class FlagGroup implements ArgumentGroup<Flag> {
      * @param token the flag token.
      * @return the flag token without hyphens.
      */
-    private @NotNull String stripLeadingHyphens(final @NotNull String token) {
+    private @NotNull String stripLeadingHyphens(@NotNull final String token) {
         if (token.startsWith("--")) return token.substring(2);
 
         if (token.startsWith("-")) return token.substring(1);

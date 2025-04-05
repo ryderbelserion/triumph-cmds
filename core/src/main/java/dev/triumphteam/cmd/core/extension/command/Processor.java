@@ -30,6 +30,6 @@ import java.lang.reflect.AnnotatedElement;
 
 public interface Processor<D, S> {
 
-    void process(final @NotNull AnnotatedElement element, final @NotNull ProcessorTarget target, final @NotNull CommandMeta.@NotNull Builder meta, final @NotNull Settings.@NotNull Builder<D, S> settingsBuilder);
+    void process(@NotNull final AnnotatedElement element, @NotNull final ProcessorTarget target, @NotNull final CommandMeta.@NotNull Builder meta, @NotNull final Settings.@NotNull Builder<D, S> settingsBuilder);
 
 }

@@ -39,6 +39,6 @@ public interface SuggestionResolver<S> {
      * @param arguments a list with all the typed arguments.
      * @return a list of suggestions.
      */
-    @NotNull List<String> resolve(final @NotNull S sender, final @NotNull List<String> arguments);
+    @NotNull List<String> resolve(@NotNull final S sender, @NotNull final List<String> arguments);
 
 }

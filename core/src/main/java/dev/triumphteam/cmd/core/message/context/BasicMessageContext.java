@@ -30,7 +30,7 @@ public class BasicMessageContext implements MessageContext {
 
     private final CommandMeta meta;
 
-    public BasicMessageContext(final @NotNull CommandMeta meta) {
+    public BasicMessageContext(@NotNull final CommandMeta meta) {
         this.meta = meta;
     }
 

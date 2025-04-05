@@ -45,7 +45,7 @@ public final class RequirementRegistry<D, S> implements Registry {
      * @param key the requirement key.
      * @param resolver the resolver to check if the requirement is met.
      */
-    public void register(final @NotNull RequirementKey key, final @NotNull RequirementResolver<D, S> resolver) {
+    public void register(@NotNull final RequirementKey key, @NotNull final RequirementResolver<D, S> resolver) {
         this.requirements.put(key, resolver);
     }
 
@@ -55,7 +55,7 @@ public final class RequirementRegistry<D, S> implements Registry {
      * @param key the specific key.
      * @return a saved {@link RequirementResolver}.
      */
-    public @Nullable RequirementResolver<D, S> getRequirement(final @NotNull RequirementKey key) {
+    public @Nullable RequirementResolver<D, S> getRequirement(@NotNull final RequirementKey key) {
         return this.requirements.get(key);
     }
 }

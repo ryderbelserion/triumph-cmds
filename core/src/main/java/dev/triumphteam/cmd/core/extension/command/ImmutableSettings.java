@@ -35,16 +35,16 @@ public final class ImmutableSettings<D, S> implements Settings<D, S> {
 
     private final List<Requirement<D, S>> requirements;
 
-    public ImmutableSettings(final @NotNull List<Requirement<D, S>> requirements) {
+    public ImmutableSettings(@NotNull final List<Requirement<D, S>> requirements) {
         this.requirements = requirements;
     }
 
     @Override
     public boolean testRequirements(
-            final @NotNull MessageRegistry<S> messageRegistry,
-            final @NotNull S sender,
-            final @NotNull CommandMeta meta,
-            final @NotNull SenderMapper<D, S> senderMapper
+            @NotNull final MessageRegistry<S> messageRegistry,
+            @NotNull final S sender,
+            @NotNull final CommandMeta meta,
+            @NotNull final SenderMapper<D, S> senderMapper
     ) {
         final Requirement<D, S> requirement = getFailedRequirement(sender, meta, senderMapper);
 
@@ -57,17 +57,17 @@ public final class ImmutableSettings<D, S> implements Settings<D, S> {
 
     @Override
     public boolean testRequirements(
-            final @NotNull S sender,
-            final @NotNull CommandMeta meta,
-            final @NotNull SenderMapper<D, S> senderMapper
+            @NotNull final S sender,
+            @NotNull final CommandMeta meta,
+            @NotNull final SenderMapper<D, S> senderMapper
     ) {
         return getFailedRequirement(sender, meta, senderMapper) == null;
     }
 
     private @Nullable Requirement<D, S> getFailedRequirement(
-            final @NotNull S sender,
-            final @NotNull CommandMeta meta,
-            final @NotNull SenderMapper<D, S> senderMapper
+            @NotNull final S sender,
+            @NotNull final CommandMeta meta,
+            @NotNull final SenderMapper<D, S> senderMapper
     ) {
         for (final Requirement<D, S> requirement : this.requirements) {
             if (!requirement.test(sender, meta, senderMapper)) return requirement;

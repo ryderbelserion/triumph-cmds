@@ -32,7 +32,7 @@ import org.jetbrains.annotations.NotNull;
 
 public final class SimpleOptionsBuilder<S> extends CommandOptions.Builder<S, S, CommandOptions<S, S>, SimpleSetup<S>, SimpleOptionsBuilder<S>> {
 
-    public SimpleOptionsBuilder(final @NotNull RegistryContainer<S, S> registryContainer) {
+    public SimpleOptionsBuilder(@NotNull final RegistryContainer<S, S> registryContainer) {
         super(new SimpleSetup<>(registryContainer));
 
         extensions(extension -> {
@@ -42,7 +42,7 @@ public final class SimpleOptionsBuilder<S> extends CommandOptions.Builder<S, S, 
     }
 
     @Override
-    public @NotNull CommandOptions<S, S> build(final @NotNull SenderExtension<S, S> senderExtension) {
+    public @NotNull CommandOptions<S, S> build(@NotNull final SenderExtension<S, S> senderExtension) {
         return new CommandOptions<>(senderExtension, this);
     }
 }

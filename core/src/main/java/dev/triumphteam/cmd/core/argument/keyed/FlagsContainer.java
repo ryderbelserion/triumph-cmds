@@ -33,17 +33,17 @@ abstract class FlagsContainer implements Arguments {
 
     private final Map<String, ArgumentValue> flags;
 
-    public FlagsContainer(final @NotNull Map<String, ArgumentValue> flags) {
+    public FlagsContainer(@NotNull final Map<String, ArgumentValue> flags) {
         this.flags = flags;
     }
 
     @Override
-    public boolean hasFlag(final @NotNull String flag) {
+    public boolean hasFlag(@NotNull final String flag) {
         return this.flags.containsKey(flag);
     }
 
     @Override
-    public @NotNull <T> Optional<T> getFlagValue(final @NotNull String flag, final @NotNull Class<T> type) {
+    public @NotNull <T> Optional<T> getFlagValue(@NotNull final String flag, @NotNull final Class<T> type) {
         final ArgumentValue flagValue = this.flags.get(flag);
 
         if (flagValue == null) return Optional.empty();
@@ -54,7 +54,7 @@ abstract class FlagsContainer implements Arguments {
     }
 
     @Override
-    public @NotNull Optional<String> getFlagValue(final @NotNull String flag) {
+    public @NotNull Optional<String> getFlagValue(@NotNull final String flag) {
         final ArgumentValue flagValue = this.flags.get(flag);
 
         if (flagValue == null) return Optional.empty();

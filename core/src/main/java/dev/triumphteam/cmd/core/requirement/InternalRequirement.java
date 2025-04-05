@@ -43,8 +43,8 @@ public final class InternalRequirement<D, S> implements Requirement<D, S> {
     private final boolean invert;
 
     public InternalRequirement(
-            final @NotNull RequirementResolver<D, S> resolver,
-            final @NotNull MessageKey<MessageContext> messageKey,
+            @NotNull final RequirementResolver<D, S> resolver,
+            @NotNull final MessageKey<MessageContext> messageKey,
             final boolean invert
     ) {
         this.resolver = resolver;
@@ -54,18 +54,18 @@ public final class InternalRequirement<D, S> implements Requirement<D, S> {
 
     @Override
     public boolean test(
-            final @NotNull S sender,
-            final @NotNull CommandMeta meta,
-            final @NotNull SenderMapper<D, S> senderMapper
+            @NotNull final S sender,
+            @NotNull final CommandMeta meta,
+            @NotNull final SenderMapper<D, S> senderMapper
     ) {
         return this.resolver.resolve(sender, new SimpleRequirementContext<>(meta, senderMapper)) != invert;
     }
 
     @Override
     public void onDeny(
-            final @NotNull S sender,
-            final @NotNull MessageRegistry<S> messageRegistry,
-            final @NotNull CommandMeta meta
+            @NotNull final S sender,
+            @NotNull final MessageRegistry<S> messageRegistry,
+            @NotNull final CommandMeta meta
     ) {
         messageRegistry.sendMessage(this.messageKey, sender, new BasicMessageContext(meta));
     }

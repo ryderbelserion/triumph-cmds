@@ -29,7 +29,7 @@ import org.jetbrains.annotations.NotNull;
 
 public final class SimpleSetup<S> extends CommandOptions.Setup<S, S, SimpleSetup<S>> {
 
-    public SimpleSetup(final @NotNull RegistryContainer<S, S> registryContainer) {
+    public SimpleSetup(@NotNull final RegistryContainer<S, S> registryContainer) {
         super(registryContainer);
     }
 }

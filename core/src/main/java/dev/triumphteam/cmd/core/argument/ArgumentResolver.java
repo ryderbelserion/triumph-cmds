@@ -41,6 +41,6 @@ public interface ArgumentResolver<S> {
      * @param arg the typed argument.
      * @return an Object with the resolved value or null.
      */
-    @Nullable Object resolve(final @NotNull S sender, final @NotNull String arg);
+    @Nullable Object resolve(@NotNull final S sender, @NotNull final String arg);
 
 }

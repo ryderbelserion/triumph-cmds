@@ -40,6 +40,6 @@ public interface Keyed {
      * @param delimiter the delimiter of the joining.
      * @return the arguments joined to string with a delimiter.
      */
-    @NotNull String getText(final @NotNull String delimiter);
+    @NotNull String getText(@NotNull final String delimiter);
 
 }

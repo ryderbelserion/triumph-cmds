@@ -31,7 +31,7 @@ public interface Result<V, F> {
 
         private final V value;
 
-        public Success(final @NotNull V value) {
+        public Success(@NotNull final V value) {
             this.value = value;
         }
 
@@ -44,7 +44,7 @@ public interface Result<V, F> {
 
         private final F fail;
 
-        public Failure(final @NotNull F fail) {
+        public Failure(@NotNull final F fail) {
             this.fail = fail;
         }
 

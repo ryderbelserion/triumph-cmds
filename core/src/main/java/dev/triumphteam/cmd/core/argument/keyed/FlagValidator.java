@@ -40,7 +40,7 @@ final class FlagValidator {
      *
      * @param flag the {@link String} flag.
      */
-    static void validate(final @Nullable String flag) {
+    static void validate(@Nullable final String flag) {
         if (flag == null) return;
 
         // handle the single character flag

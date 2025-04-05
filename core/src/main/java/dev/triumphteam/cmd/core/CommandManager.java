@@ -55,7 +55,7 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
 
     private final O commandOptions;
 
-    public CommandManager(final @NotNull O commandOptions) {
+    public CommandManager(@NotNull final O commandOptions) {
         this.commandOptions = commandOptions;
     }
 
@@ -64,14 +64,14 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
      *
      * @param command the instance of the command to be registered.
      */
-    public abstract void registerCommand(final @NotNull Object command);
+    public abstract void registerCommand(@NotNull final Object command);
 
     /**
      * Registers commands.
      *
      * @param commands a list of commands to be registered.
      */
-    public final void registerCommand(final @NotNull Object @NotNull ... commands) {
+    public final void registerCommand(@NotNull final Object @NotNull ... commands) {
         for (final Object command : commands) {
             registerCommand(command);
         }
@@ -82,7 +82,7 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
      *
      * @param command the command to be unregistered.
      */
-    public void unregisterCommand(final @NotNull Object command) {
+    public void unregisterCommand(@NotNull final Object command) {
         // note, not possible on paper servers when using lifecycle event manager, the registry is frozen.
     }
 
@@ -91,7 +91,7 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
      *
      * @param commands a list of commands to be unregistered.
      */
-    public final void unregisterCommands(final @NotNull Object @NotNull ... commands) {
+    public final void unregisterCommands(@NotNull final Object @NotNull ... commands) {
         for (final Object command : commands) {
             unregisterCommand(command);
         }
@@ -103,11 +103,11 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
      * @param clazz the class of the argument to be registered.
      * @param resolver the {@link ArgumentResolver} with the argument resolution.
      */
-    public final void registerArgument(final @NotNull Class<?> clazz, final @NotNull ArgumentResolver<S> resolver) {
+    public final void registerArgument(@NotNull final Class<?> clazz, @NotNull final ArgumentResolver<S> resolver) {
         getRegistryContainer().getArgumentRegistry().register(clazz, resolver);
     }
 
-    public final void registerArgument(final @NotNull Class<?> clazz, final @NotNull InternalArgument.Factory<S> factory) {
+    public final void registerArgument(@NotNull final Class<?> clazz, @NotNull final InternalArgument.Factory<S> factory) {
         getRegistryContainer().getArgumentRegistry().register(clazz, factory);
     }
 
@@ -117,7 +117,7 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
      * @param key the {@link SuggestionKey} that identifies the registered suggestion.
      * @param resolver the {@link SuggestionResolver} with the suggestion resolution.
      */
-    public void registerSuggestion(final @NotNull SuggestionKey key, final @NotNull SuggestionResolver<S> resolver) {
+    public void registerSuggestion(@NotNull final SuggestionKey key, @NotNull final SuggestionResolver<S> resolver) {
         registerSuggestion(key, SuggestionMethod.STARTS_WITH, resolver);
     }
 
@@ -129,9 +129,9 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
      * @param resolver the {@link SuggestionResolver} with the suggestion resolution.
      */
     public void registerSuggestion(
-            final @NotNull SuggestionKey key,
-            final @NotNull SuggestionMethod method,
-            final @NotNull SuggestionResolver<S> resolver
+            @NotNull final SuggestionKey key,
+            @NotNull final SuggestionMethod method,
+            @NotNull final SuggestionResolver<S> resolver
     ) {
         getRegistryContainer().getSuggestionRegistry().register(key, resolver, method);
     }
@@ -142,7 +142,7 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
      * @param type using specific {@link Class} types as target for suggestions instead of keys.
      * @param resolver the {@link SuggestionResolver} with the suggestion resolution.
      */
-    public void registerSuggestion(final @NotNull Class<?> type, final @NotNull SuggestionResolver<S> resolver) {
+    public void registerSuggestion(@NotNull final Class<?> type, @NotNull final SuggestionResolver<S> resolver) {
         registerSuggestion(type, SuggestionMethod.STARTS_WITH, resolver);
     }
 
@@ -154,9 +154,9 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
      * @param resolver the {@link SuggestionResolver} with the suggestion resolution.
      */
     public void registerSuggestion(
-            final @NotNull Class<?> type,
-            final @NotNull SuggestionMethod method,
-            final @NotNull SuggestionResolver<S> resolver
+            @NotNull final Class<?> type,
+            @NotNull final SuggestionMethod method,
+            @NotNull final SuggestionResolver<S> resolver
     ) {
         getRegistryContainer().getSuggestionRegistry().register(type, resolver, method);
     }
@@ -167,7 +167,7 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
      * @param key the {@link ArgumentKey} to represent the list.
      * @param arguments the list of arguments.
      */
-    public final void registerNamedArguments(final @NotNull ArgumentKey key, final @NotNull Argument @NotNull ... arguments) {
+    public final void registerNamedArguments(@NotNull final ArgumentKey key, @NotNull final Argument @NotNull ... arguments) {
         registerNamedArguments(key, Arrays.asList(arguments));
     }
 
@@ -177,7 +177,7 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
      * @param key the {@link ArgumentKey} to represent the list.
      * @param arguments the {@link List} of arguments.
      */
-    public final void registerNamedArguments(final @NotNull ArgumentKey key, final @NotNull List<Argument> arguments) {
+    public final void registerNamedArguments(@NotNull final ArgumentKey key, @NotNull final List<Argument> arguments) {
         getRegistryContainer().getNamedArgumentRegistry().register(key, arguments);
     }
 
@@ -187,7 +187,7 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
      * @param key   the {@link FlagKey} to represent the list.
      * @param flags the list of flags.
      */
-    public final void registerFlags(final @NotNull FlagKey key, final @NotNull Flag @NotNull ... flags) {
+    public final void registerFlags(@NotNull final FlagKey key, @NotNull final Flag @NotNull ... flags) {
         registerFlags(key, Arrays.asList(flags));
     }
 
@@ -197,7 +197,7 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
      * @param key the {@link FlagKey} to represent the list.
      * @param flags the {@link List} of flags.
      */
-    public final void registerFlags(final @NotNull FlagKey key, final @NotNull List<Flag> flags) {
+    public final void registerFlags(@NotNull final FlagKey key, @NotNull final List<Flag> flags) {
         getRegistryContainer().getFlagRegistry().register(key, flags);
     }
 
@@ -208,8 +208,8 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
      * @param resolver the {@link ArgumentResolver} with the message sending resolution.
      */
     public final <C extends MessageContext> void registerMessage(
-            final @NotNull ContextualKey<C> key,
-            final @NotNull MessageResolver<S, C> resolver
+            @NotNull final ContextualKey<C> key,
+            @NotNull final MessageResolver<S, C> resolver
     ) {
         getRegistryContainer().getMessageRegistry().register(key, resolver);
     }
@@ -221,8 +221,8 @@ public abstract class CommandManager<D, S, O extends CommandOptions<D, S>> {
      * @param resolver the {@link ArgumentResolver} with the requirement resolution.
      */
     public final void registerRequirement(
-            final @NotNull RequirementKey key,
-            final @NotNull RequirementResolver<D, S> resolver
+            @NotNull final RequirementKey key,
+            @NotNull final RequirementResolver<D, S> resolver
     ) {
         getRegistryContainer().getRequirementRegistry().register(key, resolver);
     }

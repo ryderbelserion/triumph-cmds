@@ -75,19 +75,19 @@ public final class ArgumentRegistry<S> implements Registry {
      * @param clazz the {@link Class} type the argument should be.
      * @param argument the {@link ArgumentResolver} with the resolution of the argument.
      */
-    public void register(final @NotNull Class<?> clazz, final @NotNull ArgumentResolver<S> argument) {
+    public void register(@NotNull final Class<?> clazz, @NotNull final ArgumentResolver<S> argument) {
         this.arguments.put(clazz, argument);
     }
 
-    public void register(final @NotNull Class<?> clazz, final @NotNull InternalArgument.Factory<S> factory) {
+    public void register(@NotNull final Class<?> clazz, @NotNull final InternalArgument.Factory<S> factory) {
         this.internals.put(clazz, factory);
     }
 
-    public @Nullable ArgumentResolver<S> getResolver(final @NotNull Class<?> clazz) {
+    public @Nullable ArgumentResolver<S> getResolver(@NotNull final Class<?> clazz) {
         return this.arguments.get(clazz);
     }
 
-    public @Nullable InternalArgument.Factory<S> getFactory(final @NotNull Class<?> clazz) {
+    public @Nullable InternalArgument.Factory<S> getFactory(@NotNull final Class<?> clazz) {
         return this.internals.get(clazz);
     }
 }

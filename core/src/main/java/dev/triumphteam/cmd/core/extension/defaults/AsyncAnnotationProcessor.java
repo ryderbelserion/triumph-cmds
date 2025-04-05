@@ -34,10 +34,10 @@ public final class AsyncAnnotationProcessor implements AnnotationProcessor<Async
 
     @Override
     public void process(
-            final @NotNull Async annotation,
-            final @NotNull ProcessorTarget target,
-            final @NotNull AnnotatedElement element,
-            final @NotNull CommandMeta.@NotNull Builder meta
+            @NotNull final Async annotation,
+            @NotNull final ProcessorTarget target,
+            @NotNull final AnnotatedElement element,
+            @NotNull final CommandMeta.@NotNull Builder meta
     ) {
         if (target != ProcessorTarget.COMMAND) return;
 

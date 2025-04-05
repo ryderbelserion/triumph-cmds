@@ -32,7 +32,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class FlagKey extends StringKey {
 
-    private FlagKey(final @NotNull String key) {
+    private FlagKey(@NotNull final String key) {
         super(key);
     }
 
@@ -43,7 +43,7 @@ public final class FlagKey extends StringKey {
      * @return a new {@link FlagKey}.
      */
     @Contract("_ -> new")
-    public static @NotNull FlagKey of(final @NotNull String key) {
+    public static @NotNull FlagKey of(@NotNull final String key) {
         return new FlagKey(key);
     }
 

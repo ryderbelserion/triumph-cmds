@@ -31,7 +31,7 @@ public final class Pair<A, B> {
     private final A first;
     private final B second;
 
-    public Pair(final @Nullable A first, final @Nullable B second) {
+    public Pair(@Nullable final A first, @Nullable final B second) {
         this.first = first;
         this.second = second;
     }

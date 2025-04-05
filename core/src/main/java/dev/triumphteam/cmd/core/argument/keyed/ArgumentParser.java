@@ -46,8 +46,8 @@ final class ArgumentParser {
     private final ArgumentGroup<Argument> namedGroup;
 
     public ArgumentParser(
-            final @NotNull ArgumentGroup<Flag> flagGroup,
-            final @NotNull ArgumentGroup<Argument> namedGroup
+            @NotNull final ArgumentGroup<Flag> flagGroup,
+            @NotNull final ArgumentGroup<Argument> namedGroup
     ) {
         this.flagGroup = flagGroup;
         this.namedGroup = namedGroup;
@@ -59,7 +59,7 @@ final class ArgumentParser {
      * @param arguments A {@link List} of raw arguments.
      * @return a {@link Result} object containing the raw results of the parse.
      */
-    public Result parse(final @NotNull Collection<String> arguments) {
+    public Result parse(@NotNull final Collection<String> arguments) {
         final Iterator<String> tokens = arguments.iterator();
 
         final Result result = new Result();
@@ -148,8 +148,8 @@ final class ArgumentParser {
      * @param separator the position of the separator.
      */
     private void handleNamed(
-            final @NotNull Result result,
-            final @NotNull String token,
+            @NotNull final Result result,
+            @NotNull final String token,
             final int separator
     ) {
         // Splits the flag from `name:arg`
@@ -178,8 +178,8 @@ final class ArgumentParser {
      * @param token the current flag token.
      */
     private void handleNoEquals(
-            final @NotNull Result result,
-            final @NotNull String token
+            @NotNull final Result result,
+            @NotNull final String token
 
     ) {
         final Flag flag = this.flagGroup.matchExact(token);
@@ -214,8 +214,8 @@ final class ArgumentParser {
      * @param token the current flag token.
      */
     private void handleWithEquals(
-            final @NotNull Result result,
-            final @NotNull String token,
+            @NotNull final Result result,
+            @NotNull final String token,
             final int equals
     ) {
         // Splits the flag from `flag=arg`
@@ -259,19 +259,19 @@ final class ArgumentParser {
         private Argument argumentWaiting = null;
         private Pair<Flag, FlagType> flagWaiting = null;
 
-        public void addNamedArgument(final @NotNull Argument argument, final @NotNull String value) {
+        public void addNamedArgument(@NotNull final Argument argument, @NotNull final String value) {
             this.namedArguments.put(argument, value);
         }
 
-        public void addFlag(final @NotNull Flag flagOptions) {
+        public void addFlag(@NotNull final Flag flagOptions) {
             this.flags.put(flagOptions, "");
         }
 
-        public void addFlag(final @NotNull Flag flagOptions, final @NotNull String value) {
+        public void addFlag(@NotNull final Flag flagOptions, @NotNull final String value) {
             this.flags.put(flagOptions, value);
         }
 
-        public void addNonToken(final @NotNull String token) {
+        public void addNonToken(@NotNull final String token) {
             this.nonTokens.add(token);
         }
 
@@ -291,7 +291,7 @@ final class ArgumentParser {
             return this.argumentWaiting;
         }
 
-        public void setArgumentWaiting(final @Nullable Argument argumentWaiting) {
+        public void setArgumentWaiting(@Nullable final Argument argumentWaiting) {
             this.argumentWaiting = argumentWaiting;
         }
 
@@ -299,11 +299,11 @@ final class ArgumentParser {
             return this.flagWaiting;
         }
 
-        public void setFlagWaiting(final @Nullable Pair<Flag, FlagType> flagWaiting) {
+        public void setFlagWaiting(@Nullable final Pair<Flag, FlagType> flagWaiting) {
             setFlagWaiting(flagWaiting, false);
         }
 
-        public void setFlagWaiting(final @Nullable Pair<Flag, FlagType> flagWaiting, final boolean ignore) {
+        public void setFlagWaiting(@Nullable final Pair<Flag, FlagType> flagWaiting, final boolean ignore) {
             if (!ignore && (flagWaiting != null && this.flags.containsKey(flagWaiting.first()))) {
                 return;
             }
@@ -315,7 +315,7 @@ final class ArgumentParser {
             return this.current;
         }
 
-        public void setCurrent(final @NotNull String current) {
+        public void setCurrent(@NotNull final String current) {
             this.current = current;
         }
 

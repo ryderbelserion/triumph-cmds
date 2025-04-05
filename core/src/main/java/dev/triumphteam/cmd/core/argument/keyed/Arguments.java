@@ -40,7 +40,7 @@ public interface Arguments extends Flags {
      * @param <T> the generic type of the argument.
      * @return an {@link Optional} argument.
      */
-    <T> @NotNull Optional<T> getArgument(final @NotNull String name, final @NotNull Class<T> type);
+    <T> @NotNull Optional<T> getArgument(@NotNull final String name, @NotNull final Class<T> type);
 
     /**
      * Gets a {@link List} argument by name.
@@ -51,7 +51,7 @@ public interface Arguments extends Flags {
      * @param <T> the generic type of the argument.
      * @return an {@link Optional} argument.
      */
-    <T> @NotNull Optional<List<T>> getListArgument(final @NotNull String name, final @NotNull Class<T> type);
+    <T> @NotNull Optional<List<T>> getListArgument(@NotNull final String name, @NotNull final Class<T> type);
 
     /**
      * Gets a {@link Set} argument by name.
@@ -62,7 +62,7 @@ public interface Arguments extends Flags {
      * @param <T> the generic type of the argument.
      * @return An {@link Optional} argument.
      */
-    <T> @NotNull Optional<Set<T>> getSetArgument(final @NotNull String name, final @NotNull Class<T> type);
+    <T> @NotNull Optional<Set<T>> getSetArgument(@NotNull final String name, @NotNull final Class<T> type);
 
     /**
      * Get all arguments passed to this command.

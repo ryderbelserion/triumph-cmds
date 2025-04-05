@@ -43,11 +43,11 @@ public final class CommandExtensions<D, S> {
     private final CommandExecutor commandExecutor;
 
     public CommandExtensions(
-            final @NotNull SenderExtension<D, S> senderExtension,
-            final @NotNull Map<Class<? extends Annotation>, AnnotationProcessor<? extends Annotation>> annotationProcessors,
-            final @NotNull List<Processor<D, S>> processors,
-            final @NotNull ArgumentValidator<S> argumentValidator,
-            final @NotNull CommandExecutor commandExecutor
+            @NotNull final SenderExtension<D, S> senderExtension,
+            @NotNull final Map<Class<? extends Annotation>, AnnotationProcessor<? extends Annotation>> annotationProcessors,
+            @NotNull final List<Processor<D, S>> processors,
+            @NotNull final ArgumentValidator<S> argumentValidator,
+            @NotNull final CommandExecutor commandExecutor
     ) {
         this.senderExtension = senderExtension;
         this.annotationProcessors = annotationProcessors;

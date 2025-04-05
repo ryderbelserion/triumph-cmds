@@ -46,9 +46,9 @@ public interface Settings<D, S> {
      * @return true only if all requirements pass.
      */
     boolean testRequirements(
-            final @NotNull S sender,
-            final @NotNull CommandMeta meta,
-            final @NotNull SenderMapper<D, S> senderMapper
+            @NotNull final S sender,
+            @NotNull final CommandMeta meta,
+            @NotNull final SenderMapper<D, S> senderMapper
     );
 
     /**
@@ -63,10 +63,10 @@ public interface Settings<D, S> {
      * @return true only if all requirements pass.
      */
     boolean testRequirements(
-            final @NotNull MessageRegistry<S> messageRegistry,
-            final @NotNull S sender,
-            final @NotNull CommandMeta meta,
-            final @NotNull SenderMapper<D, S> senderMapper
+            @NotNull final MessageRegistry<S> messageRegistry,
+            @NotNull final S sender,
+            @NotNull final CommandMeta meta,
+            @NotNull final SenderMapper<D, S> senderMapper
     );
 
     @NotNull List<Requirement<D, S>> getRequirements();
@@ -76,7 +76,7 @@ public interface Settings<D, S> {
         private final List<Requirement<D, S>> requirements = new ArrayList<>();
 
         @Contract("_ -> this")
-        public @NotNull Builder<D, S> addRequirement(final @NotNull Requirement<D, S> requirement) {
+        public @NotNull Builder<D, S> addRequirement(@NotNull final Requirement<D, S> requirement) {
             this.requirements.add(requirement);
 
             return this;

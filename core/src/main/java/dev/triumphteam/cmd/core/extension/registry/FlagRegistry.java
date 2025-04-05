@@ -35,11 +35,11 @@ public final class FlagRegistry implements Registry {
 
     private final Map<FlagKey, List<Flag>> suggestions = new HashMap<>();
 
-    public void register(final @NotNull FlagKey key, final @NotNull List<Flag> flags) {
+    public void register(@NotNull final FlagKey key, @NotNull final List<Flag> flags) {
         this.suggestions.put(key, flags);
     }
 
-    public @Nullable List<Flag> getFlags(final @NotNull FlagKey key) {
+    public @Nullable List<Flag> getFlags(@NotNull final FlagKey key) {
         return this.suggestions.get(key);
     }
 }

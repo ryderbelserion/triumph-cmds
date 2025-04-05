@@ -65,12 +65,12 @@ public class ParentSubCommand<D, S> extends ParentCommand<D, S> {
     private final boolean hasArgument;
 
     public ParentSubCommand(
-            final @NotNull Object invocationInstance,
-            final @NotNull Constructor<?> constructor,
+            @NotNull final Object invocationInstance,
+            @NotNull final Constructor<?> constructor,
             final boolean isStatic,
-            final @Nullable StringInternalArgument<S> argument,
-            final @NotNull ParentCommandProcessor<D, S> processor,
-            final @NotNull Command<D, S> parentCommand
+            @Nullable final StringInternalArgument<S> argument,
+            @NotNull final ParentCommandProcessor<D, S> processor,
+            @NotNull final Command<D, S> parentCommand
     ) {
         super(processor);
 
@@ -88,9 +88,9 @@ public class ParentSubCommand<D, S> extends ParentCommand<D, S> {
 
     @Override
     public void execute(
-            final @NotNull S sender,
-            final @Nullable Supplier<Object> instanceSupplier,
-            final @NotNull Deque<String> arguments
+            @NotNull final S sender,
+            @Nullable final Supplier<Object> instanceSupplier,
+            @NotNull final Deque<String> arguments
     ) throws Throwable {
         // Test all requirements before continuing
         if (!getSettings().testRequirements(getMessageRegistry(), sender, getMeta(), getSenderExtension())) return;
@@ -101,7 +101,7 @@ public class ParentSubCommand<D, S> extends ParentCommand<D, S> {
         if (this.hasArgument) {
             final String argumentName = arguments.peek() == null ? "" : arguments.pop();
 
-            final @NotNull Result<Object, BiFunction<CommandMeta, String, InvalidArgumentContext>> result = this.argument.resolve(sender, argumentName);
+            @NotNull final Result<Object, BiFunction<CommandMeta, String, InvalidArgumentContext>> result = this.argument.resolve(sender, argumentName);
 
             if (result instanceof Result.Failure) {
                 getMessageRegistry().sendMessage(
@@ -138,10 +138,10 @@ public class ParentSubCommand<D, S> extends ParentCommand<D, S> {
 
     @Override
     public void executeNonLinear(
-            final @NotNull S sender,
-            final @Nullable Supplier<Object> instanceSupplier,
-            final @NotNull Deque<String> commands,
-            final @NotNull Map<String, Pair<String, Object>> arguments
+            @NotNull final S sender,
+            @Nullable final Supplier<Object> instanceSupplier,
+            @NotNull final Deque<String> commands,
+            @NotNull final Map<String, Pair<String, Object>> arguments
     ) throws Throwable {
         // Test all requirements before continuing
         if (!getSettings().testRequirements(getMessageRegistry(), sender, getMeta(), getSenderExtension())) return;
@@ -162,7 +162,7 @@ public class ParentSubCommand<D, S> extends ParentCommand<D, S> {
     }
 
     @Override
-    public @NotNull List<String> suggestions(@NotNull final S sender, final @NotNull Deque<String> arguments) {
+    public @NotNull List<String> suggestions(@NotNull final S sender, @NotNull final Deque<String> arguments) {
         // If we're dealing with only 1 argument it means it's the argument suggestion
         if (arguments.size() == 1 && this.hasArgument) {
             return this.argument.suggestions(sender, arguments);
@@ -180,7 +180,7 @@ public class ParentSubCommand<D, S> extends ParentCommand<D, S> {
      * @param instanceSupplier the instance supplier from parents.
      * @return an instance of this command for execution.
      */
-    private @NotNull Object createInstance(final @Nullable Supplier<Object> instanceSupplier) throws InvocationTargetException, InstantiationException, IllegalAccessException {
+    private @NotNull Object createInstance(@Nullable final Supplier<Object> instanceSupplier) throws InvocationTargetException, InstantiationException, IllegalAccessException {
         // Non-static classes required parent instance
         if (!this.isStatic) {
             return this.constructor.newInstance(instanceSupplier == null ? this.invocationInstance : instanceSupplier.get());
@@ -196,7 +196,7 @@ public class ParentSubCommand<D, S> extends ParentCommand<D, S> {
      * @param argumentValue the argument value.
      * @return an instance of this command for execution.
      */
-    private @NotNull Object createInstanceWithArgument(final @Nullable Supplier<Object> instanceSupplier, final @Nullable Object argumentValue) throws InvocationTargetException, InstantiationException, IllegalAccessException {
+    private @NotNull Object createInstanceWithArgument(@Nullable final Supplier<Object> instanceSupplier, @Nullable final Object argumentValue) throws InvocationTargetException, InstantiationException, IllegalAccessException {
         // Non-static classes required parent instance
         if (!this.isStatic) {
             return this.constructor.newInstance(instanceSupplier == null ? this.invocationInstance : instanceSupplier.get(), argumentValue);
@@ -205,7 +205,7 @@ public class ParentSubCommand<D, S> extends ParentCommand<D, S> {
         return this.constructor.newInstance(argumentValue);
     }
 
-    private @NotNull String createSyntax(final @NotNull Command parentCommand, final @NotNull CommandProcessor<D, S> processor) {
+    private @NotNull String createSyntax(@NotNull final Command parentCommand, @NotNull final CommandProcessor<D, S> processor) {
         final Syntax syntaxAnnotation = processor.getSyntaxAnnotation();
 
         if (syntaxAnnotation != null) return syntaxAnnotation.value();

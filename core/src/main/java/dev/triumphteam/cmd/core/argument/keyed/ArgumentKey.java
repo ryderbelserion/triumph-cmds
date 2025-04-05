@@ -32,7 +32,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ArgumentKey extends StringKey {
 
-    private ArgumentKey(final @NotNull String key) {
+    private ArgumentKey(@NotNull final String key) {
         super(key);
     }
 
@@ -43,7 +43,7 @@ public class ArgumentKey extends StringKey {
      * @return a new {@link ArgumentKey}.
      */
     @Contract("_ -> new")
-    public static @NotNull ArgumentKey of(final @NotNull String key) {
+    public static @NotNull ArgumentKey of(@NotNull final String key) {
         return new ArgumentKey(key);
     }
 

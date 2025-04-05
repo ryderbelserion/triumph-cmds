@@ -34,7 +34,7 @@ public abstract class StringKey {
 
     private final String key;
 
-    public StringKey(final @NotNull String key) {
+    public StringKey(@NotNull final String key) {
         this.key = key;
     }
 
@@ -48,7 +48,7 @@ public abstract class StringKey {
     }
 
     @Override
-    public boolean equals(final @Nullable Object o) {
+    public boolean equals(@Nullable final Object o) {
         if (this == o) return true;
 
         if (o == null || getClass() != o.getClass()) return false;

@@ -35,7 +35,7 @@ public interface ValidationResult<E> {
 
         private final E message;
 
-        public Invalid(final @NotNull E message) {
+        public Invalid(@NotNull final E message) {
             this.message = message;
         }
 

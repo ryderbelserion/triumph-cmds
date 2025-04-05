@@ -45,7 +45,7 @@ public interface CommandMeta {
      * @param <V> the type of the value to cast to.
      * @return an {@link Optional} value as {@link V}.
      */
-    <V> @NotNull Optional<V> get(final @NotNull MetaKey<V> metaKey);
+    <V> @NotNull Optional<V> get(@NotNull final MetaKey<V> metaKey);
 
     /**
      * Get the value of the meta associated with the passed {@link MetaKey}.
@@ -54,7 +54,7 @@ public interface CommandMeta {
      * @param <V> the type of the value to cast to.
      * @return a nullable value as {@link V}.
      */
-    <V> @Nullable V getNullable(final @NotNull MetaKey<V> metaKey);
+    <V> @Nullable V getNullable(@NotNull final MetaKey<V> metaKey);
 
     /**
      * Get the value of the meta associated with the passed {@link MetaKey}.
@@ -65,7 +65,7 @@ public interface CommandMeta {
      * @return the value as {@link V} or default {@link V} if it doesn't exist, the return is null if the default value is null.
      */
     @Contract("_, null -> null; _, !null -> !null")
-    <V> V getOrDefault(final @NotNull MetaKey<V> metaKey, final @Nullable V def);
+    <V> V getOrDefault(@NotNull final MetaKey<V> metaKey, @Nullable final V def);
 
     /**
      * Checks if there is any value associated with the passed {@link MetaKey}.
@@ -74,7 +74,7 @@ public interface CommandMeta {
      * @param <V> the type of the value to cast to.
      * @return true if the value exists.
      */
-    <V> boolean isPresent(final @NotNull MetaKey<V> metaKey);
+    <V> boolean isPresent(@NotNull final MetaKey<V> metaKey);
 
     /**
      * Get the immutable parent {@link CommandMeta} of this instance.
@@ -92,7 +92,7 @@ public interface CommandMeta {
         private final Map<MetaKey<?>, Object> metaMap = new HashMap<>();
         private final CommandMeta parentMeta;
 
-        public Builder(final @Nullable CommandMeta parentMeta) {
+        public Builder(@Nullable final CommandMeta parentMeta) {
             this.parentMeta = parentMeta;
         }
 
@@ -104,7 +104,7 @@ public interface CommandMeta {
          * @param <V> the type of value that'll be stored.
          */
         @Contract("_, _ -> this")
-        public <V> @NotNull Builder add(final @NotNull MetaKey<V> metaKey, final @Nullable V value) {
+        public <V> @NotNull Builder add(@NotNull final MetaKey<V> metaKey, @Nullable final V value) {
             metaMap.put(metaKey, value);
             return this;
         }
@@ -117,7 +117,7 @@ public interface CommandMeta {
          * @param <V> the type of value that'll be stored.
          */
         @Contract("_, -> this")
-        public <V> @NotNull Builder add(final @NotNull MetaKey<V> metaKey) {
+        public <V> @NotNull Builder add(@NotNull final MetaKey<V> metaKey) {
             return add(metaKey, null);
         }
 
@@ -125,7 +125,7 @@ public interface CommandMeta {
          * {@inheritDoc}
          */
         @Override
-        public @NotNull <V> Optional<V> get(final @NotNull MetaKey<V> metaKey) {
+        public @NotNull <V> Optional<V> get(@NotNull final MetaKey<V> metaKey) {
             return Optional.ofNullable(getNullable(metaKey));
         }
 
@@ -133,7 +133,7 @@ public interface CommandMeta {
          * {@inheritDoc}
          */
         @Override
-        public <V> @Nullable V getNullable(final @NotNull MetaKey<V> metaKey) {
+        public <V> @Nullable V getNullable(@NotNull final MetaKey<V> metaKey) {
             return (V) this.metaMap.get(metaKey);
         }
 
@@ -141,7 +141,7 @@ public interface CommandMeta {
          * {@inheritDoc}
          */
         @Override
-        public <V> @Nullable V getOrDefault(final @NotNull MetaKey<V> metaKey, @Nullable final V def) {
+        public <V> @Nullable V getOrDefault(@NotNull final MetaKey<V> metaKey, @Nullable final V def) {
             return (V) this.metaMap.getOrDefault(metaKey, def);
         }
 
@@ -149,7 +149,7 @@ public interface CommandMeta {
          * {@inheritDoc}
          */
         @Override
-        public <V> boolean isPresent(final @NotNull MetaKey<V> metaKey) {
+        public <V> boolean isPresent(@NotNull final MetaKey<V> metaKey) {
             return this.metaMap.containsKey(metaKey);
         }
 

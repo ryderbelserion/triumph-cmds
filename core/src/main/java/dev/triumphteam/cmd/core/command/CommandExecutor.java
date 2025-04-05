@@ -31,10 +31,10 @@ import java.util.List;
 public interface CommandExecutor {
 
     void execute(
-            final @NotNull CommandMeta meta,
-            final @NotNull Object instance,
-            final @NotNull Method method,
-            final @NotNull List<Object> arguments
+            @NotNull final CommandMeta meta,
+            @NotNull final Object instance,
+            @NotNull final Method method,
+            @NotNull final List<Object> arguments
     ) throws Throwable;
 
 }

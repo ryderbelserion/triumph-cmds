@@ -49,9 +49,9 @@ public final class SuggestionRegistry<S> implements Registry {
      * @param method the method os suggestion to be used.
      */
     public void register(
-            final @NotNull SuggestionKey key,
-            final @NotNull SuggestionResolver<S> resolver,
-            final @NotNull SuggestionMethod method
+            @NotNull final SuggestionKey key,
+            @NotNull final SuggestionResolver<S> resolver,
+            @NotNull final SuggestionMethod method
     ) {
         this.suggestions.put(key, new Pair<>(resolver, method));
     }
@@ -64,9 +64,9 @@ public final class SuggestionRegistry<S> implements Registry {
      * @param method the method os suggestion to be used.
      */
     public void register(
-            final @NotNull Class<?> type,
-            final @NotNull SuggestionResolver<S> resolver,
-            final @NotNull SuggestionMethod method
+            @NotNull final Class<?> type,
+            @NotNull final SuggestionResolver<S> resolver,
+            @NotNull final SuggestionMethod method
     ) {
         this.typeSuggestions.put(type, new Pair<>(resolver, method));
     }
@@ -78,7 +78,7 @@ public final class SuggestionRegistry<S> implements Registry {
      * @return a saved {@link SuggestionResolver}.
      */
     @Contract("null -> null")
-    public @Nullable Pair<SuggestionResolver<S>, SuggestionMethod> getSuggestionResolver(final @Nullable SuggestionKey key) {
+    public @Nullable Pair<SuggestionResolver<S>, SuggestionMethod> getSuggestionResolver(@Nullable final SuggestionKey key) {
         if (key == null) return null;
 
         return this.suggestions.get(key);
@@ -90,7 +90,7 @@ public final class SuggestionRegistry<S> implements Registry {
      * @param type the specific type.
      * @return a saved {@link SuggestionResolver}.
      */
-    public @Nullable Pair<SuggestionResolver<S>, SuggestionMethod> getSuggestionResolver(final @NotNull Class<?> type) {
+    public @Nullable Pair<SuggestionResolver<S>, SuggestionMethod> getSuggestionResolver(@NotNull final Class<?> type) {
         return this.typeSuggestions.get(type);
     }
 }

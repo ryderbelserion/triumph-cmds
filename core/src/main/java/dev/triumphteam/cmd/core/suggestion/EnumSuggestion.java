@@ -36,7 +36,7 @@ public final class EnumSuggestion<S> implements Suggestion<S> {
     private final boolean suggestLowercase;
 
     public EnumSuggestion(
-            final @NotNull Class<? extends Enum<?>> enumType,
+            @NotNull final Class<? extends Enum<?>> enumType,
             final boolean suggestLowercase
     ) {
         this.enumType = enumType;
@@ -47,9 +47,9 @@ public final class EnumSuggestion<S> implements Suggestion<S> {
 
     @Override
     public @NotNull List<String> getSuggestions(
-            final @NotNull S sender,
-            final @NotNull String current,
-            final @NotNull List<String> arguments
+            @NotNull final S sender,
+            @NotNull final String current,
+            @NotNull final List<String> arguments
     ) {
         return EnumUtils.getEnumConstants(this.enumType)
                 .values()
@@ -69,7 +69,7 @@ public final class EnumSuggestion<S> implements Suggestion<S> {
     }
 
     @Override
-    public boolean equals(final @Nullable Object o) {
+    public boolean equals(@Nullable final Object o) {
         if (this == o) return true;
 
         if (o == null || getClass() != o.getClass()) return false;

@@ -39,7 +39,7 @@ public final class ListArgument implements Argument {
     private final SuggestionKey suggestionKey;
 
 
-    public ListArgument(final @NotNull Argument.CollectionBuilder argumentBuilder) {
+    public ListArgument(@NotNull final Argument.CollectionBuilder argumentBuilder) {
         this.type = argumentBuilder.getType();
         this.name = argumentBuilder.getName();
         this.description = argumentBuilder.getDescription();
@@ -77,7 +77,7 @@ public final class ListArgument implements Argument {
     }
 
     @Override
-    public boolean equals(final @Nullable Object o) {
+    public boolean equals(@Nullable final Object o) {
         if (this == o) return true;
 
         if (o == null || getClass() != o.getClass()) return false;

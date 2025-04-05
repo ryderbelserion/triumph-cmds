@@ -39,7 +39,7 @@ public final class BukkitMessageKey<C extends MessageContext> extends MessageKey
     public static final BukkitMessageKey<MessageContext> PLAYER_ONLY = new BukkitMessageKey<>("player.only", MessageContext.class);
     public static final BukkitMessageKey<MessageContext> CONSOLE_ONLY = new BukkitMessageKey<>("console.only", MessageContext.class);
 
-    private BukkitMessageKey(final @NotNull String key, final @NotNull Class<C> type) {
+    private BukkitMessageKey(@NotNull final String key, @NotNull final Class<C> type) {
         super(key, type);
     }
 

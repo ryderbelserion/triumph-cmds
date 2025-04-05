@@ -52,13 +52,13 @@ public final class KeyedInternalArgument<S> extends LimitlessInternalArgument<S>
     private final ArgumentParser argumentParser;
 
     public KeyedInternalArgument(
-            final @NotNull CommandMeta meta,
-            final @NotNull String name,
-            final @NotNull String description,
-            final @NotNull Map<Flag, StringInternalArgument<S>> flagInternalArguments,
-            final @NotNull Map<Argument, StringInternalArgument<S>> argumentInternalArguments,
-            final @NotNull ArgumentGroup<Flag> flagGroup,
-            final @NotNull ArgumentGroup<Argument> argumentGroup
+            @NotNull final CommandMeta meta,
+            @NotNull final String name,
+            @NotNull final String description,
+            @NotNull final Map<Flag, StringInternalArgument<S>> flagInternalArguments,
+            @NotNull final Map<Argument, StringInternalArgument<S>> argumentInternalArguments,
+            @NotNull final ArgumentGroup<Flag> flagGroup,
+            @NotNull final ArgumentGroup<Argument> argumentGroup
     ) {
         super(meta, name, description, Flags.class, new EmptySuggestion<>(), true);
         this.flagInternalArguments = flagInternalArguments;
@@ -75,9 +75,9 @@ public final class KeyedInternalArgument<S> extends LimitlessInternalArgument<S>
      */
     @Override
     public @NotNull Result<@Nullable Object, BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext>> resolve(
-            final @NotNull S sender,
-            final @NotNull Collection<String> value,
-            final @Nullable Object provided
+            @NotNull final S sender,
+            @NotNull final Collection<String> value,
+            @Nullable final Object provided
     ) {
         final ArgumentParser.Result result = this.argumentParser.parse(value);
 
@@ -143,7 +143,7 @@ public final class KeyedInternalArgument<S> extends LimitlessInternalArgument<S>
     }
 
     @Override
-    public @NotNull List<String> suggestions(final @NotNull S sender, final @NotNull Deque<String> arguments) {
+    public @NotNull List<String> suggestions(@NotNull final S sender, @NotNull final Deque<String> arguments) {
         final String last = arguments.peekLast();
         final String current = last == null ? "" : last;
 
@@ -171,8 +171,8 @@ public final class KeyedInternalArgument<S> extends LimitlessInternalArgument<S>
     }
 
     private @NotNull List<String> longFlags(
-            final @NotNull String current,
-            final @NotNull Map<Flag, String> parsed
+            @NotNull final String current,
+            @NotNull final Map<Flag, String> parsed
     ) {
         return this.flagInternalArguments.keySet()
                 .stream()
@@ -185,8 +185,8 @@ public final class KeyedInternalArgument<S> extends LimitlessInternalArgument<S>
     }
 
     private @NotNull List<String> flags(
-            final @NotNull String current,
-            final @NotNull Map<Flag, String> parsed
+            @NotNull final String current,
+            @NotNull final Map<Flag, String> parsed
     ) {
         return this.flagInternalArguments.keySet()
                 .stream()
@@ -199,8 +199,8 @@ public final class KeyedInternalArgument<S> extends LimitlessInternalArgument<S>
     }
 
     private @NotNull List<String> namedArguments(
-            final @NotNull String current,
-            final @NotNull Map<Argument, String> parsed
+            @NotNull final String current,
+            @NotNull final Map<Argument, String> parsed
     ) {
         return this.argumentInternalArguments.keySet()
                 .stream()
@@ -212,9 +212,9 @@ public final class KeyedInternalArgument<S> extends LimitlessInternalArgument<S>
     }
 
     private @Nullable List<String> handleNamedArgument(
-            final @NotNull String current,
-            final @NotNull ArgumentParser.Result result,
-            final @NotNull S sender
+            @NotNull final String current,
+            @NotNull final ArgumentParser.Result result,
+            @NotNull final S sender
     ) {
         // Checking if we're waiting for an argument
         final Argument waiting = result.getArgumentWaiting();
@@ -244,9 +244,9 @@ public final class KeyedInternalArgument<S> extends LimitlessInternalArgument<S>
     }
 
     private @Nullable List<String> handleFlagArgument(
-            final @NotNull String current,
-            final @NotNull ArgumentParser.Result result,
-            final @NotNull S sender
+            @NotNull final String current,
+            @NotNull final ArgumentParser.Result result,
+            @NotNull final S sender
     ) {
         final Pair<Flag, ArgumentParser.Result.FlagType> waitingFlag = result.getFlagWaiting();
 

@@ -45,7 +45,7 @@ public final class EnumUtils {
      * @param enumClass a non-generic Enum class.
      * @return a map with enum values that was previously cached.
      */
-    public static @NotNull Map<String, @NotNull WeakReference<? extends Enum<?>>> getEnumConstants(final @NotNull Class<? extends Enum<?>> enumClass) {
+    public static @NotNull Map<String, @NotNull WeakReference<? extends Enum<?>>> getEnumConstants(@NotNull final Class<? extends Enum<?>> enumClass) {
         synchronized (ENUM_CONSTANT_CACHE) {
             Map<String, WeakReference<? extends Enum<?>>> constants = ENUM_CONSTANT_CACHE.get(enumClass);
 
@@ -62,7 +62,7 @@ public final class EnumUtils {
      * @param enumClass a non-generic Enum class.
      * @return a map with enum values that was just populated to the cache.
      */
-    public static @NotNull Map<String, WeakReference<? extends Enum<?>>> populateCache(final @NotNull Class<? extends Enum<?>> enumClass) {
+    public static @NotNull Map<String, WeakReference<? extends Enum<?>>> populateCache(@NotNull final Class<? extends Enum<?>> enumClass) {
         final Map<String, WeakReference<? extends Enum<?>>> result = new HashMap<>();
 
         for (Enum<?> enumInstance : enumClass.getEnumConstants()) {

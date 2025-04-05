@@ -31,9 +31,9 @@ public final class EmptySuggestion<S> implements Suggestion<S> {
 
     @Override
     public @NotNull List<String> getSuggestions(
-            final @NotNull S sender,
-            final @NotNull String current,
-            final @NotNull List<String> arguments
+            @NotNull final S sender,
+            @NotNull final String current,
+            @NotNull final List<String> arguments
     ) {
         return emptyList();
     }

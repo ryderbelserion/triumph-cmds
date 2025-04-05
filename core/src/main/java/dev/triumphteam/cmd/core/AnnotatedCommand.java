@@ -38,22 +38,22 @@ public abstract class AnnotatedCommand {
         this(null, null, null);
     }
 
-    public AnnotatedCommand(final @Nullable List<String> alias) {
+    public AnnotatedCommand(@Nullable final List<String> alias) {
         this(null, alias, null);
     }
 
-    public AnnotatedCommand(final @Nullable String command) {
+    public AnnotatedCommand(@Nullable final String command) {
         this(command, null, null);
     }
 
-    public AnnotatedCommand(final @Nullable String command, final @Nullable String description) {
+    public AnnotatedCommand(@Nullable final String command, @Nullable final String description) {
         this(command, null, description);
     }
 
     public AnnotatedCommand(
-            final @Nullable String command,
-            final @Nullable List<String> alias,
-            final @Nullable String description
+            @Nullable final String command,
+            @Nullable final List<String> alias,
+            @Nullable final String description
     ) {
         this.command = command;
         this.description = description;

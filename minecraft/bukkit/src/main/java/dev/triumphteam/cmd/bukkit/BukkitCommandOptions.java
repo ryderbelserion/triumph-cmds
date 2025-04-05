@@ -38,14 +38,14 @@ import java.util.List;
 public final class BukkitCommandOptions<S> extends CommandOptions<CommandSender, S> {
 
     public BukkitCommandOptions(
-            final @NotNull SenderExtension<CommandSender, S> senderExtension,
-            final @NotNull Builder<S> builder
+            @NotNull final SenderExtension<CommandSender, S> senderExtension,
+            @NotNull final Builder<S> builder
     ) {
         super(senderExtension, builder);
     }
 
     public static final class Setup<S> extends CommandOptions.Setup<CommandSender, S, Setup<S>> {
-        public Setup(final @NotNull RegistryContainer<CommandSender, S> registryContainer) {
+        public Setup(@NotNull final RegistryContainer<CommandSender, S> registryContainer) {
             super(registryContainer);
         }
     }
@@ -54,7 +54,7 @@ public final class BukkitCommandOptions<S> extends CommandOptions<CommandSender,
 
         private CommandPermission globalPermission = null;
 
-        public Builder(final @NotNull RegistryContainer<CommandSender, S> registryContainer) {
+        public Builder(@NotNull final RegistryContainer<CommandSender, S> registryContainer) {
             super(new Setup<>(registryContainer));
 
             // Setters have to be done first thing, so they can be overridden.
@@ -70,7 +70,7 @@ public final class BukkitCommandOptions<S> extends CommandOptions<CommandSender,
          * @param commandPermission The permission to be globally used.
          * @return This {@link Builder}.
          */
-        public Builder<S> setGlobalPermission(final @NotNull CommandPermission commandPermission) {
+        public Builder<S> setGlobalPermission(@NotNull final CommandPermission commandPermission) {
             this.globalPermission = commandPermission;
 
             return this;
@@ -85,15 +85,15 @@ public final class BukkitCommandOptions<S> extends CommandOptions<CommandSender,
          * @return this {@link Builder}.
          */
         public Builder<S> setGlobalPermission(
-                final @NotNull List<String> nodes,
-                final @NotNull String description,
-                final @NotNull Mode permissionDefault
+                @NotNull final List<String> nodes,
+                @NotNull final String description,
+                @NotNull final Mode permissionDefault
         ) {
             return setGlobalPermission(new CommandPermission(nodes, description, permissionDefault));
         }
 
         @Override
-        public @NotNull BukkitCommandOptions<S> build(final @NotNull SenderExtension<CommandSender, S> senderExtension) {
+        public @NotNull BukkitCommandOptions<S> build(@NotNull final SenderExtension<CommandSender, S> senderExtension) {
             // Add permissions
             extensions(extension -> extension.addProcessor(new PermissionProcessor<>(globalPermission)));
 

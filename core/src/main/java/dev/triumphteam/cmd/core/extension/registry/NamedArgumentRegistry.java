@@ -35,11 +35,11 @@ public final class NamedArgumentRegistry implements Registry {
 
     private final Map<ArgumentKey, List<Argument>> namedArguments = new HashMap<>();
 
-    public void register(final @NotNull ArgumentKey key, final @NotNull List<Argument> arguments) {
+    public void register(@NotNull final ArgumentKey key, @NotNull final List<Argument> arguments) {
         this.namedArguments.put(key, arguments);
     }
 
-    public @Nullable List<Argument> getArguments(final @NotNull ArgumentKey key) {
+    public @Nullable List<Argument> getArguments(@NotNull final ArgumentKey key) {
         return this.namedArguments.get(key);
     }
 }

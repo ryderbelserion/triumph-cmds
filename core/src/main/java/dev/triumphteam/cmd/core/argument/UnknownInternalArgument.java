@@ -37,15 +37,15 @@ import java.util.function.BiFunction;
  */
 public final class UnknownInternalArgument<S> extends StringInternalArgument<S> {
 
-    public UnknownInternalArgument(final @NotNull Class<?> type) {
+    public UnknownInternalArgument(@NotNull final Class<?> type) {
         super(new CommandMeta.Builder(null).build(), "unknown", "unknown.", type, new EmptySuggestion<>(), false);
     }
 
     @Override
     public @NotNull Result<@Nullable Object, BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext>> resolve(
-            final @NotNull S sender,
-            final @NotNull String value,
-            final @Nullable Object provided
+            @NotNull final S sender,
+            @NotNull final String value,
+            @Nullable final Object provided
     ) {
         return invalid((meta, syntax) -> new InvalidArgumentContext(meta, syntax, "", "", Void.TYPE));
     }

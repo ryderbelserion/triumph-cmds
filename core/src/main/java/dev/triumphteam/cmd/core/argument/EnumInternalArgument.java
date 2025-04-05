@@ -47,11 +47,11 @@ public final class EnumInternalArgument<S> extends StringInternalArgument<S> {
     private final Class<? extends Enum<?>> enumType;
 
     public EnumInternalArgument(
-            final @NotNull CommandMeta meta,
-            final @NotNull String name,
-            final @NotNull String description,
-            final @NotNull Class<? extends Enum<?>> type,
-            final @NotNull Suggestion<S> suggestion,
+            @NotNull final CommandMeta meta,
+            @NotNull final String name,
+            @NotNull final String description,
+            @NotNull final Class<? extends Enum<?>> type,
+            @NotNull final Suggestion<S> suggestion,
             final boolean optional
     ) {
         super(meta, name, description, type, suggestion, optional);
@@ -71,9 +71,9 @@ public final class EnumInternalArgument<S> extends StringInternalArgument<S> {
      */
     @Override
     public @NotNull Result<Object, BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext>> resolve(
-            final @NotNull S sender,
-            final @NotNull String value,
-            final @Nullable Object provided
+            @NotNull final S sender,
+            @NotNull final String value,
+            @Nullable final Object provided
     ) {
         final WeakReference<? extends Enum<?>> reference = getEnumConstants(this.enumType).get(value.toUpperCase());
 

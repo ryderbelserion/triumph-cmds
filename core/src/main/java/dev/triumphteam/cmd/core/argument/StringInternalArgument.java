@@ -36,11 +36,11 @@ import org.jetbrains.annotations.NotNull;
 public abstract class StringInternalArgument<S> extends AbstractInternalArgument<S, String> {
 
     public StringInternalArgument(
-            final @NotNull CommandMeta meta,
-            final @NotNull String name,
-            final @NotNull String description,
-            final @NotNull Class<?> type,
-            final @NotNull Suggestion<S> suggestion,
+            @NotNull final CommandMeta meta,
+            @NotNull final String name,
+            @NotNull final String description,
+            @NotNull final Class<?> type,
+            @NotNull final Suggestion<S> suggestion,
             final boolean optional
     ) {
         super(meta, name, description, type, suggestion, optional);

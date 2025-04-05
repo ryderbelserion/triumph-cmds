@@ -41,7 +41,7 @@ final class FlagOptions implements Flag {
     private final Class<?> argument;
     private final SuggestionKey suggestionKey;
 
-    FlagOptions(final @NotNull Flag.Builder builder) {
+    FlagOptions(@NotNull final Flag.Builder builder) {
 
         final String flag = builder.getFlag();
         final String longFlag = builder.getLongFlag();
@@ -102,7 +102,7 @@ final class FlagOptions implements Flag {
     }
 
     @Override
-    public boolean equals(final @Nullable Object o) {
+    public boolean equals(@Nullable final Object o) {
         if (this == o) return true;
 
         if (o == null || getClass() != o.getClass()) return false;

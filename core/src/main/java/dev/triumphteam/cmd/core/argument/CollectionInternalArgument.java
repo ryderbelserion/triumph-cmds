@@ -48,12 +48,12 @@ public final class CollectionInternalArgument<S> extends LimitlessInternalArgume
     private final Class<?> collectionType;
 
     public CollectionInternalArgument(
-            final @NotNull CommandMeta meta,
-            final @NotNull String name,
-            final @NotNull String description,
-            final @NotNull InternalArgument<S, String> internalArgument,
-            final @NotNull Class<?> collectionType,
-            final @NotNull Suggestion<S> suggestion,
+            @NotNull final CommandMeta meta,
+            @NotNull final String name,
+            @NotNull final String description,
+            @NotNull final InternalArgument<S, String> internalArgument,
+            @NotNull final Class<?> collectionType,
+            @NotNull final Suggestion<S> suggestion,
             final boolean optional
     ) {
         super(meta, name, description, String.class, suggestion, optional);
@@ -71,9 +71,9 @@ public final class CollectionInternalArgument<S> extends LimitlessInternalArgume
      */
     @Override
     public @NotNull Result<@Nullable Object, BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext>> resolve(
-            final @NotNull S sender,
-            final @NotNull Collection<String> value,
-            final @Nullable Object provided
+            @NotNull final S sender,
+            @NotNull final Collection<String> value,
+            @Nullable final Object provided
     ) {
         final Stream<Object> stream = value.stream().map(arg -> this.internalArgument.resolve(sender, arg));
 

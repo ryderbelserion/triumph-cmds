@@ -33,8 +33,8 @@ import org.jetbrains.annotations.Nullable;
 public final class InvalidCommandContext extends InvalidInputContext {
 
     public InvalidCommandContext(
-            final @NotNull CommandMeta meta,
-            final @Nullable String invalidInput
+            @NotNull final CommandMeta meta,
+            @Nullable final String invalidInput
     ) {
         super(meta, invalidInput);
     }

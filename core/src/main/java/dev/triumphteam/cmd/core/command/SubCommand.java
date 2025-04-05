@@ -83,10 +83,10 @@ public class SubCommand<D, S> implements Command<D, S> {
     private final MessageRegistry<S> messageRegistry;
 
     public SubCommand(
-            final @NotNull Object invocationInstance,
-            final @NotNull Method method,
-            final @NotNull SubCommandProcessor<D, S> processor,
-            final @NotNull Command<D, S> parentCommand
+            @NotNull final Object invocationInstance,
+            @NotNull final Method method,
+            @NotNull final SubCommandProcessor<D, S> processor,
+            @NotNull final Command<D, S> parentCommand
     ) {
         this.invocationInstance = invocationInstance;
         this.method = method;
@@ -120,7 +120,7 @@ public class SubCommand<D, S> implements Command<D, S> {
     }
 
     @Override
-    public void execute(final @NotNull S sender, final @Nullable Supplier<Object> instanceSupplier, final @NotNull Deque<String> arguments) throws Throwable {
+    public void execute(@NotNull final S sender, @Nullable final Supplier<Object> instanceSupplier, @NotNull final Deque<String> arguments) throws Throwable {
         final ValidationResult<MessageKey<MessageContext>> validationResult = this.senderExtension.validate(this.meta, this.senderType, sender);
 
         // If the result is invalid for a reason given by the validator, we stop the execution and use its key to send
@@ -160,10 +160,10 @@ public class SubCommand<D, S> implements Command<D, S> {
 
     @Override
     public void executeNonLinear(
-            final @NotNull S sender,
-            final @Nullable Supplier<Object> instanceSupplier,
-            final @NotNull Deque<String> commands,
-            final @NotNull Map<String, Pair<String, Object>> arguments
+            @NotNull final S sender,
+            @Nullable final Supplier<Object> instanceSupplier,
+            @NotNull final Deque<String> commands,
+            @NotNull final Map<String, Pair<String, Object>> arguments
     ) throws Throwable {
         // TODO DRY
         final ValidationResult<MessageKey<MessageContext>> validationResult = this.senderExtension.validate(this.meta, this.senderType, sender);
@@ -218,8 +218,8 @@ public class SubCommand<D, S> implements Command<D, S> {
 
     @Override
     public @NotNull List<String> suggestions(
-            final @NotNull S sender,
-            final @NotNull Deque<String> arguments
+            @NotNull final S sender,
+            @NotNull final Deque<String> arguments
     ) {
         if (arguments.isEmpty()) return emptyList();
 
@@ -248,9 +248,9 @@ public class SubCommand<D, S> implements Command<D, S> {
     }
 
     public @NotNull List<String> suggest(
-            final @NotNull S sender,
-            final @NotNull String name,
-            final @NotNull String value
+            @NotNull final S sender,
+            @NotNull final String name,
+            @NotNull final String value
     ) {
         final InternalArgument<S, ?> argument = getArgumentFromName(name);
 
@@ -259,7 +259,7 @@ public class SubCommand<D, S> implements Command<D, S> {
         return argument.suggestions(sender, new ArrayDeque<>(singleton(value)));
     }
 
-    private @Nullable InternalArgument<S, ?> getArgumentFromName(final @NotNull String name) {
+    private @Nullable InternalArgument<S, ?> getArgumentFromName(@NotNull final String name) {
         return this.argumentMap.get(name);
     }
 
@@ -272,9 +272,9 @@ public class SubCommand<D, S> implements Command<D, S> {
      * @return false if any internalArgument fails to pass.
      */
     private boolean validateAndCollectArguments(
-            final @NotNull S sender,
-            final @NotNull List<Object> invokeArguments,
-            final @NotNull Deque<String> commandArgs
+            @NotNull final S sender,
+            @NotNull final List<Object> invokeArguments,
+            @NotNull final Deque<String> commandArgs
     ) {
         for (final InternalArgument<S, ?> internalArgument : argumentList) {
             if (!validateAndCollectArgument(sender, invokeArguments, commandArgs, internalArgument, null)) {
@@ -286,11 +286,11 @@ public class SubCommand<D, S> implements Command<D, S> {
     }
 
     private boolean validateAndCollectArgument(
-            final @NotNull S sender,
-            final @NotNull List<Object> invokeArguments,
-            final @NotNull Deque<String> commandArgs,
-            final @NotNull InternalArgument<S, ?> internalArgument,
-            final @Nullable Object provided
+            @NotNull final S sender,
+            @NotNull final List<Object> invokeArguments,
+            @NotNull final Deque<String> commandArgs,
+            @NotNull final InternalArgument<S, ?> internalArgument,
+            @Nullable final Object provided
     ) {
         final Result<Object, BiFunction<CommandMeta, String, InvalidArgumentContext>> result;
 
@@ -346,8 +346,8 @@ public class SubCommand<D, S> implements Command<D, S> {
     }
 
     private @NotNull String createSyntax(
-            final @NotNull Command<D, S> parentCommand,
-            final @NotNull CommandProcessor<D, S> processor
+            @NotNull final Command<D, S> parentCommand,
+            @NotNull final CommandProcessor<D, S> processor
     ) {
         final Syntax syntaxAnnotation = processor.getSyntaxAnnotation();
 

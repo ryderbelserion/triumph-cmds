@@ -35,29 +35,29 @@ public interface SenderExtension<D, S> extends SenderMapper<D, S> {
     @NotNull Set<Class<? extends S>> getAllowedSenders();
 
     @NotNull ValidationResult<@NotNull MessageKey<@NotNull MessageContext>> validate(
-            final @NotNull CommandMeta meta,
-            final @NotNull Class<?> allowedSender,
-            final @NotNull S sender
+            @NotNull final CommandMeta meta,
+            @NotNull final Class<?> allowedSender,
+            @NotNull final S sender
     );
 
     interface Default<S> extends SenderExtension<S, S> {
 
         @Override
         default @NotNull ValidationResult<@NotNull MessageKey<@NotNull MessageContext>> validate(
-                final @NotNull CommandMeta meta,
-                final @NotNull Class<?> allowedSender,
-                final @NotNull S sender
+                @NotNull final CommandMeta meta,
+                @NotNull final Class<?> allowedSender,
+                @NotNull final S sender
         ) {
             return valid();
         }
 
         @Override
-        default @NotNull S map(final @NotNull S defaultSender) {
+        default @NotNull S map(@NotNull final S defaultSender) {
             return defaultSender;
         }
 
         @Override
-        default @NotNull S mapBackwards(final @NotNull S sender) {
+        default @NotNull S mapBackwards(@NotNull final S sender) {
             return sender;
         }
     }
@@ -67,7 +67,7 @@ public interface SenderExtension<D, S> extends SenderMapper<D, S> {
     }
 
     default ValidationResult<@NotNull MessageKey<@NotNull MessageContext>> invalid(
-            final @NotNull MessageKey<@NotNull MessageContext> messageKey
+            @NotNull final MessageKey<@NotNull MessageContext> messageKey
     ) {
         return new ValidationResult.Invalid<>(messageKey);
     }

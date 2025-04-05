@@ -31,15 +31,15 @@ import org.jetbrains.annotations.NotNull;
 public interface Requirement<D, S> {
 
     boolean test(
-            final @NotNull S sender,
-            final @NotNull CommandMeta meta,
-            final @NotNull SenderMapper<D, S> senderMapper
+            @NotNull final S sender,
+            @NotNull final CommandMeta meta,
+            @NotNull final SenderMapper<D, S> senderMapper
     );
 
     void onDeny(
-            final @NotNull S sender,
-            final @NotNull MessageRegistry<S> messageRegistry,
-            final @NotNull CommandMeta meta
+            @NotNull final S sender,
+            @NotNull final MessageRegistry<S> messageRegistry,
+            @NotNull final CommandMeta meta
     );
 
 }

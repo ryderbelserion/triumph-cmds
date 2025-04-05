@@ -60,7 +60,7 @@ public abstract class ParentCommand<D, S> implements Command<D, S> {
     // Single parent command with argument
     private Command<D, S> parentCommandWithArgument;
 
-    public ParentCommand(final @NotNull CommandProcessor<D, S> processor) {
+    public ParentCommand(@NotNull final CommandProcessor<D, S> processor) {
         final Settings.Builder<D, S> settingsBuilder = new Settings.Builder<>();
         processor.captureRequirements(settingsBuilder);
         this.meta = processor.createMeta(settingsBuilder);
@@ -73,8 +73,8 @@ public abstract class ParentCommand<D, S> implements Command<D, S> {
 
     @Override
     public @NotNull List<String> suggestions(
-            final @NotNull S sender,
-            final @NotNull Deque<String> arguments
+            @NotNull final S sender,
+            @NotNull final Deque<String> arguments
     ) {
         final String argument = arguments.peek();
 
@@ -102,8 +102,8 @@ public abstract class ParentCommand<D, S> implements Command<D, S> {
      * @param commands a list of command to be added.
      */
     public void addCommands(
-            final @NotNull Object instance,
-            final @NotNull List<Command<D, S>> commands
+            @NotNull final Object instance,
+            @NotNull final List<Command<D, S>> commands
     ) {
         for (final Command<D, S> command : commands) {
             // If it's a parent command with argument we add it
@@ -131,8 +131,8 @@ public abstract class ParentCommand<D, S> implements Command<D, S> {
     }
 
     protected @Nullable Command<D, S> findCommand(
-            final @NotNull S sender,
-            final @NotNull Deque<String> arguments,
+            @NotNull final S sender,
+            @NotNull final Deque<String> arguments,
             final boolean message
     ) {
         final String name = arguments.peek();
@@ -174,7 +174,7 @@ public abstract class ParentCommand<D, S> implements Command<D, S> {
         return defaultCommand;
     }
 
-    public @Nullable Command<D, S> getCommand(final @NotNull String name) {
+    public @Nullable Command<D, S> getCommand(@NotNull final String name) {
         return this.commands.get(name);
     }
 
@@ -196,7 +196,7 @@ public abstract class ParentCommand<D, S> implements Command<D, S> {
         return this.commands;
     }
 
-    protected @Nullable Command<D, S> getCommandByName(final @NotNull String key) {
+    protected @Nullable Command<D, S> getCommandByName(@NotNull final String key) {
         return this.commands.getOrDefault(key, this.commandAliases.get(key));
     }
 

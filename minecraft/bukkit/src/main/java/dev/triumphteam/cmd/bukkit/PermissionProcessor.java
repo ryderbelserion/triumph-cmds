@@ -39,16 +39,16 @@ final class PermissionProcessor<S> implements Processor<CommandSender, S> {
 
     private final CommandPermission globalPermission;
 
-    public PermissionProcessor(final @Nullable CommandPermission globalPermission) {
+    public PermissionProcessor(@Nullable final CommandPermission globalPermission) {
         this.globalPermission = globalPermission;
     }
 
     @Override
     public void process(
-            final @NotNull AnnotatedElement element,
-            final @NotNull ProcessorTarget target,
-            final @NotNull CommandMeta.@NotNull Builder meta,
-            final @NotNull Settings.@NotNull Builder<CommandSender, S> settingsBuilder
+            @NotNull final AnnotatedElement element,
+            @NotNull final ProcessorTarget target,
+            @NotNull final CommandMeta.@NotNull Builder meta,
+            @NotNull final Settings.@NotNull Builder<CommandSender, S> settingsBuilder
     ) {
         final Permission permissionAnnotation = element.getAnnotation(Permission.class);
 
@@ -84,7 +84,7 @@ final class PermissionProcessor<S> implements Processor<CommandSender, S> {
     }
 
     private @Nullable CommandPermission permissionRecursively(
-            final @Nullable CommandMeta meta
+            @Nullable final CommandMeta meta
     ) {
         if (meta == null) return null;
 

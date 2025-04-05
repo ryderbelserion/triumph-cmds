@@ -41,7 +41,7 @@ public interface SenderMapper<D, S> {
      * @param defaultSender the platform provided sender.
      * @return a final usable version of the sender.
      */
-    @NotNull S map(final @NotNull D defaultSender);
+    @NotNull S map(@NotNull final D defaultSender);
 
     /**
      * Return back to the original sender.
@@ -49,6 +49,6 @@ public interface SenderMapper<D, S> {
      * @param sender the mapped/final sender.
      * @return the platform provided sender, that was used to map into the current sender.
      */
-    @NotNull D mapBackwards(final @NotNull S sender);
+    @NotNull D mapBackwards(@NotNull final S sender);
 
 }

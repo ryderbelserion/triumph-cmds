@@ -36,7 +36,7 @@ public abstract class ContextualKey<C extends MessageContext> extends StringKey 
 
     private final Class<C> type;
 
-    protected ContextualKey(final @NotNull String key, final @NotNull Class<C> type) {
+    protected ContextualKey(@NotNull final String key, @NotNull final Class<C> type) {
         super(key);
 
         this.type = type;
@@ -52,7 +52,7 @@ public abstract class ContextualKey<C extends MessageContext> extends StringKey 
     }
 
     @Override
-    public boolean equals(final @Nullable Object o) {
+    public boolean equals(@Nullable final Object o) {
         if (this == o) return true;
 
         if (o == null || getClass() != o.getClass()) return false;

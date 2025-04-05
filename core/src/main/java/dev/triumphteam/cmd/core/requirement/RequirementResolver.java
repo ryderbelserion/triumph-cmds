@@ -40,6 +40,6 @@ public interface RequirementResolver<D, S> {
      * @param sender the sender to check the requirement.
      * @return whether the requirement passes or fails.
      */
-    boolean resolve(final @NotNull S sender, final @NotNull RequirementContext<D, S> context);
+    boolean resolve(@NotNull final S sender, @NotNull final RequirementContext<D, S> context);
 
 }

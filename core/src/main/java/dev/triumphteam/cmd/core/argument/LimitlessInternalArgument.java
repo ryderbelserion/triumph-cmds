@@ -37,11 +37,11 @@ import java.util.Collection;
 public abstract class LimitlessInternalArgument<S> extends AbstractInternalArgument<S, Collection<String>> {
 
     public LimitlessInternalArgument(
-            final @NotNull CommandMeta meta,
-            final @NotNull String name,
-            final @NotNull String description,
-            final @NotNull Class<?> type,
-            final @NotNull Suggestion<S> suggestion,
+            @NotNull final CommandMeta meta,
+            @NotNull final String name,
+            @NotNull final String description,
+            @NotNull final Class<?> type,
+            @NotNull final Suggestion<S> suggestion,
             final boolean isOptional
     ) {
         super(meta, name, description, type, suggestion, isOptional);

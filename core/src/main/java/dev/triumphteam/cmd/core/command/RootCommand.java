@@ -42,7 +42,7 @@ public class RootCommand<D, S> extends ParentCommand<D, S> {
     private final String description;
     private final String syntax;
 
-    public RootCommand(final @NotNull RootCommandProcessor<D, S> processor) {
+    public RootCommand(@NotNull final RootCommandProcessor<D, S> processor) {
         super(processor);
 
         this.name = processor.getName();
@@ -56,9 +56,9 @@ public class RootCommand<D, S> extends ParentCommand<D, S> {
 
     @Override
     public void execute(
-            final @NotNull S sender,
-            final @Nullable Supplier<Object> instanceSupplier,
-            final @NotNull Deque<String> arguments
+            @NotNull final S sender,
+            @Nullable final Supplier<Object> instanceSupplier,
+            @NotNull final Deque<String> arguments
     ) {
         // Test all requirements before continuing
         if (!getSettings().testRequirements(getMessageRegistry(), sender, getMeta(), getSenderExtension())) return;
@@ -70,17 +70,17 @@ public class RootCommand<D, S> extends ParentCommand<D, S> {
         // Executing the command and catch all exceptions to rethrow with better message
         try {
             command.execute(sender, null, arguments);
-        } catch (final @NotNull Throwable exception) {
+        } catch (@NotNull final Throwable exception) {
             throw new CommandExecutionException("An error occurred while executing the command").initCause(exception instanceof InvocationTargetException ? exception.getCause() : exception);
         }
     }
 
     @Override
     public void executeNonLinear(
-            final @NotNull S sender,
-            final @Nullable Supplier<Object> instanceSupplier,
-            final @NotNull Deque<String> commands,
-            final @NotNull Map<String, Pair<String, Object>> arguments
+            @NotNull final S sender,
+            @Nullable final Supplier<Object> instanceSupplier,
+            @NotNull final Deque<String> commands,
+            @NotNull final Map<String, Pair<String, Object>> arguments
     ) {
         // Test all requirements before continuing
         if (!getSettings().testRequirements(getMessageRegistry(), sender, getMeta(), getSenderExtension())) return;
@@ -92,7 +92,7 @@ public class RootCommand<D, S> extends ParentCommand<D, S> {
         // Executing the command and catch all exceptions to rethrow with better message
         try {
             command.executeNonLinear(sender, null, commands, arguments);
-        } catch (final @NotNull Throwable exception) {
+        } catch (@NotNull final Throwable exception) {
             throw new CommandExecutionException("An error occurred while executing the command").initCause(exception instanceof InvocationTargetException ? exception.getCause() : exception);
         }
     }

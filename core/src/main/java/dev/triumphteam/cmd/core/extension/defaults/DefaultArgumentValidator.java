@@ -35,8 +35,8 @@ public class DefaultArgumentValidator<S> implements ArgumentValidator<S> {
 
     @Override
     public ValidationResult validate(
-            final @NotNull CommandMeta data,
-            final @NotNull InternalArgument<S, ?> argument,
+            @NotNull final CommandMeta data,
+            @NotNull final InternalArgument<S, ?> argument,
             final int position,
             final int last
     ) {

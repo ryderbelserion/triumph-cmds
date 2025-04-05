@@ -32,21 +32,21 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class CommandExecutionException extends RuntimeException {
 
-    public CommandExecutionException(final @NotNull String message) {
+    public CommandExecutionException(@NotNull final String message) {
         super(message);
     }
 
     public CommandExecutionException(
-            final @NotNull String message,
-            final @NotNull String parent,
-            final @NotNull String command
+            @NotNull final String message,
+            @NotNull final String parent,
+            @NotNull final String command
     ) {
         super(message + ". On \"" + parent + "\" command on \"" + command + "\" sub command.");
     }
 
     @Contract("_ -> this")
     @Override
-    public synchronized @NotNull CommandExecutionException initCause(final @Nullable Throwable cause) {
+    public synchronized @NotNull CommandExecutionException initCause(@Nullable final Throwable cause) {
         super.initCause(cause);
 
         return this;

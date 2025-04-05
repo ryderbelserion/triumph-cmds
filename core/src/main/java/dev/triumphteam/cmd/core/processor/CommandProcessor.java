@@ -55,7 +55,7 @@ public interface CommandProcessor<D, S> {
      *
      * @return the immutable {@link CommandMeta} instance.
      */
-    @NotNull CommandMeta createMeta(final @NotNull Settings.Builder<D, S> settingsBuilder);
+    @NotNull CommandMeta createMeta(@NotNull final Settings.Builder<D, S> settingsBuilder);
 
     @NotNull CommandOptions<D, S> getCommandOptions();
 
@@ -75,10 +75,10 @@ public interface CommandProcessor<D, S> {
      */
     @SuppressWarnings("unchecked")
     default void processAnnotations(
-            final @NotNull CommandExtensions<?, ?> extensions,
-            final @NotNull AnnotatedElement element,
-            final @NotNull ProcessorTarget target,
-            final @NotNull CommandMeta.Builder meta
+            @NotNull final CommandExtensions<?, ?> extensions,
+            @NotNull final AnnotatedElement element,
+            @NotNull final ProcessorTarget target,
+            @NotNull final CommandMeta.Builder meta
     ) {
         final Map<Class<? extends Annotation>, AnnotationProcessor<? extends Annotation>> processors
                 = extensions.getAnnotationProcessors();
@@ -93,7 +93,7 @@ public interface CommandProcessor<D, S> {
         }
     }
 
-    default void captureRequirements(final @NotNull Settings.Builder<D, S> settingsBuilder) {
+    default void captureRequirements(@NotNull final Settings.Builder<D, S> settingsBuilder) {
         final RequirementRegistry<D, S> requirementRegistry = getRegistryContainer().getRequirementRegistry();
 
         for (final dev.triumphteam.cmd.core.annotations.Requirement requirementAnnotation : getRequirementsFromAnnotations()) {
@@ -114,11 +114,11 @@ public interface CommandProcessor<D, S> {
     }
 
     default void processCommandMeta(
-            final @NotNull CommandExtensions<D, S> extensions,
-            final @NotNull AnnotatedElement element,
-            final @NotNull ProcessorTarget target,
-            final @NotNull CommandMeta.Builder meta,
-            final @NotNull Settings.Builder<D, S> settingsBuilder
+            @NotNull final CommandExtensions<D, S> extensions,
+            @NotNull final AnnotatedElement element,
+            @NotNull final ProcessorTarget target,
+            @NotNull final CommandMeta.Builder meta,
+            @NotNull final Settings.Builder<D, S> settingsBuilder
     ) {
         extensions.getProcessors().forEach(it -> it.process(element, target, meta, settingsBuilder));
     }

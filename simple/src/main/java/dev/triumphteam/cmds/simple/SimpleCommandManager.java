@@ -47,8 +47,8 @@ public final class SimpleCommandManager<S> extends CommandManager<S, S, CommandO
     private final RegistryContainer<S, S> registryContainer;
 
     private SimpleCommandManager(
-            final @NotNull CommandOptions<S, S> commandOptions,
-            final @NotNull RegistryContainer<S, S> registryContainer
+            @NotNull final CommandOptions<S, S> commandOptions,
+            @NotNull final RegistryContainer<S, S> registryContainer
     ) {
         super(commandOptions);
 
@@ -57,8 +57,8 @@ public final class SimpleCommandManager<S> extends CommandManager<S, S, CommandO
 
     @Contract("_, _ -> new")
     public static <S> @NotNull SimpleCommandManager<S> create(
-            final @NotNull SenderExtension<S, S> senderExtension,
-            final @NotNull Consumer<SimpleOptionsBuilder<S>> builder
+            @NotNull final SenderExtension<S, S> senderExtension,
+            @NotNull final Consumer<SimpleOptionsBuilder<S>> builder
     ) {
         final RegistryContainer<S, S> registryContainer = new RegistryContainer<>();
         final SimpleOptionsBuilder<S> extensionBuilder = new SimpleOptionsBuilder<>(registryContainer);
@@ -69,7 +69,7 @@ public final class SimpleCommandManager<S> extends CommandManager<S, S, CommandO
     }
 
     @Override
-    public void registerCommand(final @NotNull Object command) {
+    public void registerCommand(@NotNull final Object command) {
         final RootCommandProcessor<S, S> processor = new RootCommandProcessor<>(
                 command,
                 getRegistryContainer(),
@@ -94,7 +94,7 @@ public final class SimpleCommandManager<S> extends CommandManager<S, S, CommandO
     }
 
     @Override
-    public void unregisterCommand(final @NotNull Object command) {
+    public void unregisterCommand(@NotNull final Object command) {
         // TODO add a remove functionality
     }
 
@@ -104,7 +104,7 @@ public final class SimpleCommandManager<S> extends CommandManager<S, S, CommandO
      * @param sender the provided sender.
      * @param args the provided arguments.
      */
-    public void executeCommand(final @NotNull S sender, final @NotNull List<String> args) {
+    public void executeCommand(@NotNull final S sender, @NotNull final List<String> args) {
         if (args.isEmpty()) return;
 
         final String commandName = args.getFirst();

@@ -95,7 +95,7 @@ public interface Argument {
      * @return a {@link Builder} for a custom type argument.
      */
     @Contract("_ -> new")
-    static @NotNull Argument.Builder forType(final @NotNull Class<?> type) {
+    static @NotNull Argument.Builder forType(@NotNull final Class<?> type) {
         return new Builder(type);
     }
 
@@ -106,7 +106,7 @@ public interface Argument {
      * @return a {@link CollectionBuilder} for a custom type argument.
      */
     @Contract("_ -> new")
-    static @NotNull Argument.CollectionBuilder listOf(final @NotNull Class<?> type) {
+    static @NotNull Argument.CollectionBuilder listOf(@NotNull final Class<?> type) {
         return new CollectionBuilder(List.class, type);
     }
 
@@ -117,7 +117,7 @@ public interface Argument {
      * @return a {@link CollectionBuilder} for a custom type argument.
      */
     @Contract("_ -> new")
-    static @NotNull Argument.CollectionBuilder setOf(final @NotNull Class<?> type) {
+    static @NotNull Argument.CollectionBuilder setOf(@NotNull final Class<?> type) {
         return new CollectionBuilder(Set.class, type);
     }
 
@@ -145,7 +145,7 @@ public interface Argument {
      * The default builder, simply extends the functionality of {@link AbstractBuilder}.
      */
     class Builder extends AbstractBuilder<Builder> {
-        public Builder(final @NotNull Class<?> type) {
+        public Builder(@NotNull final Class<?> type) {
             super(type);
         }
     }
@@ -159,7 +159,7 @@ public interface Argument {
         private final Class<?> collectionType;
         private String separator = ",";
 
-        public CollectionBuilder(final @NotNull Class<?> collectionType, final @NotNull Class<?> type) {
+        public CollectionBuilder(@NotNull final Class<?> collectionType, @NotNull final Class<?> type) {
             super(type);
 
             this.collectionType = collectionType;
@@ -172,7 +172,7 @@ public interface Argument {
          * @return this builder.
          */
         @Contract("_ -> this")
-        public @NotNull Argument.CollectionBuilder separator(final @NotNull String separator) {
+        public @NotNull Argument.CollectionBuilder separator(@NotNull final String separator) {
             this.separator = separator;
 
             return this;
@@ -206,7 +206,7 @@ public interface Argument {
         private String description;
         private SuggestionKey suggestionKey;
 
-        private AbstractBuilder(final @NotNull Class<?> type) {
+        private AbstractBuilder(@NotNull final Class<?> type) {
             this.type = type;
         }
 
@@ -217,7 +217,7 @@ public interface Argument {
          * @return this builder.
          */
         @Contract("_ -> this")
-        public @NotNull T name(final @NotNull String name) {
+        public @NotNull T name(@NotNull final String name) {
             this.name = name;
 
             return (T) this;
@@ -230,7 +230,7 @@ public interface Argument {
          * @return this builder.
          */
         @Contract("_ -> this")
-        public @NotNull T description(final @NotNull String description) {
+        public @NotNull T description(@NotNull final String description) {
             this.description = description;
 
             return (T) this;
@@ -244,7 +244,7 @@ public interface Argument {
          * @return this builder.
          */
         @Contract("_ -> this")
-        public @NotNull T suggestion(final @NotNull SuggestionKey suggestionKey) {
+        public @NotNull T suggestion(@NotNull final SuggestionKey suggestionKey) {
             this.suggestionKey = suggestionKey;
 
             return (T) this;

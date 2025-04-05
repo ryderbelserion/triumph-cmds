@@ -51,16 +51,16 @@ public interface Command<D, S> extends CommandMetaContainer {
      * @throws Throwable anything that goes wrong with the execution.
      */
     void execute(
-            final @NotNull S sender,
-            final @Nullable Supplier<Object> instanceSupplier,
-            final @NotNull Deque<String> arguments
+            @NotNull final S sender,
+            @Nullable final Supplier<Object> instanceSupplier,
+            @NotNull final Deque<String> arguments
     ) throws Throwable;
 
     void executeNonLinear(
-            final @NotNull S sender,
-            final @Nullable Supplier<Object> instanceSupplier,
-            final @NotNull Deque<String> commands,
-            final @NotNull Map<String, Pair<String, Object>> arguments
+            @NotNull final S sender,
+            @Nullable final Supplier<Object> instanceSupplier,
+            @NotNull final Deque<String> commands,
+            @NotNull final Map<String, Pair<String, Object>> arguments
     ) throws Throwable;
 
     /**
@@ -71,8 +71,8 @@ public interface Command<D, S> extends CommandMetaContainer {
      * @return a list of valid suggestions for the command.
      */
     @NotNull List<String> suggestions(
-            final @NotNull S sender,
-            final @NotNull Deque<String> arguments
+            @NotNull final S sender,
+            @NotNull final Deque<String> arguments
     );
 
     @NotNull Settings<D, S> getCommandSettings();

@@ -51,13 +51,13 @@ public final class SplitStringInternalArgument<S> extends StringInternalArgument
     private final Class<?> collectionType;
 
     public SplitStringInternalArgument(
-            final @NotNull CommandMeta meta,
-            final @NotNull String name,
-            final @NotNull String description,
-            final @NotNull String regex,
-            final @NotNull InternalArgument<S, String> internalArgument,
-            final @NotNull Class<?> collectionType,
-            final @NotNull Suggestion<S> suggestion,
+            @NotNull final CommandMeta meta,
+            @NotNull final String name,
+            @NotNull final String description,
+            @NotNull final String regex,
+            @NotNull final InternalArgument<S, String> internalArgument,
+            @NotNull final Class<?> collectionType,
+            @NotNull final Suggestion<S> suggestion,
             final boolean optional
     ) {
         super(meta, name, description, String.class, suggestion, optional);
@@ -76,9 +76,9 @@ public final class SplitStringInternalArgument<S> extends StringInternalArgument
      */
     @Override
     public @NotNull Result<@Nullable Object, BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext>> resolve(
-            final @NotNull S sender,
-            final @NotNull String value,
-            final @Nullable Object provided
+            @NotNull final S sender,
+            @NotNull final String value,
+            @Nullable final Object provided
     ) {
         final Stream<Object> stream = Arrays.stream(value.split(regex)).map(arg -> this.internalArgument.resolve(sender, arg));
 
@@ -89,8 +89,8 @@ public final class SplitStringInternalArgument<S> extends StringInternalArgument
 
     @Override
     public @NotNull List<String> suggestions(
-            final @NotNull S sender,
-            final @NotNull Deque<String> arguments
+            @NotNull final S sender,
+            @NotNull final Deque<String> arguments
     ) {
         final String peek = arguments.peekLast();
         final String last = peek == null ? "" : peek;

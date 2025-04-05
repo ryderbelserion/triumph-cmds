@@ -107,11 +107,11 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
     private final CommandMeta parentMeta;
 
     AbstractCommandProcessor(
-            final @NotNull Object invocationInstance,
-            final @NotNull AnnotatedElement annotatedElement,
-            final @NotNull RegistryContainer<D, S> registryContainer,
-            final @NotNull CommandOptions<D, S> commandOptions,
-            final @NotNull CommandMeta parentMeta
+            @NotNull final Object invocationInstance,
+            @NotNull final AnnotatedElement annotatedElement,
+            @NotNull final RegistryContainer<D, S> registryContainer,
+            @NotNull final CommandOptions<D, S> commandOptions,
+            @NotNull final CommandMeta parentMeta
     ) {
         this.invocationInstance = invocationInstance;
         this.annotatedElement = annotatedElement;
@@ -148,7 +148,7 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
     }
 
     @Contract("_ -> new")
-    protected @NotNull SubCommandRegistrationException createException(final @NotNull String message) {
+    protected @NotNull SubCommandRegistrationException createException(@NotNull final String message) {
         return new SubCommandRegistrationException(message, this.annotatedElement, this.invocationInstance.getClass());
     }
 
@@ -185,12 +185,12 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
     }
 
     protected @NotNull InternalArgument<S, ?> argumentFromParameter(
-            final @NotNull CommandMeta meta,
-            final @NotNull Parameter parameter,
-            final @NotNull List<String> argDescriptions,
-            final @NotNull Map<Integer, Suggestion<S>> suggestions,
-            final @NotNull ArgumentGroup<Flag> flagGroup,
-            final @NotNull ArgumentGroup<Argument> argumentGroup,
+            @NotNull final CommandMeta meta,
+            @NotNull final Parameter parameter,
+            @NotNull final List<String> argDescriptions,
+            @NotNull final Map<Integer, Suggestion<S>> suggestions,
+            @NotNull final ArgumentGroup<Flag> flagGroup,
+            @NotNull final ArgumentGroup<Argument> argumentGroup,
             final int position
     ) {
         final Class<?> type = parameter.getType();
@@ -292,11 +292,11 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
     }
 
     protected @NotNull StringInternalArgument<S> createSimpleArgument(
-            final @NotNull CommandMeta meta,
-            final @NotNull Class<?> type,
-            final @NotNull String name,
-            final @NotNull String description,
-            final @NotNull Suggestion<S> suggestion,
+            @NotNull final CommandMeta meta,
+            @NotNull final Class<?> type,
+            @NotNull final String name,
+            @NotNull final String description,
+            @NotNull final Suggestion<S> suggestion,
             final boolean optional
     ) {
         // All other types default to the resolver.
@@ -337,8 +337,8 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
     }
 
     private Map<Flag, StringInternalArgument<S>> createFlagInternals(
-            final @NotNull CommandMeta meta,
-            final @NotNull ArgumentGroup<Flag> group
+            @NotNull final CommandMeta meta,
+            @NotNull final ArgumentGroup<Flag> group
     ) {
         final Map<Flag, StringInternalArgument<S>> internalArguments = new HashMap<>();
 
@@ -366,8 +366,8 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
     }
 
     private Map<Argument, StringInternalArgument<S>> createNamedArgumentInternals(
-            final @NotNull CommandMeta meta,
-            final @NotNull ArgumentGroup<Argument> group
+            @NotNull final CommandMeta meta,
+            @NotNull final ArgumentGroup<Argument> group
     ) {
         final Map<Argument, StringInternalArgument<S>> internalArguments = new HashMap<>();
 
@@ -426,7 +426,7 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
      * @param parameter the parameter to get data from.
      * @return the final internalArgument name.
      */
-    private @NotNull String getArgName(final @NotNull Parameter parameter) {
+    private @NotNull String getArgName(@NotNull final Parameter parameter) {
         if (parameter.isAnnotationPresent(ArgName.class)) {
             return parameter.getAnnotation(ArgName.class).value();
         }
@@ -444,7 +444,7 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
      */
     private @NotNull String getArgumentDescription(
             final List<String> argDescriptions,
-            final @NotNull Parameter parameter,
+            @NotNull final Parameter parameter,
             final int index
     ) {
         final Description description = parameter.getAnnotation(Description.class);
@@ -468,7 +468,7 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
         return "";
     }
 
-    private @NotNull Class<?> getGenericType(final @NotNull Parameter parameter) {
+    private @NotNull Class<?> getGenericType(@NotNull final Parameter parameter) {
         final Class<?> type = parameter.getType();
 
         if (SUPPORTED_COLLECTIONS.stream().anyMatch(it -> it.isAssignableFrom(type))) {
@@ -487,7 +487,7 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
         return type;
     }
 
-    protected @NotNull Suggestion<S> createSuggestion(final @Nullable SuggestionKey suggestionKey, final @NotNull Class<?> type) {
+    protected @NotNull Suggestion<S> createSuggestion(@Nullable final SuggestionKey suggestionKey, @NotNull final Class<?> type) {
         if (suggestionKey == null || suggestionKey.getKey().isEmpty()) {
             if (Enum.class.isAssignableFrom(type)) {
                 return new EnumSuggestion<>((Class<? extends Enum<?>>) type, commandOptions.suggestLowercaseEnum());
@@ -509,7 +509,7 @@ abstract class AbstractCommandProcessor<D, S> implements CommandProcessor<D, S> 
         return new SimpleSuggestion<>(pair.first(), pair.second());
     }
 
-    private @NotNull Suggestion<S> suggestionFromParam(final @NotNull Parameter parameter) {
+    private @NotNull Suggestion<S> suggestionFromParam(@NotNull final Parameter parameter) {
         final dev.triumphteam.cmd.core.annotations.Suggestion parameterAnnotation = parameter.getAnnotation(dev.triumphteam.cmd.core.annotations.Suggestion.class);
 
         final SuggestionKey suggestionKey = parameterAnnotation == null ? null : SuggestionKey.of(parameterAnnotation.value());

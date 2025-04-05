@@ -31,7 +31,7 @@ class SimpleArgumentValue implements ArgumentValue {
     private final String rawValue;
     private final Object value;
 
-    public SimpleArgumentValue(final @NotNull String rawValue, final @NotNull Object value) {
+    public SimpleArgumentValue(@NotNull final String rawValue, @NotNull final Object value) {
         this.rawValue = rawValue;
         this.value = value;
     }

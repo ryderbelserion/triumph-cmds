@@ -48,8 +48,8 @@ public final class MessageRegistry<S> implements Registry {
      * @param <C> the type of {@link MessageContext} used by the message.
      */
     public <C extends MessageContext> void register(
-            final @NotNull ContextualKey<C> key,
-            final @NotNull MessageResolver<S, C> resolver
+            @NotNull final ContextualKey<C> key,
+            @NotNull final MessageResolver<S, C> resolver
     ) {
         messages.put(key, resolver);
     }
@@ -63,9 +63,9 @@ public final class MessageRegistry<S> implements Registry {
      * @param <C> the type of {@link MessageContext} to be used.
      */
     public <C extends MessageContext> void sendMessage(
-            final @NotNull MessageKey<C> key,
-            final @NotNull S sender,
-            final @NotNull C context
+            @NotNull final MessageKey<C> key,
+            @NotNull final S sender,
+            @NotNull final C context
     ) {
         //noinspection unchecked
         final MessageResolver<S, C> messageResolver = (MessageResolver<S, C>) messages.get(key);

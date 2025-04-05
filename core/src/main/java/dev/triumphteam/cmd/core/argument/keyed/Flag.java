@@ -38,7 +38,7 @@ public interface Flag {
      * @return a {@link Argument.Builder} to create a new {@link Flag}.
      */
     @Contract("_ -> new")
-    static @NotNull Builder flag(final @NotNull String flag) {
+    static @NotNull Builder flag(@NotNull final String flag) {
         return new Builder().flag(flag);
     }
 
@@ -49,7 +49,7 @@ public interface Flag {
      * @return a {@link Argument.Builder} to create a new {@link Flag}.
      */
     @Contract("_ -> new")
-    static @NotNull Builder longFlag(final @NotNull String longFlag) {
+    static @NotNull Builder longFlag(@NotNull final String longFlag) {
         return new Builder().longFlag(longFlag);
     }
 
@@ -106,7 +106,7 @@ public interface Flag {
          * @return this builder.
          */
         @Contract("_ -> this")
-        public @NotNull Builder flag(final @NotNull String flag) {
+        public @NotNull Builder flag(@NotNull final String flag) {
             this.flag = flag;
             return this;
         }
@@ -118,7 +118,7 @@ public interface Flag {
          * @return this builder.
          */
         @Contract("_ -> this")
-        public @NotNull Builder longFlag(final @NotNull String longFlag) {
+        public @NotNull Builder longFlag(@NotNull final String longFlag) {
             this.longFlag = longFlag;
             return this;
         }
@@ -130,7 +130,7 @@ public interface Flag {
          * @return this builder.
          */
         @Contract("_ -> this")
-        public @NotNull Builder description(final @NotNull String description) {
+        public @NotNull Builder description(@NotNull final String description) {
             this.description = description;
             return this;
         }
@@ -142,7 +142,7 @@ public interface Flag {
          * @return this builder.
          */
         @Contract("_ -> this")
-        public @NotNull Builder argument(final @NotNull Class<?> argumentType) {
+        public @NotNull Builder argument(@NotNull final Class<?> argumentType) {
             this.argument = argumentType;
             return this;
         }
@@ -155,7 +155,7 @@ public interface Flag {
          * @return this builder.
          */
         @Contract("_ -> this")
-        public @NotNull Builder suggestion(final @NotNull SuggestionKey suggestionKey) {
+        public @NotNull Builder suggestion(@NotNull final SuggestionKey suggestionKey) {
             this.suggestionKey = suggestionKey;
             return this;
         }

@@ -32,7 +32,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class SuggestionKey extends StringKey {
 
-    private SuggestionKey(final @NotNull String key) {
+    private SuggestionKey(@NotNull final String key) {
         super(key);
     }
 
@@ -43,7 +43,7 @@ public final class SuggestionKey extends StringKey {
      * @return a new {@link SuggestionKey}.
      */
     @Contract("_ -> new")
-    public static @NotNull SuggestionKey of(final @NotNull String key) {
+    public static @NotNull SuggestionKey of(@NotNull final String key) {
         return new SuggestionKey(key);
     }
 

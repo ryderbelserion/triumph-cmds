@@ -46,11 +46,11 @@ public final class ParentCommandProcessor<D, S> extends AbstractCommandProcessor
     private final Class<?> klass;
 
     ParentCommandProcessor(
-            final @NotNull Object invocationInstance,
-            final @NotNull Class<?> klass,
-            final @NotNull RegistryContainer<D, S> registryContainer,
-            final @NotNull CommandOptions<D, S> commandOptions,
-            final @NotNull CommandMeta parentMeta
+            @NotNull final Object invocationInstance,
+            @NotNull final Class<?> klass,
+            @NotNull final RegistryContainer<D, S> registryContainer,
+            @NotNull final CommandOptions<D, S> commandOptions,
+            @NotNull final CommandMeta parentMeta
     ) {
         super(invocationInstance, klass, registryContainer, commandOptions, parentMeta);
 
@@ -63,7 +63,7 @@ public final class ParentCommandProcessor<D, S> extends AbstractCommandProcessor
     }
 
     @Override
-    public @NotNull CommandMeta createMeta(final @NotNull Settings.@NotNull Builder<D, S> settingsBuilder) {
+    public @NotNull CommandMeta createMeta(@NotNull final Settings.@NotNull Builder<D, S> settingsBuilder) {
         final CommandMeta.Builder meta = new CommandMeta.Builder(getParentMeta());
 
         // Defaults

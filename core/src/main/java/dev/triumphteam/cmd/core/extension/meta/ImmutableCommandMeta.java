@@ -35,30 +35,30 @@ final class ImmutableCommandMeta implements CommandMeta {
     private final Map<MetaKey<?>, Object> meta;
 
     public ImmutableCommandMeta(
-            final @Nullable CommandMeta parentMeta,
-            final @NotNull Map<MetaKey<?>, Object> meta
+            @Nullable final CommandMeta parentMeta,
+            @NotNull final Map<MetaKey<?>, Object> meta
     ) {
         this.parentMeta = parentMeta;
         this.meta = meta;
     }
 
     @Override
-    public @NotNull <V> Optional<V> get(final @NotNull MetaKey<V> metaKey) {
+    public @NotNull <V> Optional<V> get(@NotNull final MetaKey<V> metaKey) {
         return Optional.ofNullable(getNullable(metaKey));
     }
 
     @Override
-    public <V> @Nullable V getNullable(final @NotNull MetaKey<V> metaKey) {
+    public <V> @Nullable V getNullable(@NotNull final MetaKey<V> metaKey) {
         return (V) this.meta.get(metaKey);
     }
 
     @Override
-    public <V> V getOrDefault(final @NotNull MetaKey<V> metaKey, @Nullable final V def) {
+    public <V> V getOrDefault(@NotNull final MetaKey<V> metaKey, @Nullable final V def) {
         return (V) this.meta.getOrDefault(metaKey, def);
     }
 
     @Override
-    public <V> boolean isPresent(final @NotNull MetaKey<V> metaKey) {
+    public <V> boolean isPresent(@NotNull final MetaKey<V> metaKey) {
         return this.meta.containsKey(metaKey);
     }
 

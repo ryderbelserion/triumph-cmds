@@ -48,9 +48,9 @@ class BukkitSenderExtension implements SenderExtension.Default<CommandSender> {
 
     @Override
     public @NotNull ValidationResult<@NotNull MessageKey<@NotNull MessageContext>> validate(
-            final @NotNull CommandMeta meta,
-            final @NotNull Class<?> allowedSender,
-            final @NotNull CommandSender sender
+            @NotNull final CommandMeta meta,
+            @NotNull final Class<?> allowedSender,
+            @NotNull final CommandSender sender
     ) {
         if (Player.class.isAssignableFrom(allowedSender) && !(sender instanceof Player)) {
             return invalid(BukkitMessageKey.PLAYER_ONLY);

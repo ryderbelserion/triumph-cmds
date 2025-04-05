@@ -49,11 +49,11 @@ public abstract class AbstractInternalArgument<S, T> implements InternalArgument
     private final Suggestion<S> suggestion;
 
     public AbstractInternalArgument(
-            final @NotNull CommandMeta meta,
-            final @NotNull String name,
-            final @NotNull String description,
-            final @NotNull Class<?> type,
-            final @NotNull Suggestion<S> suggestion,
+            @NotNull final CommandMeta meta,
+            @NotNull final String name,
+            @NotNull final String description,
+            @NotNull final Class<?> type,
+            @NotNull final Suggestion<S> suggestion,
             final boolean optional
     ) {
         this.meta = meta;
@@ -66,8 +66,8 @@ public abstract class AbstractInternalArgument<S, T> implements InternalArgument
 
     @Override
     public @NotNull List<String> suggestions(
-            final @NotNull S sender,
-            final @NotNull Deque<String> arguments
+            @NotNull final S sender,
+            @NotNull final Deque<String> arguments
     ) {
         final String current = arguments.peekLast();
 

@@ -33,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class RequirementKey extends StringKey {
 
-    private RequirementKey(final @NotNull String key) {
+    private RequirementKey(@NotNull final String key) {
         super(key);
     }
 
@@ -44,7 +44,7 @@ public final class RequirementKey extends StringKey {
      * @return a new {@link RequirementKey}.
      */
     @Contract("_ -> new")
-    public static @NotNull RequirementKey of(final @NotNull String key) {
+    public static @NotNull RequirementKey of(@NotNull final String key) {
         return new RequirementKey(key);
     }
 

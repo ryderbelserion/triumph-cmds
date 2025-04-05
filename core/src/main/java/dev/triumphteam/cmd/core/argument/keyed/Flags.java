@@ -41,7 +41,7 @@ public interface Flags extends Keyed {
      * @param flag the flag to check.
      * @return whether the flag is present in the command or not.
      */
-    boolean hasFlag(final @NotNull String flag);
+    boolean hasFlag(@NotNull final String flag);
 
     /**
      * Gets the flag value.
@@ -52,7 +52,7 @@ public interface Flags extends Keyed {
      * @param <T> the value type, based on the class from before.
      * @return the flag's value.
      */
-    <T> @NotNull Optional<T> getFlagValue(final @NotNull String flag, final @NotNull Class<T> type);
+    <T> @NotNull Optional<T> getFlagValue(@NotNull final String flag, @NotNull final Class<T> type);
 
     /**
      * Instead of converting the value to the desired type, simply get it as string.
@@ -61,7 +61,7 @@ public interface Flags extends Keyed {
      * @param flag the flag to get the value from.
      * @return the flag's value.
      */
-    @NotNull Optional<String> getFlagValue(final @NotNull String flag);
+    @NotNull Optional<String> getFlagValue(@NotNull final String flag);
 
     /**
      * @return a {@link Set} with the present Flags.

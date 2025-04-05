@@ -37,24 +37,24 @@ final class PermissionRequirement<S> implements Requirement<CommandSender, S> {
 
     private final CommandPermission permission;
 
-    public PermissionRequirement(final @NotNull CommandPermission permission) {
+    public PermissionRequirement(@NotNull final CommandPermission permission) {
         this.permission = permission;
     }
 
     @Override
     public boolean test(
-            final @NotNull S sender,
-            final @NotNull CommandMeta meta,
-            final @NotNull SenderMapper<CommandSender, S> senderMapper
+            @NotNull final S sender,
+            @NotNull final CommandMeta meta,
+            @NotNull final SenderMapper<CommandSender, S> senderMapper
     ) {
         return this.permission.hasPermission(senderMapper.mapBackwards(sender));
     }
 
     @Override
     public void onDeny(
-            final @NotNull S sender,
-            final @NotNull MessageRegistry<S> messageRegistry,
-            final @NotNull CommandMeta meta
+            @NotNull final S sender,
+            @NotNull final MessageRegistry<S> messageRegistry,
+            @NotNull final CommandMeta meta
     ) {
         messageRegistry.sendMessage(BukkitMessageKey.NO_PERMISSION, sender, new NoPermissionMessageContext(meta, this.permission));
     }

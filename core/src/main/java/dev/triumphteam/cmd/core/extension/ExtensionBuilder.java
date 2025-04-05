@@ -49,7 +49,7 @@ public final class ExtensionBuilder<D, S> {
     @Contract("_, _ -> this")
     public <A extends Annotation> @NotNull ExtensionBuilder<D, S> addAnnotationProcessor(
             final Class<A> annotation,
-            final @NotNull AnnotationProcessor<A> annotationProcessor
+            @NotNull final AnnotationProcessor<A> annotationProcessor
     ) {
         this.annotationProcessors.put(annotation, annotationProcessor);
 
@@ -57,34 +57,34 @@ public final class ExtensionBuilder<D, S> {
     }
 
     @Contract("_ -> this")
-    public @NotNull ExtensionBuilder<D, S> addProcessor(final @NotNull Processor<D, S> processor) {
+    public @NotNull ExtensionBuilder<D, S> addProcessor(@NotNull final Processor<D, S> processor) {
         this.processors.add(processor);
 
         return this;
     }
 
     @Contract("_ -> this")
-    public @NotNull ExtensionBuilder<D, S> setArgumentValidator(final @NotNull ArgumentValidator<S> argumentValidator) {
+    public @NotNull ExtensionBuilder<D, S> setArgumentValidator(@NotNull final ArgumentValidator<S> argumentValidator) {
         this.argumentValidator = argumentValidator;
 
         return this;
     }
 
     @Contract("_ -> this")
-    public @NotNull ExtensionBuilder<D, S> setCommandExecutor(final @NotNull CommandExecutor commandExecutor) {
+    public @NotNull ExtensionBuilder<D, S> setCommandExecutor(@NotNull final CommandExecutor commandExecutor) {
         this.commandExecutor = commandExecutor;
 
         return this;
     }
 
     @Contract("_ -> this")
-    public @NotNull ExtensionBuilder<D, S> setSenderExtension(final @NotNull SenderExtension<D, S> senderExtension) {
+    public @NotNull ExtensionBuilder<D, S> setSenderExtension(@NotNull final SenderExtension<D, S> senderExtension) {
         this.senderExtension = senderExtension;
 
         return this;
     }
 
-    public @NotNull CommandExtensions<D, S> build(final @NotNull SenderExtension<D, S> defaultExtension) {
+    public @NotNull CommandExtensions<D, S> build(@NotNull final SenderExtension<D, S> defaultExtension) {
         if (this.argumentValidator == null) {
             throw new CommandRegistrationException("No argument validator was added to Command Manager.");
         }

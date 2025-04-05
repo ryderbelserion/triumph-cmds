@@ -32,9 +32,9 @@ import java.lang.reflect.AnnotatedElement;
 public final class SubCommandRegistrationException extends RuntimeException {
 
     public SubCommandRegistrationException(
-            final @NotNull String message,
-            final @NotNull AnnotatedElement element,
-            final @NotNull Class<?> commandClass
+            @NotNull final String message,
+            @NotNull final AnnotatedElement element,
+            @NotNull final Class<?> commandClass
     ) {
         super(message + ". In Method \"" + element + "\" in Class \"" + commandClass.getName() + "\"");
     }

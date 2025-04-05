@@ -30,6 +30,6 @@ import java.lang.reflect.AnnotatedElement;
 
 public interface AnnotationProcessor<A extends Annotation> {
 
-    void process(final @NotNull A annotation, final @NotNull ProcessorTarget target, final @NotNull AnnotatedElement element, final @NotNull CommandMeta.Builder meta);
+    void process(@NotNull final A annotation, @NotNull final ProcessorTarget target, @NotNull final AnnotatedElement element, @NotNull final CommandMeta.Builder meta);
 
 }

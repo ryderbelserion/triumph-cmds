@@ -37,11 +37,11 @@ public final class InvalidArgumentContext extends InvalidInputContext {
     private final Class<?> type;
 
     public InvalidArgumentContext(
-            final @NotNull CommandMeta meta,
-            final @NotNull String syntax,
-            final @Nullable String invalidInput,
-            final @NotNull String name,
-            final @NotNull Class<?> type
+            @NotNull final CommandMeta meta,
+            @NotNull final String syntax,
+            @Nullable final String invalidInput,
+            @NotNull final String name,
+            @NotNull final Class<?> type
     ) {
         super(meta, invalidInput);
 

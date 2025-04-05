@@ -45,7 +45,7 @@ public final class BukkitCommand<S> implements BasicCommand {
     private final String description;
     private final List<String> aliases;
 
-    BukkitCommand(final @NotNull RootCommandProcessor<CommandSender, S> processor) {
+    BukkitCommand(@NotNull final RootCommandProcessor<CommandSender, S> processor) {
         this.name = processor.getName();
         this.description = processor.getDescription();
         this.aliases = processor.getAliases();

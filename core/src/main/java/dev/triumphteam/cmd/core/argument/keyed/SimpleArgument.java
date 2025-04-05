@@ -35,7 +35,7 @@ final class SimpleArgument implements Argument {
     private final String description;
     private final SuggestionKey suggestionKey;
 
-    public SimpleArgument(final @NotNull Argument.AbstractBuilder<?> argumentBuilder) {
+    public SimpleArgument(@NotNull final Argument.AbstractBuilder<?> argumentBuilder) {
         this.type = argumentBuilder.getType();
         this.name = argumentBuilder.getName();
         this.description = argumentBuilder.getDescription();
@@ -63,7 +63,7 @@ final class SimpleArgument implements Argument {
     }
 
     @Override
-    public boolean equals(final @Nullable Object o) {
+    public boolean equals(@Nullable final Object o) {
         if (this == o) return true;
 
         if (o == null || getClass() != o.getClass()) return false;

@@ -65,9 +65,9 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
     private final Map<String, BukkitCommand<S>> commands = new HashMap<>();
 
     private BukkitCommandManager(
-            final @NotNull Plugin plugin,
-            final @NotNull BukkitCommandOptions<S> commandOptions,
-            final @NotNull RegistryContainer<CommandSender, S> registryContainer
+            @NotNull final Plugin plugin,
+            @NotNull final BukkitCommandOptions<S> commandOptions,
+            @NotNull final RegistryContainer<CommandSender, S> registryContainer
     ) {
         super(commandOptions);
 
@@ -93,9 +93,9 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
      */
     @Contract("_, _, _ -> new")
     public static <S> @NotNull BukkitCommandManager<S> create(
-            final @NotNull Plugin plugin,
-            final @NotNull SenderExtension<CommandSender, S> senderExtension,
-            final @NotNull Consumer<BukkitCommandOptions.Builder<S>> builder
+            @NotNull final Plugin plugin,
+            @NotNull final SenderExtension<CommandSender, S> senderExtension,
+            @NotNull final Consumer<BukkitCommandOptions.Builder<S>> builder
     ) {
         final RegistryContainer<CommandSender, S> registryContainer = new RegistryContainer<>();
 
@@ -114,7 +114,7 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
      * @return a new instance of the {@link BukkitCommandManager}.
      */
     @Contract("_ -> new")
-    public static @NotNull BukkitCommandManager<CommandSender> create(final @NotNull Plugin plugin) {
+    public static @NotNull BukkitCommandManager<CommandSender> create(@NotNull final Plugin plugin) {
         return create(plugin, builder -> {});
     }
 
@@ -127,8 +127,8 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
      */
     @Contract("_, _ -> new")
     public static @NotNull BukkitCommandManager<CommandSender> create(
-            final @NotNull Plugin plugin,
-            final @NotNull Consumer<BukkitCommandOptions.Builder<CommandSender>> builder
+            @NotNull final Plugin plugin,
+            @NotNull final Consumer<BukkitCommandOptions.Builder<CommandSender>> builder
     ) {
         final RegistryContainer<CommandSender, CommandSender> registryContainer = new RegistryContainer<>();
         final BukkitCommandOptions.Builder<CommandSender> extensionBuilder = new BukkitCommandOptions.Builder<>(registryContainer);
@@ -149,7 +149,7 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
      *
      * @param messageRegistry the {@link BukkitCommandManager} instance to set up.
      */
-    private static void setUpDefaults(final @NotNull MessageRegistry<CommandSender> messageRegistry) {
+    private static void setUpDefaults(@NotNull final MessageRegistry<CommandSender> messageRegistry) {
         messageRegistry.register(MessageKey.UNKNOWN_COMMAND, (sender, context) -> sender.sendMessage("Unknown command: `" + context.getInvalidInput() + "`."));
         messageRegistry.register(MessageKey.TOO_MANY_ARGUMENTS, (sender, context) -> sender.sendMessage("Invalid usage."));
         messageRegistry.register(MessageKey.NOT_ENOUGH_ARGUMENTS, (sender, context) -> sender.sendMessage("Invalid usage."));
@@ -161,7 +161,7 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
     }
 
     @Override
-    public void registerCommand(final @NotNull Object command) {
+    public void registerCommand(@NotNull final Object command) {
         final RootCommandProcessor<CommandSender, S> processor = new RootCommandProcessor<>(
                 command,
                 getRegistryContainer(),
@@ -218,8 +218,8 @@ public final class BukkitCommandManager<S> extends CommandManager<CommandSender,
     }
 
     private @NotNull BukkitCommand<S> createAndRegisterCommand(
-            final @NotNull RootCommandProcessor<CommandSender, S> processor,
-            final @NotNull String name
+            @NotNull final RootCommandProcessor<CommandSender, S> processor,
+            @NotNull final String name
     ) {
         final BukkitCommand<S> newCommand = new BukkitCommand<>(processor);
 

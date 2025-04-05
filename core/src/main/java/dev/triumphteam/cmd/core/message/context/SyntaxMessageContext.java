@@ -34,8 +34,8 @@ public class SyntaxMessageContext extends BasicMessageContext {
     private final String syntax;
 
     public SyntaxMessageContext(
-            final @NotNull CommandMeta meta,
-            final @NotNull String syntax
+            @NotNull final CommandMeta meta,
+            @NotNull final String syntax
     ) {
         super(meta);
 

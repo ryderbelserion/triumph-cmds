@@ -78,11 +78,11 @@ public final class SubCommandProcessor<D, S> extends AbstractCommandProcessor<D,
     private final FlagRegistry flagRegistry;
 
     SubCommandProcessor(
-            final @NotNull Object invocationInstance,
-            final @NotNull Method method,
-            final @NotNull RegistryContainer<D, S> registryContainer,
-            final @NotNull CommandOptions<D, S> commandOptions,
-            final @NotNull CommandMeta parentMeta
+            @NotNull final Object invocationInstance,
+            @NotNull final Method method,
+            @NotNull final RegistryContainer<D, S> registryContainer,
+            @NotNull final CommandOptions<D, S> commandOptions,
+            @NotNull final CommandMeta parentMeta
     ) {
         super(invocationInstance, method, registryContainer, commandOptions, parentMeta);
 
@@ -97,7 +97,7 @@ public final class SubCommandProcessor<D, S> extends AbstractCommandProcessor<D,
     }
 
     @Override
-    public @NotNull CommandMeta createMeta(final @NotNull Settings.Builder<D, S> settingsBuilder) {
+    public @NotNull CommandMeta createMeta(@NotNull final Settings.Builder<D, S> settingsBuilder) {
         final CommandMeta.Builder meta = new CommandMeta.Builder(getParentMeta());
 
         // Defaults
@@ -161,7 +161,7 @@ public final class SubCommandProcessor<D, S> extends AbstractCommandProcessor<D,
      * @param parentMeta the {@link CommandMeta} inherited from the parent command.
      * @return a {@link List} of validated arguments.
      */
-    public @NotNull List<InternalArgument<S, ?>> arguments(final @NotNull CommandMeta parentMeta) {
+    public @NotNull List<InternalArgument<S, ?>> arguments(@NotNull final CommandMeta parentMeta) {
         final Parameter[] parameters = this.method.getParameters();
 
         // First thing is to process the parameter annotations
@@ -232,7 +232,7 @@ public final class SubCommandProcessor<D, S> extends AbstractCommandProcessor<D,
      * @param method the method to extract annotations from.
      * @return the final group of named arguments or null if none was available.
      */
-    private @NotNull ArgumentGroup<Argument> argumentGroupFromMethod(final @NotNull Method method) {
+    private @NotNull ArgumentGroup<Argument> argumentGroupFromMethod(@NotNull final Method method) {
         final NamedArguments namedAnnotation = method.getAnnotation(NamedArguments.class);
         if (namedAnnotation == null) return ArgumentGroup.named(emptyList());
 
@@ -249,7 +249,7 @@ public final class SubCommandProcessor<D, S> extends AbstractCommandProcessor<D,
      * @param method the method to extract annotations from.
      * @return the final group of flags or null if none was available.
      */
-    private @NotNull ArgumentGroup<Flag> flagGroupFromMethod(final @NotNull Method method) {
+    private @NotNull ArgumentGroup<Flag> flagGroupFromMethod(@NotNull final Method method) {
         final CommandFlags flagsAnnotation = method.getAnnotation(CommandFlags.class);
 
         if (flagsAnnotation != null) {
@@ -284,7 +284,7 @@ public final class SubCommandProcessor<D, S> extends AbstractCommandProcessor<D,
      * @param rawFlags the raw flag annotations.
      * @return the converted flag data.
      */
-    private @NotNull List<Flag> flagsFromRawFlags(final @NotNull List<dev.triumphteam.cmd.core.annotations.Flag> rawFlags) {
+    private @NotNull List<Flag> flagsFromRawFlags(@NotNull final List<dev.triumphteam.cmd.core.annotations.Flag> rawFlags) {
         return rawFlags.stream().map(it -> Flag.flag(it.flag())
                 .longFlag(it.longFlag())
                 .argument(it.argument())

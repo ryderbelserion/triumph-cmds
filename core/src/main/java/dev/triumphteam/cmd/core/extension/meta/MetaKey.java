@@ -41,8 +41,8 @@ public final class MetaKey<V> extends StringKey {
     private final Class<V> valueType;
 
     private MetaKey(
-            final @NotNull String key,
-            final @NotNull Class<V> valueType
+            @NotNull final String key,
+            @NotNull final Class<V> valueType
     ) {
         super(key);
 
@@ -56,7 +56,7 @@ public final class MetaKey<V> extends StringKey {
      * @return a new {@link MetaKey}.
      */
     @Contract("_, _ -> new")
-    public static <V> @NotNull MetaKey<V> of(final @NotNull String key, final @NotNull Class<V> valueType) {
+    public static <V> @NotNull MetaKey<V> of(@NotNull final String key, @NotNull final Class<V> valueType) {
         return new MetaKey<>(key, valueType);
     }
 

@@ -85,9 +85,9 @@ public interface InternalArgument<S, T> extends CommandMetaContainer {
      * @return a resolve {@link Result}.
      */
     @NotNull Result<@Nullable Object, BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext>> resolve(
-            final @NotNull S sender,
-            final @NotNull T value,
-            final @Nullable Object provided
+            @NotNull final S sender,
+            @NotNull final T value,
+            @Nullable final Object provided
     );
 
     /**
@@ -98,8 +98,8 @@ public interface InternalArgument<S, T> extends CommandMetaContainer {
      * @return a resolve {@link Result}.
      */
     default @NotNull Result<@Nullable Object, BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext>> resolve(
-            final @NotNull S sender,
-            final @NotNull T value
+            @NotNull final S sender,
+            @NotNull final T value
     ) {
         return resolve(sender, value, null);
     }
@@ -111,16 +111,16 @@ public interface InternalArgument<S, T> extends CommandMetaContainer {
      * @param arguments the arguments used in the suggestion.
      * @return a list of valid suggestions for the argument.
      */
-    @NotNull List<String> suggestions(final @NotNull S sender, final @NotNull Deque<String> arguments);
+    @NotNull List<String> suggestions(@NotNull final S sender, @NotNull final Deque<String> arguments);
 
     default Result<@Nullable Object, BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext>> success(
-            final @NotNull Object value
+            @NotNull final Object value
     ) {
         return new Result.Success<>(value);
     }
 
     default Result<@Nullable Object, BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext>> invalid(
-            final @NotNull BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext> context
+            @NotNull final BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext> context
     ) {
         return new Result.Failure<>(context);
     }
@@ -129,11 +129,11 @@ public interface InternalArgument<S, T> extends CommandMetaContainer {
     interface Factory<S> {
 
         @NotNull StringInternalArgument<S> create(
-                final @NotNull CommandMeta meta,
-                final @NotNull String name,
-                final @NotNull String description,
-                final @NotNull Class<?> type,
-                final @NotNull Suggestion<S> suggestion,
+                @NotNull final CommandMeta meta,
+                @NotNull final String name,
+                @NotNull final String description,
+                @NotNull final Class<?> type,
+                @NotNull final Suggestion<S> suggestion,
                 final boolean optional
         );
     }

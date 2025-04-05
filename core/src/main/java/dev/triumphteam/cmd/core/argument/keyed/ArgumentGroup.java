@@ -42,7 +42,7 @@ public interface ArgumentGroup<T> {
      * @param flags the {@link List} of {@link Flag}s.
      * @return a {@link FlagGroup} instance.
      */
-    static ArgumentGroup<Flag> flags(final @NotNull List<Flag> flags) {
+    static ArgumentGroup<Flag> flags(@NotNull final List<Flag> flags) {
         return new FlagGroup(flags);
     }
 
@@ -52,7 +52,7 @@ public interface ArgumentGroup<T> {
      * @param arguments the {@link List} of {@link Argument}s.
      * @return a {@link NamedGroup} instance.
      */
-    static ArgumentGroup<Argument> named(final @NotNull List<Argument> arguments) {
+    static ArgumentGroup<Argument> named(@NotNull final List<Argument> arguments) {
         return new NamedGroup(arguments);
     }
 
@@ -62,7 +62,7 @@ public interface ArgumentGroup<T> {
      * @param token the current token, an argument name or not.
      * @return the argument if found or null if not a valid argument name.
      */
-    @Nullable T matchExact(final @NotNull String token);
+    @Nullable T matchExact(@NotNull final String token);
 
     /**
      * Get the argument that partially matches a single {@link T} element.
@@ -70,7 +70,7 @@ public interface ArgumentGroup<T> {
      * @param token the token to verify.
      * @return a partially matched T or null.
      */
-    @Nullable T matchPartialSingle(final @NotNull String token);
+    @Nullable T matchPartialSingle(@NotNull final String token);
 
     /**
      * Gets a list with all possible argument names.

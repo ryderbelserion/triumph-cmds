@@ -14,26 +14,13 @@ fun includeProject(name: String) {
 }
 
 listOf(
-    "minecraft/bukkit" to "bukkit",
-
-    //"discord/common/slash" to "discord-slash-common",
-    //"discord/jda/common" to "jda-common",
-    //"discord/jda-prefixed" to "jda-prefixed",
-    //"discord/jda/slash" to "jda-slash",
-    //"discord/kord/slash" to "kord-slash",
-
-    //"kotlin/coroutines" to "kotlin-coroutines",
-    //"kotlin/extensions" to "kotlin-extensions",
+    "minecraft/bukkit" to "bukkit"
 ).forEach {
     includeProjectFolders(it.first, it.second)
 }
 
 listOf(
-    "examples/minecraft/bukkit" to "bukkit-example",
-
-    //"discord/jda-prefixed" to "jda-prefixed",
-    //"examples/discord/jda/slash" to "jda-slash-examples",
-    //"examples/discord/kord/slash" to "kord-slash-examples",
+    "examples/minecraft/bukkit" to "bukkit-example"
 ).forEach {
     includeProjectFolders(it.first, it.second)
 }
@@ -49,7 +36,3 @@ fun include(name: String, block: ProjectDescriptor.() -> Unit) {
     include(name)
     project(":$name").apply(block)
 }
-
-/*
-include("test-module")
-*/

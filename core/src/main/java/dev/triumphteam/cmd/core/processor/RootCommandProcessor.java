@@ -68,9 +68,9 @@ public class RootCommandProcessor<D, S> implements CommandProcessor<D, S> {
     private final RegistryContainer<D, S> registryContainer;
 
     public RootCommandProcessor(
-            final @NotNull Object invocationInstance,
-            final @NotNull RegistryContainer<D, S> registryContainer,
-            final @NotNull CommandOptions<D, S> commandOptions
+            @NotNull final Object invocationInstance,
+            @NotNull final RegistryContainer<D, S> registryContainer,
+            @NotNull final CommandOptions<D, S> commandOptions
     ) {
         this.invocationInstance = invocationInstance;
 
@@ -117,7 +117,7 @@ public class RootCommandProcessor<D, S> implements CommandProcessor<D, S> {
     }
 
     @Override
-    public @NotNull CommandMeta createMeta(final @NotNull Settings.@NotNull Builder<D, S> settingsBuilder) {
+    public @NotNull CommandMeta createMeta(@NotNull final Settings.@NotNull Builder<D, S> settingsBuilder) {
         final CommandMeta.Builder meta = new CommandMeta.Builder(null);
 
         // Defaults
@@ -141,7 +141,7 @@ public class RootCommandProcessor<D, S> implements CommandProcessor<D, S> {
         return meta.build();
     }
 
-    public @NotNull List<Command<D, S>> commands(final @NotNull Command<D, S> parentCommand) {
+    public @NotNull List<Command<D, S>> commands(@NotNull final Command<D, S> parentCommand) {
         final Class<?> klass = this.invocationInstance.getClass();
 
         final List<Command<D, S>> subCommands = new ArrayList<>();
@@ -153,8 +153,8 @@ public class RootCommandProcessor<D, S> implements CommandProcessor<D, S> {
     }
 
     private @NotNull List<Command<D, S>> methodCommands(
-            final @NotNull Command<D, S> parentCommand,
-            final @NotNull Method[] methods
+            @NotNull final Command<D, S> parentCommand,
+            @NotNull final Method[] methods
     ) {
         final List<Command<D, S>> commands = new ArrayList<>();
         for (final Method method : methods) {
@@ -180,8 +180,8 @@ public class RootCommandProcessor<D, S> implements CommandProcessor<D, S> {
     }
 
     private @NotNull List<Command<D, S>> classCommands(
-            final @NotNull Command<D, S> parentCommand,
-            final @NotNull Class<?>[] classes
+            @NotNull final Command<D, S> parentCommand,
+            @NotNull final Class<?>[] classes
     ) {
         final List<Command<D, S>> commands = new ArrayList<>();
 

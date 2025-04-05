@@ -45,12 +45,12 @@ public final class ResolverInternalArgument<S> extends StringInternalArgument<S>
     private final ArgumentResolver<S> resolver;
 
     public ResolverInternalArgument(
-            final @NotNull CommandMeta meta,
-            final @NotNull String name,
-            final @NotNull String description,
-            final @NotNull Class<?> type,
-            final @NotNull ArgumentResolver<S> resolver,
-            final @NotNull Suggestion<S> suggestion,
+            @NotNull final CommandMeta meta,
+            @NotNull final String name,
+            @NotNull final String description,
+            @NotNull final Class<?> type,
+            @NotNull final ArgumentResolver<S> resolver,
+            @NotNull final Suggestion<S> suggestion,
             final boolean optional
     ) {
         super(meta, name, description, type, suggestion, optional);
@@ -67,9 +67,9 @@ public final class ResolverInternalArgument<S> extends StringInternalArgument<S>
      */
     @Override
     public @NotNull Result<@Nullable Object, BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext>> resolve(
-            final @NotNull S sender,
-            final @NotNull String value,
-            final @Nullable Object provided
+            @NotNull final S sender,
+            @NotNull final String value,
+            @Nullable final Object provided
     ) {
         final Object result = this.resolver.resolve(sender, value);
 

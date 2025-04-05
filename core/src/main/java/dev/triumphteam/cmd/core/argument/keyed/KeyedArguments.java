@@ -39,9 +39,9 @@ public final class KeyedArguments extends FlagsContainer {
     private final List<String> nonTokens;
 
     public KeyedArguments(
-            final @NotNull Map<String, ArgumentValue> values,
-            final @NotNull Map<String, ArgumentValue> flags,
-            final @NotNull List<String> nonTokens
+            @NotNull final Map<String, ArgumentValue> values,
+            @NotNull final Map<String, ArgumentValue> flags,
+            @NotNull final List<String> nonTokens
     ) {
         super(flags);
 
@@ -50,25 +50,25 @@ public final class KeyedArguments extends FlagsContainer {
     }
 
     @Override
-    public <T> @NotNull Optional<T> getArgument(final @NotNull String name, final @NotNull Class<T> type) {
+    public <T> @NotNull Optional<T> getArgument(@NotNull final String name, @NotNull final Class<T> type) {
         return Optional.ofNullable((T) getValue(name));
     }
 
     @Override
-    public <T> @NotNull Optional<List<T>> getListArgument(final @NotNull String name, final @NotNull Class<T> type) {
+    public <T> @NotNull Optional<List<T>> getListArgument(@NotNull final String name, @NotNull final Class<T> type) {
         final List<T> value = (List<T>) getValue(name);
 
         return Optional.ofNullable(value);
     }
 
     @Override
-    public <T> @NotNull Optional<Set<T>> getSetArgument(final @NotNull String name, final @NotNull Class<T> type) {
+    public <T> @NotNull Optional<Set<T>> getSetArgument(@NotNull final String name, @NotNull final Class<T> type) {
         final Set<T> value = (Set<T>) getValue(name);
 
         return Optional.ofNullable(value);
     }
 
-    private @Nullable Object getValue(final @NotNull String name) {
+    private @Nullable Object getValue(@NotNull final String name) {
         final ArgumentValue argumentValue = this.values.get(name);
 
         if (argumentValue == null) return null;
@@ -99,7 +99,7 @@ public final class KeyedArguments extends FlagsContainer {
     }
 
     @Override
-    public @NotNull String getText(final @NotNull String delimiter) {
+    public @NotNull String getText(@NotNull final String delimiter) {
         return String.join(delimiter, this.nonTokens);
     }
 

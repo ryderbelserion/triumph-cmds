@@ -35,8 +35,8 @@ abstract class InvalidInputContext extends BasicMessageContext {
     private final String invalidInput;
 
     public InvalidInputContext(
-            final @NotNull CommandMeta meta,
-            final @Nullable String invalidInput
+            @NotNull final CommandMeta meta,
+            @Nullable final String invalidInput
     ) {
         super(meta);
 

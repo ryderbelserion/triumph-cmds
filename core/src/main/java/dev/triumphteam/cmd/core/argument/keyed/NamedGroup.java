@@ -38,11 +38,11 @@ final class NamedGroup implements ArgumentGroup<Argument> {
 
     private final Map<String, Argument> arguments = new HashMap<>();
 
-    NamedGroup(final @NotNull List<Argument> arguments) {
+    NamedGroup(@NotNull final List<Argument> arguments) {
         arguments.forEach(this::addArgument);
     }
 
-    public void addArgument(final @NotNull Argument argument) {
+    public void addArgument(@NotNull final Argument argument) {
         this.arguments.put(argument.getName(), argument);
     }
 
@@ -57,12 +57,12 @@ final class NamedGroup implements ArgumentGroup<Argument> {
     }
 
     @Override
-    public @Nullable Argument matchExact(final @NotNull String token) {
+    public @Nullable Argument matchExact(@NotNull final String token) {
         return this.arguments.get(token);
     }
 
     @Override
-    public @Nullable Argument matchPartialSingle(final @NotNull String token) {
+    public @Nullable Argument matchPartialSingle(@NotNull final String token) {
         final List<Argument> arguments = this.arguments.entrySet()
                 .stream()
                 .filter(it -> it.getKey().startsWith(token))

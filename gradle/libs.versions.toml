@@ -13,12 +13,6 @@ guava = "33.4.0-jre"
 paper = "1.21.4-R0.1-SNAPSHOT"
 runPaper = "2.3.1"
 
-## Spigot - deprecated
-spigot = "1.21.4-R0.1-SNAPSHOT"
-
-## Discord
-jda = "5.0.0-alpha.18"
-
 ## Kyori API
 adventure = "4.18.0"
 
@@ -30,12 +24,6 @@ guava = { module = "com.google.guava:guava", version.ref = "guava" }
 # Minecraft
 ## Paper
 paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
-
-## Spigot - deprecated
-spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
-
-## Discord
-jda = { module = "net.dv8tion:JDA", version.ref = "jda" }
 
 # Kyori API
 kyori-legacy = { module = "net.kyori:adventure-text-serializer-legacy", version.ref = "adventure" }

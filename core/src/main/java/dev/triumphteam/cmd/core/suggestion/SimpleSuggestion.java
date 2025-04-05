@@ -36,8 +36,8 @@ public final class SimpleSuggestion<S> implements Suggestion<S> {
     private final SuggestionMethod method;
 
     public SimpleSuggestion(
-            final @NotNull SuggestionResolver<S> resolver,
-            final @NotNull SuggestionMethod method
+            @NotNull final SuggestionResolver<S> resolver,
+            @NotNull final SuggestionMethod method
     ) {
         this.resolver = resolver;
         this.method = method;
@@ -45,9 +45,9 @@ public final class SimpleSuggestion<S> implements Suggestion<S> {
 
     @Override
     public @NotNull List<String> getSuggestions(
-            final @NotNull S sender,
-            final @NotNull String current,
-            final @NotNull List<String> arguments
+            @NotNull final S sender,
+            @NotNull final String current,
+            @NotNull final List<String> arguments
     ) {
         Stream<String> stream = this.resolver.resolve(sender, arguments).stream();
 
@@ -71,7 +71,7 @@ public final class SimpleSuggestion<S> implements Suggestion<S> {
     }
 
     @Override
-    public boolean equals(final @Nullable Object o) {
+    public boolean equals(@Nullable final Object o) {
         if (this == o) return true;
 
         if (o == null || getClass() != o.getClass()) return false;

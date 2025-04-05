@@ -44,11 +44,11 @@ public final class JoinedStringInternalArgument<S> extends LimitlessInternalArgu
     private final CharSequence delimiter;
 
     public JoinedStringInternalArgument(
-            final @NotNull CommandMeta meta,
-            final @NotNull String name,
-            final @NotNull String description,
-            final @NotNull CharSequence delimiter,
-            final @NotNull Suggestion<S> suggestion,
+            @NotNull final CommandMeta meta,
+            @NotNull final String name,
+            @NotNull final String description,
+            @NotNull final CharSequence delimiter,
+            @NotNull final Suggestion<S> suggestion,
             final boolean optional
     ) {
         super(meta, name, description, String.class, suggestion, optional);
@@ -64,9 +64,9 @@ public final class JoinedStringInternalArgument<S> extends LimitlessInternalArgu
      */
     @Override
     public @NotNull Result<@Nullable Object, BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext>> resolve(
-            final @NotNull S sender,
-            final @NotNull Collection<String> value,
-            final @Nullable Object provided
+            @NotNull final S sender,
+            @NotNull final Collection<String> value,
+            @Nullable final Object provided
     ) {
         return success(String.join(this.delimiter, value));
     }

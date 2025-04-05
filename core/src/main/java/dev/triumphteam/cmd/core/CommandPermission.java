@@ -42,9 +42,9 @@ public final class CommandPermission {
     private final String description;
 
     public CommandPermission(
-            final @NotNull List<String> nodes,
-            final @NotNull String description,
-            final @NotNull Mode mode
+            @NotNull final List<String> nodes,
+            @NotNull final String description,
+            @NotNull final Mode mode
     ) {
         this.nodes = nodes;
         this.description = description;
@@ -68,16 +68,16 @@ public final class CommandPermission {
      * @return Whether the sender has permission to run the command.
      */
     public static boolean hasPermission(
-            final @NotNull Audience sender,
-            final @Nullable CommandPermission permission
+            @NotNull final Audience sender,
+            @Nullable final CommandPermission permission
     ) {
         return permission == null || permission.hasPermission(sender);
     }
 
     public @NotNull CommandPermission child(
-            final @NotNull List<String> nodes,
-            final @NotNull String description,
-            final @NotNull Mode permissionDefault
+            @NotNull final List<String> nodes,
+            @NotNull final String description,
+            @NotNull final Mode permissionDefault
     ) {
         final List<String> newNodes = this.nodes.stream()
                 .flatMap(parent -> nodes.stream().map(node -> parent + "." + node))

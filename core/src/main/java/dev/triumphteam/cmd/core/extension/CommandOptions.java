@@ -54,8 +54,8 @@ public class CommandOptions<D, S> {
     private final boolean suggestLowercaseEnum;
 
     public CommandOptions(
-            final @NotNull SenderExtension<D, S> senderExtension,
-            final @NotNull Builder<D, S, ?, ?, ?> builder
+            @NotNull final SenderExtension<D, S> senderExtension,
+            @NotNull final Builder<D, S, ?, ?, ?> builder
     ) {
         this.commandExtensions = builder.extensionBuilder.build(senderExtension);
         this.suggestLowercaseEnum = builder.suggestLowercaseEnum;
@@ -75,19 +75,19 @@ public class CommandOptions<D, S> {
         private final ExtensionBuilder<D, S> extensionBuilder = new ExtensionBuilder<>();
         private final I setup;
 
-        public Builder(final @NotNull I setup) {
+        public Builder(@NotNull final I setup) {
             this.setup = setup;
         }
 
         @Contract("_ -> this")
-        public @NotNull B setup(final @NotNull Consumer<I> consumer) {
+        public @NotNull B setup(@NotNull final Consumer<I> consumer) {
             consumer.accept(this.setup);
 
             return (B) this;
         }
 
         @Contract("_ -> this")
-        public @NotNull B extensions(final @NotNull Consumer<ExtensionBuilder<D, S>> consumer) {
+        public @NotNull B extensions(@NotNull final Consumer<ExtensionBuilder<D, S>> consumer) {
             consumer.accept(this.extensionBuilder);
 
             return (B) this;
@@ -100,7 +100,7 @@ public class CommandOptions<D, S> {
             return (B) this;
         }
 
-        public abstract @NotNull O build(final @NotNull SenderExtension<D, S> senderExtension);
+        public abstract @NotNull O build(@NotNull final SenderExtension<D, S> senderExtension);
     }
 
     public static abstract class Setup<D, S, I extends Setup<D, S, I>> {
@@ -112,7 +112,7 @@ public class CommandOptions<D, S> {
         private final NamedArgumentRegistry namedArgumentRegistry;
         private final FlagRegistry flagRegistry;
 
-        public Setup(final @NotNull RegistryContainer<D, S> registryContainer) {
+        public Setup(@NotNull final RegistryContainer<D, S> registryContainer) {
             this.registryContainer = registryContainer;
 
             this.messageRegistry = registryContainer.getMessageRegistry();
@@ -124,8 +124,8 @@ public class CommandOptions<D, S> {
 
         @Contract("_, _ -> new")
         public <C extends MessageContext> @NotNull I message(
-                final @NotNull MessageKey<C> messageKey,
-                final @NotNull MessageResolver<S, C> resolver
+                @NotNull final MessageKey<C> messageKey,
+                @NotNull final MessageResolver<S, C> resolver
         ) {
             this.messageRegistry.register(messageKey, resolver);
 
@@ -134,8 +134,8 @@ public class CommandOptions<D, S> {
 
         @Contract("_, _ -> new")
         public @NotNull I argument(
-                final @NotNull Class<?> type,
-                final @NotNull ArgumentResolver<S> resolver
+                @NotNull final Class<?> type,
+                @NotNull final ArgumentResolver<S> resolver
         ) {
             this.argumentRegistry.register(type, resolver);
 
@@ -144,8 +144,8 @@ public class CommandOptions<D, S> {
 
         @Contract("_, _ -> new")
         public @NotNull I suggestion(
-                final @NotNull Class<?> type,
-                final @NotNull SuggestionResolver<S> resolver
+                @NotNull final Class<?> type,
+                @NotNull final SuggestionResolver<S> resolver
         ) {
             this.suggestionRegistry.register(type, resolver, SuggestionMethod.STARTS_WITH);
 
@@ -154,8 +154,8 @@ public class CommandOptions<D, S> {
 
         @Contract("_, _ -> new")
         public @NotNull I suggestion(
-                final @NotNull SuggestionKey key,
-                final @NotNull SuggestionResolver<S> resolver
+                @NotNull final SuggestionKey key,
+                @NotNull final SuggestionResolver<S> resolver
         ) {
             this.suggestionRegistry.register(key, resolver, SuggestionMethod.STARTS_WITH);
 
@@ -164,8 +164,8 @@ public class CommandOptions<D, S> {
 
         @Contract("_, _ -> new")
         public @NotNull I namedArguments(
-                final @NotNull ArgumentKey key,
-                final @NotNull List<Argument> arguments
+                @NotNull final ArgumentKey key,
+                @NotNull final List<Argument> arguments
         ) {
             this.namedArgumentRegistry.register(key, arguments);
 
@@ -174,16 +174,16 @@ public class CommandOptions<D, S> {
 
         @Contract("_, _ -> new")
         public @NotNull I namedArguments(
-                final @NotNull ArgumentKey key,
-                final @NotNull Argument @NotNull ... arguments
+                @NotNull final ArgumentKey key,
+                @NotNull final Argument @NotNull ... arguments
         ) {
             return namedArguments(key, Arrays.asList(arguments));
         }
 
         @Contract("_, _ -> new")
         public @NotNull I flags(
-                final @NotNull FlagKey key,
-                final @NotNull List<Flag> flags
+                @NotNull final FlagKey key,
+                @NotNull final List<Flag> flags
         ) {
             this.flagRegistry.register(key, flags);
 
@@ -192,8 +192,8 @@ public class CommandOptions<D, S> {
 
         @Contract("_, _ -> new")
         public @NotNull I flags(
-                final @NotNull FlagKey key,
-                final @NotNull Flag @NotNull ... flags
+                @NotNull final FlagKey key,
+                @NotNull final Flag @NotNull ... flags
         ) {
             return flags(key, Arrays.asList(flags));
         }
