@@ -29,12 +29,12 @@ import dev.triumphteam.cmd.core.message.context.InvalidArgumentContext;
 import dev.triumphteam.cmd.core.suggestion.Suggestion;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BiFunction;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Collection argument, a {@link LimitlessInternalArgument} but returns a {@link List} instead.
@@ -75,11 +75,7 @@ public final class CollectionInternalArgument<S> extends LimitlessInternalArgume
             @NotNull final Collection<String> value,
             @Nullable final Object provided
     ) {
-        final Stream<Object> stream = value.stream().map(arg -> this.internalArgument.resolve(sender, arg));
-
-        if (this.collectionType == Set.class) return success(stream.collect(Collectors.toSet()));
-
-        return success(stream.collect(Collectors.toList()));
+        return resolveCollection(sender, internalArgument, value, collectionType);
     }
 
     @Override
@@ -87,5 +83,33 @@ public final class CollectionInternalArgument<S> extends LimitlessInternalArgume
         return "CollectionArgument{" +
                 "collectionType=" + this.collectionType +
                 ", super=" + super.toString() + "}";
+    }
+
+    public static <S> @NotNull Result<@Nullable Object, BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext>> resolveCollection(
+            final @NotNull S sender,
+            final @NotNull InternalArgument<S, String> internalArgument,
+            final @NotNull Collection<String> value,
+            final @NotNull Class<?> collectionType
+    ) {
+        // Create a collection based on the type.
+        final Collection<Object> collection = createCollection(collectionType);
+
+        for (final String arg : value) {
+            final Result<Object, BiFunction<CommandMeta, String, InvalidArgumentContext>> resolved = internalArgument.resolve(sender, arg);
+
+            // If an error occurs, it needs to be delegated back to the caller.
+            if (!(resolved instanceof Result.Success)) return resolved;
+
+            // If success, then we collect the result's value.
+            collection.add(((Result.Success<Object, BiFunction<CommandMeta, String, InvalidArgumentContext>>) resolved).getValue());
+        }
+
+        // Return the collection as a success
+        return InternalArgument.success(collection);
+    }
+
+    private static Collection<Object> createCollection(final Class<?> collectionType) {
+        if (collectionType == Set.class) return new HashSet<>();
+        return new ArrayList<>();
     }
 }

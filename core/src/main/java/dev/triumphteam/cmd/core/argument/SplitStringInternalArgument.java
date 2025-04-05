@@ -34,10 +34,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
-import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Splitting argument takes a string and splits it into a collection.
@@ -80,11 +78,7 @@ public final class SplitStringInternalArgument<S> extends StringInternalArgument
             @NotNull final String value,
             @Nullable final Object provided
     ) {
-        final Stream<Object> stream = Arrays.stream(value.split(regex)).map(arg -> this.internalArgument.resolve(sender, arg));
-
-        if (this.collectionType == Set.class) return success(stream.collect(Collectors.toSet()));
-
-        return success(stream.collect(Collectors.toList()));
+        return CollectionInternalArgument.resolveCollection(sender, internalArgument, Arrays.asList(value.split(regex)), List.class);
     }
 
     @Override

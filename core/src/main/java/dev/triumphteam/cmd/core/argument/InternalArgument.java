@@ -113,13 +113,13 @@ public interface InternalArgument<S, T> extends CommandMetaContainer {
      */
     @NotNull List<String> suggestions(@NotNull final S sender, @NotNull final Deque<String> arguments);
 
-    default Result<@Nullable Object, BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext>> success(
+    static Result<@Nullable Object, BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext>> success(
             @NotNull final Object value
     ) {
         return new Result.Success<>(value);
     }
 
-    default Result<@Nullable Object, BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext>> invalid(
+    static Result<@Nullable Object, BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext>> invalid(
             @NotNull final BiFunction<@NotNull CommandMeta, @NotNull String, @NotNull InvalidArgumentContext> context
     ) {
         return new Result.Failure<>(context);

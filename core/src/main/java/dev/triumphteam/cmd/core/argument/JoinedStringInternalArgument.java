@@ -68,7 +68,7 @@ public final class JoinedStringInternalArgument<S> extends LimitlessInternalArgu
             @NotNull final Collection<String> value,
             @Nullable final Object provided
     ) {
-        return success(String.join(this.delimiter, value));
+        return InternalArgument.success(String.join(delimiter, value));
     }
 
     @Override

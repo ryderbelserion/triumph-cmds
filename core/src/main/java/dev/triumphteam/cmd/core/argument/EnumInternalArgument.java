@@ -78,16 +78,16 @@ public final class EnumInternalArgument<S> extends StringInternalArgument<S> {
         final WeakReference<? extends Enum<?>> reference = getEnumConstants(this.enumType).get(value.toUpperCase());
 
         if (reference == null) {
-            return invalid((meta, syntax) -> new InvalidArgumentContext(meta, syntax, value, getName(), getType()));
+            return InternalArgument.invalid((meta, syntax) -> new InvalidArgumentContext(meta, syntax, value, getName(), getType()));
         }
 
         final Enum<?> enumValue = reference.get();
 
         if (enumValue == null) {
-            return invalid((commands, arguments) -> new InvalidArgumentContext(commands, arguments, value, getName(), getType()));
+            return InternalArgument.invalid((commands, arguments) -> new InvalidArgumentContext(commands, arguments, value, getName(), getType()));
         }
 
-        return success(enumValue);
+        return InternalArgument.success(enumValue);
     }
 
     @Override
