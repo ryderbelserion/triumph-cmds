@@ -69,6 +69,8 @@ public interface Settings<D, S> {
             final @NotNull SenderMapper<D, S> senderMapper
     );
 
+    @NotNull List<Requirement<D, S>> getRequirements();
+
     class Builder<D, S> {
 
         private final List<Requirement<D, S>> requirements = new ArrayList<>();

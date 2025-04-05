@@ -75,4 +75,9 @@ public final class ImmutableSettings<D, S> implements Settings<D, S> {
 
         return null;
     }
+
+    @Override
+    public @NotNull List<Requirement<D, S>> getRequirements() {
+        return this.requirements;
+    }
 }
