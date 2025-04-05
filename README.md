@@ -1,5 +1,5 @@
 <p align="center">
-  <img style="display: block; margin:auto" src="https://github.com/TriumphTeam/docs/raw/main/libraries/triumph-cmds/ICON.png">
+  <img style="display: block; margin:auto" src="https://i.imgur.com/RsYXETD.png">
 </p>
 <h1 align="center">Welcome to Triumph CMDs</h1>
 
