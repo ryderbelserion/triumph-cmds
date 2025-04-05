@@ -25,10 +25,10 @@ package dev.triumphteam.cmd.bukkit;
 
 import dev.triumphteam.cmd.core.CommandPermission;
 import dev.triumphteam.cmd.core.annotations.Permission;
-import dev.triumphteam.cmd.core.extention.annotation.ProcessorTarget;
-import dev.triumphteam.cmd.core.extention.command.Settings;
-import dev.triumphteam.cmd.core.extention.command.Processor;
-import dev.triumphteam.cmd.core.extention.meta.CommandMeta;
+import dev.triumphteam.cmd.core.extension.annotation.ProcessorTarget;
+import dev.triumphteam.cmd.core.extension.command.Processor;
+import dev.triumphteam.cmd.core.extension.command.Settings;
+import dev.triumphteam.cmd.core.extension.meta.CommandMeta;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

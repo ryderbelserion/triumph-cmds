@@ -23,13 +23,13 @@
  */
 package dev.triumphteam.cmd.bukkit;
 
-import dev.triumphteam.cmd.core.CommandPermission;
 import dev.triumphteam.cmd.core.enums.Mode;
-import dev.triumphteam.cmd.core.extention.CommandOptions;
-import dev.triumphteam.cmd.core.extention.defaults.DefaultArgumentValidator;
-import dev.triumphteam.cmd.core.extention.defaults.DefaultCommandExecutor;
-import dev.triumphteam.cmd.core.extention.registry.RegistryContainer;
-import dev.triumphteam.cmd.core.extention.sender.SenderExtension;
+import dev.triumphteam.cmd.core.extension.CommandOptions;
+import dev.triumphteam.cmd.core.extension.defaults.DefaultArgumentValidator;
+import dev.triumphteam.cmd.core.extension.defaults.DefaultCommandExecutor;
+import dev.triumphteam.cmd.core.extension.registry.RegistryContainer;
+import dev.triumphteam.cmd.core.extension.sender.SenderExtension;
+import dev.triumphteam.cmd.core.CommandPermission;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.PermissionDefault;
 import org.jetbrains.annotations.NotNull;
@@ -95,7 +95,7 @@ public final class BukkitCommandOptions<S> extends CommandOptions<CommandSender,
         @Override
         public @NotNull BukkitCommandOptions<S> build(final @NotNull SenderExtension<CommandSender, S> senderExtension) {
             // Add permissions
-            extensions(extension -> extension.addProcessor(new PermissionProcessor<>(this.globalPermission)));
+            extensions(extension -> extension.addProcessor(new PermissionProcessor<>(globalPermission)));
 
             return new BukkitCommandOptions<>(senderExtension, this);
         }

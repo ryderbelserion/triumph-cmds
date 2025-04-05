@@ -25,7 +25,7 @@ package dev.triumphteam.cmd.core.annotations;
 
 import dev.triumphteam.cmd.core.CommandPermission;
 import dev.triumphteam.cmd.core.enums.Mode;
-import dev.triumphteam.cmd.core.extention.meta.MetaKey;
+import dev.triumphteam.cmd.core.extension.meta.MetaKey;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
