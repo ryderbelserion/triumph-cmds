@@ -1,23 +1,22 @@
-import xyz.jpenilla.resourcefactory.bukkit.BukkitPluginYaml
-
 plugins {
-    id("cmds.base-conventions")
-    id("cmds.bukkit-example")
+    id("triumph.base")
+
+    alias(libs.plugins.runPaper)
+    alias(libs.plugins.shadow)
 }
 
 dependencies {
-    api(projects.triumphCmdBukkit)
-}
+    api(projects.triumphCmdsBukkit)
 
-bukkitPluginYaml {
-    main.set("dev.triumphteam.bukkit.example.ExamplePlugin")
-    load = BukkitPluginYaml.PluginLoadOrder.STARTUP
-    authors.add("Matt")
-    apiVersion = "1.21"
+    compileOnly(libs.paper)
 }
 
 tasks {
     runServer {
+        jvmArgs("-Dnet.kyori.ansi.colorLevel=truecolor")
+
+        defaultCharacterEncoding = Charsets.UTF_8.name()
+
         minecraftVersion("1.21.4")
     }
 }

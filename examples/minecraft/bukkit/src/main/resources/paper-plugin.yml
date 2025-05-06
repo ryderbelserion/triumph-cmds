@@ -1,0 +1,6 @@
+name: 'ExamplePlugin'
+main: 'dev.triumphteam.bukkit.example.ExamplePlugin'
+
+version: '1.0.0'
+api-version: '1.21.4'
+description: 'An example plugin testing commands.'

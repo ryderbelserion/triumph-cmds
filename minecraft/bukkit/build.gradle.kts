@@ -1,13 +1,11 @@
 plugins {
-    id("cmds.base-conventions")
-    id("cmds.library-conventions")
-}
+    id("triumph.base")
 
-repositories {
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    alias(libs.plugins.shadow)
 }
 
 dependencies {
-    api(projects.triumphCmdCore)
-    compileOnly(libs.spigot)
+    api(projects.triumphCmdsCore)
+
+    compileOnly(libs.paper)
 }

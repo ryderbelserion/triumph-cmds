@@ -1,85 +1,36 @@
+[plugins]
+runPaper = { id = "xyz.jpenilla.run-paper", version.ref = "runPaper" }
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
+
 [versions]
-# kotlin
-kotlin = "2.1.20"
-coroutines = "1.6.4"
-
-license = "0.16.1"
-
 # Core
-guava = "33.4.8-jre"
-annotations = "24.1.0"
-
-# Testing
-junit = "5.9.1"
-assertj = "3.23.1"
+shadow = "9.0.0-beta4"
+jetbrains = "24.1.0"
+guava = "33.4.0-jre"
 
 # Minecraft
-spigot = "1.18.2-R0.1-SNAPSHOT"
+## Paper - default
+paper = "1.21.5-R0.1-SNAPSHOT"
+runPaper = "2.3.1"
 
-# Discord
-jda = "5.5.0"
-kord = "0.15.0"
-
-# Formatting
-spotless = "6.12.0"
-# For now only using for checkstyle
-indra = "3.0.1"
-
-# Logging
-log4j = "2.19.0"
-
-# Build
-run-paper = "2.3.1"
-resource-factory = "1.2.0"
-shadow = "8.3.5"
+## Kyori API
+adventure = "4.21.0"
 
 [libraries]
-# Core
+## Core
+jetbrains = { module = "org.jetbrains:annotations", version.ref = "jetbrains" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
-annotations = { module = "org.jetbrains:annotations", version.ref = "annotations" }
-
-# Testing
-junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
-junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
-assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 
 # Minecraft
-spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
+## Paper
+paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
 
-# Discord
-jda = { module = "net.dv8tion:JDA", version.ref = "jda" }
-kord = { module = "dev.kord:kord-core", version.ref = "kord" }
-
-# Kotlin
-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
-
-# Logger
-logger-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j" }
-logger-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
-logger-impl = { module = "org.apache.logging.log4j:log4j-slf4j-impl", version.ref = "log4j" }
-
-# build
-build-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-build-license = { module = "gradle.plugin.com.hierynomus.gradle.plugins:license-gradle-plugin", version.ref = "license" }
-build-spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
-build-indra = { module = "net.kyori:indra-common", version.ref = "indra" }
-build-run-paper = { module = "xyz.jpenilla:run-task", version.ref = "run-paper" }
-build-resource-factory = { module = "xyz.jpenilla:resource-factory", version.ref = "resource-factory" }
-build-shadow = { module = "com.gradleup.shadow:shadow-gradle-plugin", version.ref = "shadow" }
+# Kyori API
+kyori-legacy = { module = "net.kyori:adventure-text-serializer-legacy", version.ref = "adventure" }
+kyori-logger = { module = "net.kyori:adventure-text-logger-slf4j", version.ref = "adventure" }
+kyori-text = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
+kyori-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
 
 [bundles]
-# Testing
-testing = [
-    "junit-api",
-    "junit-engine",
-    "assertj",
-]
-build = [
-    "build-kotlin",
-    "build-license",
-    "build-spotless",
-    "build-indra",
-    "build-run-paper",
-    "build-resource-factory",
-    "build-shadow",
-]
+## Adventure API
+adventure = ["kyori-api", "kyori-text", "kyori-logger", "kyori-legacy"]
