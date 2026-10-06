@@ -1,0 +1,83 @@
+[versions]
+## Paper API
+paperweight = "2.0.0-beta.24" # https://github.com/PaperMC/paperweight
+run-paper = "3.1.0" # https://github.com/jpenilla/run-task
+paper = "26.3.build.+" # https://github.com/PaperMC/Paper
+
+## Gradle API
+fix-javadoc = "1.19" # https://github.com/mfnalex/gradle-fix-javadoc-plugin
+feather = "0.8.2" # https://github.com/ryderbelserion/Feather
+shadow = "9.6.1" # https://github.com/GradleUp/shadow
+
+## Annotations API
+jspecify = "1.0.0" # https://jspecify.dev/docs/using/
+
+## Other API
+guava = "33.4.8-jre" # https://github.com/google/guava
+
+## Discord API
+kord = "0.18.1" # https://github.com/kordlib/kord
+jda = "6.7.0" # https://github.com/discord-jda/JDA
+trove = "3.0.3"
+
+# Kotlin API
+kotlin-coroutines = "1.10.2"
+kotlin-json = "1.11.0"
+kotlin = "2.3.21"
+
+## Publish Url
+url = "https://repo.crazycrew.us/releases"
+[libraries]
+# https://github.com/ryderbelserion/Feather
+feather-patcher = { module = "com.ryderbelserion.feather.patcher:com.ryderbelserion.feather.patcher.gradle.plugin", version.ref = "feather" }
+
+# https://github.com/mfnalex/gradle-fix-javadoc-plugin/
+fix-javadoc = { module = "com.jeff-media.fix-javadoc-plugin:com.jeff-media.fix-javadoc-plugin.gradle.plugin", version.ref = "fix-javadoc" }
+
+# https://github.com/PaperMC/paperweight
+paperweight = { module = "io.papermc.paperweight.userdev:io.papermc.paperweight.userdev.gradle.plugin", version.ref = "paperweight" }
+
+# https://github.com/ryderbelserion/Feather
+feather-core = { module = "com.ryderbelserion.feather.core:com.ryderbelserion.feather.core.gradle.plugin", version.ref = "feather" }
+
+# https://github.com/GradleUp/shadow
+shadow = { module = "com.gradleup.shadow:shadow-gradle-plugin", version.ref = "shadow" }
+
+# https://github.com/jpenilla/run-task
+run-paper = { module = "xyz.jpenilla:run-task", version.ref = "run-paper" }
+
+# https://jspecify.dev/docs/using/
+jspecify = { module = "org.jspecify:jspecify", version.ref = "jspecify" }
+
+# https://github.com/google/guava
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
+
+# https://github.com/kordlib/kord
+kord = { module = "dev.kord:kord-core", version.ref = "kord" }
+
+# https://github.com/discord-jda/JDA
+jda = { module = "net.dv8tion:JDA", version.ref = "jda" }
+trove = { module = "net.sf.trove4j:trove4j", version.ref = "trove"}
+
+# Kotlin API
+kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
+kotlin-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-json" }
+
+# Gradle API
+kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+
+[bundles]
+build = [
+    "feather-patcher",
+    "feather-core",
+
+    "fix-javadoc",
+    "shadow",
+
+    "kotlin"
+]
+
+paper = [
+    "paperweight",
+    "run-paper"
+]

@@ -1,0 +1,3 @@
+gradle configurate-core:publishToMavenLocal
+gradle configurate-gson:publishToMavenLocal
+gradle configurate-yaml:publishToMavenLocal
