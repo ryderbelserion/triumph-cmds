@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ryder Belserion <contact@ryderbelserion.com>
+Date: Tue, 6 Oct 2026 11:54:28 -0400
+Subject: [PATCH] Add gitignore file
+
+
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+index 0000000000000000000000000000000000000000..8a00e6d5638f54dd18f4f41c97909383b294eaea
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1,10 @@
++### Intellij
++.kotlin/
++.idea/
++!.idea/icon.png
++
++### Gradle
++.gradle
++build/
++
++source/
+\ No newline at end of file
