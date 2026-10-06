@@ -9,14 +9,14 @@ rootProject.group = rootProject.property("group") as String
 
 tasks.register("publishLocally") {
     description = "Publishes the library to the local repository!"
-    group = "fusion"
+    group = "triumph-cmds"
 
     dependsOn(subprojects.filter { !it.name.contains("example") }.map { it.tasks.matching { it.name == "publishToMavenLocal" } })
 }
 
 tasks.register("publish") {
     description = "Publishes the library to the remote repository!"
-    group = "fusion"
+    group = "triumph-cmds"
 
     dependsOn(subprojects.filter { !it.name.contains("example") }.map { it.tasks.matching { it.name == "publish" } })
 }
