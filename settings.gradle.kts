@@ -5,22 +5,9 @@ plugins {
 rootProject.name = "triumph-cmds"
 
 listOf(
-    "src/target/core" to "core",
-
-    "src/target/simple" to "simple",
-
-    "src/target/minecraft/bukkit" to "bukkit",
-    "src/target/examples/minecraft/bukkit" to "bukkit-example",
-
-    "src/target/discord/common" to "discord",
-    "src/target/discord/jda" to "jda",
-    "src/target/discord/kord" to "kord",
-
-    "src/target/examples/discord/jda" to "jda-example",
-    "src/target/examples/discord/kord" to "kord-example",
-
-    "src/target/kotlin/coroutines" to "coroutines",
-    "src/target/kotlin/extensions" to "extensions",
+    "src/examples/bukkit" to "bukkit-example",
+    "src/minecraft/bukkit" to "bukkit",
+    "src/core" to "core",
 
     "common" to "common"
 ).forEach {

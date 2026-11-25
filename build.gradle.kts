@@ -1,5 +1,5 @@
 plugins {
-    id("com.ryderbelserion.feather.patcher")
+    //id("com.ryderbelserion.feather.patcher")
 
     `java-plugin`
 }
@@ -21,7 +21,7 @@ tasks.register("publish") {
     dependsOn(subprojects.filter { !it.name.contains("example") }.map { it.tasks.matching { it.name == "publish" } })
 }
 
-val path = projectDir.resolve("src")
+/*val path = projectDir.resolve("src")
 
 patcher {
     patchesDirectory.set(projectDir.resolve("patches"))
@@ -32,7 +32,7 @@ patcher {
     sha.set("0fbe4718942b39c0ac067ae4dcc0b2f68e495f12")
 
     group = "feather-patcher"
-}
+}*/
 
 tasks.withType<Test> {
     isEnabled = false
