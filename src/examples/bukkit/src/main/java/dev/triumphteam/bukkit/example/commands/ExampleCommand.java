@@ -13,7 +13,7 @@ import org.jspecify.annotations.NonNull;
 import java.util.Arrays;
 import java.util.List;
 
-@Command("example")
+@Command(value = "example", alias = "ev")
 public class ExampleCommand {
 
     // Local suggestions, method-based suggestions that are only available for this command.
@@ -23,7 +23,7 @@ public class ExampleCommand {
     }
 
     // Usage is the same as others.
-    @Command("foo")
+    @Command(value = "foo", alias = "foobar")
     @NamedArguments("query-parameters")
     public void executeFoo(final CommandSender sender, @Suggestion("people") final String name, final Arguments age) {
         System.out.println(name);

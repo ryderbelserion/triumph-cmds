@@ -15,6 +15,9 @@ jspecify = "1.0.0" # https://jspecify.dev/docs/using/
 # Kotlin API
 kotlin = "2.3.21"
 
+## Other API
+guava = "33.4.8-jre" # https://github.com/google/guava
+
 ## Publish Url
 url = "https://repo.crazycrew.us/releases"
 [libraries]
@@ -38,6 +41,9 @@ run-paper = { module = "xyz.jpenilla:run-task", version.ref = "run-paper" }
 
 # https://jspecify.dev/docs/using/
 jspecify = { module = "org.jspecify:jspecify", version.ref = "jspecify" }
+
+# https://github.com/google/guava
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
 
 # Gradle API
 kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }

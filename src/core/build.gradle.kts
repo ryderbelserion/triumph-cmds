@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    //compileOnly(libs.guava)
+    compileOnly(libs.guava)
 
     api(libs.jspecify)
 }
