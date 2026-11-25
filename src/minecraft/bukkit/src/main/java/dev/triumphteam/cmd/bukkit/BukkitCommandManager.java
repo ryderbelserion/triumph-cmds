@@ -39,7 +39,7 @@ public final class BukkitCommandManager<S> extends CommandManager<BukkitCommandM
         this.server = this.plugin.getServer();
 
         // Register some defaults
-        registerArgument(Player.class, (_, arg) -> this.server.getPlayer(arg));
+        registerArgument(Player.class, (_, arg) -> this.server.getPlayerExact(arg));
         registerArgument(World.class, (_, arg) -> this.server.getWorld(arg));
 
         registerSuggestion(Player.class, (_) -> this.server.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList()));
